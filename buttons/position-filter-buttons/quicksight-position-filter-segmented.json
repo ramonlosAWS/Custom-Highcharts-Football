@@ -1,0 +1,71 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 50,
+    "width": 1100,
+    "spacing": [5, 10, 5, 10],
+    "animation": false,
+    "style": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+    }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [
+    {
+      "name": "Positions",
+      "data": [
+        "map",
+        ["getColumn", 0, 1],
+        {
+          "x": ["+", 22, ["*", ["itemIndex"], 8.5]],
+          "y": 50,
+          "label": ["get", ["item"], 0],
+          "bgColor": ["case", ["==", ["get", ["item"], 0], ["get", ["item"], 1]], "#1e3a5f", "#ffffff"],
+          "textColor": ["case", ["==", ["get", ["item"], 0], ["get", ["item"], 1]], "#ffffff", "#1e3a5f"],
+          "borderRight": ["case", ["==", ["itemIndex"], 8], "1px solid #1e3a5f", "none"],
+          "borderRadius": [
+            "case",
+            ["==", ["itemIndex"], 0], "3px 0 0 3px",
+            ["==", ["itemIndex"], 8], "0 3px 3px 0",
+            "0"
+          ]
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:9px 0;cursor:pointer;font-weight:600;font-size:12px;text-align:center;border-top:1px solid #1e3a5f;border-bottom:1px solid #1e3a5f;border-left:1px solid #1e3a5f;border-right:{point.borderRight};width:90px;border-radius:{point.borderRadius};'>{point.label}</div>",
+        "align": "left",
+        "verticalAlign": "middle",
+        "x": -45,
+        "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+    },
+    {
+      "name": "Label",
+      "data": [{ "x": 9, "y": 50 }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='color:#475569;font-size:11px;font-weight:600;letter-spacing:0.5px;white-space:nowrap;'>VIEW BY:</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      },
+      "enableMouseTracking": false,
+      "cursor": "default",
+      "states": { "hover": { "enabled": false }, "inactive": { "enabled": false } }
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Position Filter v2</title>
+  <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #eef1f5;
+      padding: 40px;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 900px;
+    }
+    h2 { margin: 0 0 10px 0; color: #333; font-size: 16px; }
+    .subtitle { margin: 0 0 20px 0; color: #888; font-size: 13px; }
+    .info {
+      margin-top: 20px; padding: 12px 15px;
+      background: #f0f4f8; border-radius: 4px; font-size: 13px; color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Position Filter v2</h2>
+    <p class="subtitle">Thin buttons, vertical dividers only, square selected fill. Click to select.</p>
+    <div id="chart-container"></div>
+    <div class="info">
+      <strong>Selected:</strong> <span id="selected-value">ALL</span>
+    </div>
+  </div>
+
+  <script>
+    const positions = ['ALL','QB','RB','WR','TE','OT','OG','OC','DT','ED','LB','CB','DS'];
+    let selectedValue = 'ALL';
+    const total = positions.length; // 13
+
+    // Chart 800px, spacing [5,0,5,0] → plot = 800px, 1 unit = 8px
+    // Button 42px = 5.25 units. 13 × 42 = 546px
+    // Start: (100 - 68.25)/2 + 2.625 = 18.5
+    const btnPx = 42;
+    const chartW = 800;
+    const unit = chartW / 100; // 8
+    const btnU = btnPx / unit; // 6.5
+    const startX = (100 - total * btnU) / 2 + btnU / 2; // 11.0
+
+    function getData() {
+      return positions.map((pos, i) => ({
+        x: startX + i * btnU,
+        y: 50,
+        label: pos,
+        bg: pos === selectedValue ? '#1a2b4c' : 'transparent',
+        tc: pos === selectedValue ? '#ffffff' : '#1a2b4c',
+        fw: '600',
+        // vertical divider: right border on all except last
+        div: i < total - 1 ? '1px solid #c0c8d1' : 'none'
+      }));
+    }
+
+    Highcharts.chart('chart-container', {
+      chart: {
+        type: 'scatter', backgroundColor: 'transparent',
+        height: 30, width: chartW,
+        spacing: [5, 0, 5, 0], animation: false,
+        style: { fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+      },
+      title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+      xAxis: { min: 0, max: 100, visible: false },
+      yAxis: { min: 0, max: 100, visible: false },
+      tooltip: { enabled: false },
+      plotOptions: {
+        scatter: { marker: { enabled: false, radius: 0 }, animation: false, states: { hover: { enabled: false }, select: { enabled: false }, inactive: { enabled: false } } },
+        series: { enableMouseTracking: true, cursor: 'pointer', animation: false, marker: { enabled: false, radius: 0, states: { hover: { enabled: false, radius: 0 }, select: { enabled: false, radius: 0 } } } }
+      },
+      series: [{
+        name: 'Pos',
+        data: getData(),
+        dataLabels: {
+          enabled: true, useHTML: true,
+          format: "<div style='width:48px;height:20px;line-height:20px;text-align:center;font-size:11px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;'>{point.label}</div>",
+          align: 'center', verticalAlign: 'middle',
+          overflow: 'allow', crop: false,
+          style: { textOutline: 'none' }
+        },
+        point: {
+          events: {
+            click: function() {
+              selectedValue = this.label;
+              document.getElementById('selected-value').textContent = selectedValue;
+              this.series.setData(getData(), true, false, false);
+            }
+          }
+        }
+      }]
+    });
+  </script>
+</body>
+</html>

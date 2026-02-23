@@ -1,0 +1,54 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 80,
+    "spacing": [5, 5, 5, 5],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [{
+    "name": "Stars",
+    "data": [
+      "map",
+      ["getColumn", 0, 1, 2],
+      {
+        "x": ["+", 20, ["*", ["itemIndex"], 15]],
+        "y": 55,
+        "starValue": ["get", ["item"], 0],
+        "marker": { "enabled": false },
+        "dataLabels": {
+          "enabled": true,
+          "useHTML": true,
+          "format": "<div style='font-size:32px;cursor:pointer;color:#e2e8f0;'>☆</div>",
+          "align": "center",
+          "verticalAlign": "middle",
+          "style": { "textOutline": "none" }
+        }
+      }
+    ],
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+  }],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "dataLabels": {
+        "format": [
+          "case",
+          ["<=", "point.starValue", ["get", ["getColumn", 2], 0]],
+          "<div style='font-size:32px;cursor:pointer;color:#f6ad55;text-shadow:0 2px 8px rgba(246,173,85,0.4);'>★</div>",
+          "<div style='font-size:32px;cursor:pointer;color:#e2e8f0;'>☆</div>"
+        ]
+      }
+    }]
+  }
+}

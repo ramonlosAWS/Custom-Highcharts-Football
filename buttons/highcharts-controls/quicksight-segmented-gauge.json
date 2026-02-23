@@ -1,0 +1,58 @@
+{
+  "_comment": "Segmented Gauge with colored zones (Low=red, Med=yellow, High=green). Click any segment to set value.",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 80,
+    "spacing": [5, 5, 5, 5],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [{
+    "name": "Segments",
+    "data": [
+      "map",
+      ["getColumn", 0, 1, 2, 3],
+      {
+        "x": ["+", 5, ["*", ["itemIndex"], 8.5]],
+        "y": 55,
+        "segValue": ["get", ["item"], 0],
+        "segColor": ["get", ["item"], 1],
+        "marker": { "enabled": false },
+        "dataLabels": {
+          "enabled": true,
+          "useHTML": true,
+          "format": "<div style='width:28px;height:28px;border-radius:4px;background:#edf2f7;border:2px solid #e2e8f0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#cbd5e0;cursor:pointer;'>{point.segValue}</div>",
+          "align": "center",
+          "verticalAlign": "middle",
+          "style": { "textOutline": "none" }
+        }
+      }
+    ],
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+  }],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "dataLabels": {
+        "format": [
+          "case",
+          ["==", "point.segValue", ["get", ["getColumn", 3], 0]],
+          "<div style='width:36px;height:36px;border-radius:4px;background:{point.segColor};border:2px solid rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#1a202c;cursor:pointer;box-shadow:0 0 0 3px rgba(0,0,0,0.1);'>{point.segValue}</div>",
+          ["<=", "point.segValue", ["get", ["getColumn", 3], 0]],
+          "<div style='width:28px;height:28px;border-radius:4px;background:{point.segColor};border:2px solid rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#1a202c;cursor:pointer;'>{point.segValue}</div>",
+          "<div style='width:28px;height:28px;border-radius:4px;background:#edf2f7;border:2px solid #e2e8f0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#cbd5e0;cursor:pointer;'>{point.segValue}</div>"
+        ]
+      }
+    }]
+  }
+}

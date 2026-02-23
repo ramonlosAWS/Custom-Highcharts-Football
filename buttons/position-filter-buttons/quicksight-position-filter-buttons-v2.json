@@ -1,0 +1,94 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 60,
+    "spacing": [5, 0, 5, 0],
+    "style": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+    }
+  },
+  "title": {
+    "text": null
+  },
+  "legend": {
+    "enabled": false
+  },
+  "credits": {
+    "enabled": false
+  },
+  "xAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "yAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "tooltip": {
+    "enabled": false
+  },
+  "plotOptions": {
+    "scatter": {
+      "marker": {
+        "enabled": false
+      }
+    },
+    "series": {
+      "enableMouseTracking": true,
+      "cursor": "pointer"
+    }
+  },
+  "series": [
+    {
+      "name": "PositionButtons",
+      "data": [
+        "map",
+        [
+          "+",
+          [["ALL", "ALL"]],
+          ["unique", ["getColumn", 0]]
+        ],
+        {
+          "x": ["+", 5, ["*", ["itemIndex"], 7.5]],
+          "y": 50,
+          "position": ["get", ["item"], 0],
+          "displayName": ["get", ["item"], 1]
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;min-width:50px;box-shadow:0 2px 4px rgba(0,0,0,0.15);border:3px solid {point.borderColor};'>{point.displayName}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": {
+          "textOutline": "none"
+        }
+      },
+      "point": {
+        "events": {
+          "click": ["triggerClick", { "rowIndex": "point.index" }]
+        }
+      }
+    }
+  ],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "bgColor": [
+        "case",
+        ["dataMarkMatch", ["getColumnName", 0], "point.position"],
+        "#005a94",
+        "#0073bb"
+      ],
+      "borderColor": [
+        "case",
+        ["dataMarkMatch", ["getColumnName", 0], "point.position"],
+        "#003d66",
+        "#0073bb"
+      ]
+    }]
+  }
+}

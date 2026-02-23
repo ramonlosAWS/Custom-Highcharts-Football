@@ -1,0 +1,12 @@
+{
+  "_comment": "SUMMARY button - SELECTED state (dark). Show when DashboardView=SUMMARY",
+  "chart": { "type": "scatter", "backgroundColor": "transparent", "height": 50, "spacing": [0,0,0,0], "animation": false },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": { "scatter": { "marker": { "enabled": false }, "animation": false }, "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false } },
+  "series": [{ "name": "SUMMARY", "data": [{ "x": 50, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:#1a2b4c;color:#ffffff;padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #1a2b4c;letter-spacing:0.5px;'>SUMMARY</div>", "align": "center", "verticalAlign": "middle" }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } }]
+}

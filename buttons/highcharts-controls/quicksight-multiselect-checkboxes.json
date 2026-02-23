@@ -1,0 +1,65 @@
+{
+  "_comment": "Multi-Select Checkboxes. Each click toggles an item in a pipe-delimited parameter string. Dataset: one row per option with OptionLabel, SelectedOptions (calc field = ${Selections}). Navigation action sets parameter to new encoded string. Target dataset calc field: ifelse(locate(FieldValue, ${Selections}) > 0, 1, 0)",
+  "_quicksight_setup": {
+    "parameter": "Selections (String, default: 'QB|WR|TE')",
+    "calc_field_on_button_dataset": "SelectedOptions = ${Selections}",
+    "calc_field_on_target_dataset": "ShowByFilter = ifelse(${Selections}='ALL', 1, ifelse(locate(PositionGroup, ${Selections}) > 0, 1, 0))",
+    "navigation_action": "Each checkbox row needs its own navigation action that computes the toggled string. This is the hard part — see README for the workaround using multiple single-select widgets."
+  },
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 160,
+    "spacing": [5, 5, 5, 5],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [{
+    "name": "Checkboxes",
+    "data": [
+      "map",
+      ["getColumn", 0, 1],
+      {
+        "x": [
+          "case",
+          ["<", ["itemIndex"], 5], 20,
+          60
+        ],
+        "y": ["-", 80, ["*", ["%", ["itemIndex"], 5], 16]],
+        "optionLabel": ["get", ["item"], 0],
+        "marker": { "enabled": false },
+        "dataLabels": {
+          "enabled": true,
+          "useHTML": true,
+          "format": "<div style='display:flex;align-items:center;gap:8px;cursor:pointer;'><div style='width:18px;height:18px;border-radius:4px;border:2px solid #cbd5e0;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;'></div><span style='font-size:13px;font-weight:400;color:#718096;'>{point.optionLabel}</span></div>",
+          "align": "left",
+          "verticalAlign": "middle",
+          "style": { "textOutline": "none" }
+        }
+      }
+    ],
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+  }],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "dataLabels": {
+        "format": [
+          "case",
+          [">", ["indexOf", ["get", ["getColumn", 1], 0], "point.optionLabel"], -1],
+          "<div style='display:flex;align-items:center;gap:8px;cursor:pointer;'><div style='width:18px;height:18px;border-radius:4px;border:2px solid #3182ce;background:#3182ce;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;'>✓</div><span style='font-size:13px;font-weight:600;color:#1a202c;'>{point.optionLabel}</span></div>",
+          "<div style='display:flex;align-items:center;gap:8px;cursor:pointer;'><div style='width:18px;height:18px;border-radius:4px;border:2px solid #cbd5e0;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;'></div><span style='font-size:13px;font-weight:400;color:#718096;'>{point.optionLabel}</span></div>"
+        ]
+      }
+    }]
+  }
+}

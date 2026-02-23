@@ -1,0 +1,105 @@
+{
+  "_comment": "Heatmap Grid Selector. Dataset: one row per cell with CellID, RowLabel, ColLabel, CellValue, SelectedCell (calc field). Click any cell to set parameter.",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 220,
+    "spacing": [5, 5, 5, 5],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false, "reversed": true },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [
+    {
+      "_comment": "Column headers - non-interactive",
+      "name": "ColHeaders",
+      "enableMouseTracking": false,
+      "data": [
+        "map",
+        ["unique", ["getColumn", 2]],
+        {
+          "x": ["+", 30, ["*", ["itemIndex"], 17]],
+          "y": 5,
+          "marker": { "enabled": false },
+          "dataLabels": {
+            "enabled": true,
+            "useHTML": true,
+            "format": "<div style='font-size:11px;font-weight:600;color:#4a5568;text-align:center;width:60px;'>{point.name}</div>",
+            "align": "center",
+            "verticalAlign": "middle",
+            "style": { "textOutline": "none" }
+          },
+          "name": ["item"]
+        }
+      ]
+    },
+    {
+      "_comment": "Row headers - non-interactive",
+      "name": "RowHeaders",
+      "enableMouseTracking": false,
+      "data": [
+        "map",
+        ["unique", ["getColumn", 1]],
+        {
+          "x": 10,
+          "y": ["+", 20, ["*", ["itemIndex"], 20]],
+          "marker": { "enabled": false },
+          "dataLabels": {
+            "enabled": true,
+            "useHTML": true,
+            "format": "<div style='font-size:11px;font-weight:500;color:#4a5568;text-align:right;width:70px;'>{point.name}</div>",
+            "align": "right",
+            "verticalAlign": "middle",
+            "style": { "textOutline": "none" }
+          },
+          "name": ["item"]
+        }
+      ]
+    },
+    {
+      "_comment": "Grid cells - clickable",
+      "name": "Cells",
+      "data": [
+        "map",
+        ["getColumn", 0, 1, 2, 3, 4, 5],
+        {
+          "x": ["get", ["item"], 4],
+          "y": ["get", ["item"], 5],
+          "cellId": ["get", ["item"], 0],
+          "cellValue": ["get", ["item"], 3],
+          "marker": { "enabled": false },
+          "dataLabels": {
+            "enabled": true,
+            "useHTML": true,
+            "format": "<div style='width:56px;height:32px;border-radius:6px;background:rgba(190,210,240,0.5);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#2d3748;cursor:pointer;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 2px rgba(0,0,0,0.04);'>{point.cellValue}</div>",
+            "align": "center",
+            "verticalAlign": "middle",
+            "style": { "textOutline": "none" }
+          }
+        }
+      ],
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+    }
+  ],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "dataLabels": {
+        "format": [
+          "case",
+          ["==", "point.cellId", ["get", ["getColumn", 6], 0]],
+          "<div style='width:56px;height:32px;border-radius:6px;background:#2b6cb0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;cursor:pointer;border:2px solid #1a365d;box-shadow:0 0 0 3px rgba(49,130,206,0.25);'>{point.cellValue}</div>",
+          "<div style='width:56px;height:32px;border-radius:6px;background:rgba(190,210,240,0.5);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#2d3748;cursor:pointer;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 2px rgba(0,0,0,0.04);'>{point.cellValue}</div>"
+        ]
+      }
+    }]
+  }
+}

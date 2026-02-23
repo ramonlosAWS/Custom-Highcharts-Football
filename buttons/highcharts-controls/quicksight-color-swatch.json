@@ -1,0 +1,56 @@
+{
+  "_comment": "Color Swatch Picker. Dataset: one row per color with ColorName, HexCode, LightHex, SelectedColor (calc field from parameter).",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 90,
+    "spacing": [5, 5, 5, 5],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [{
+    "name": "Swatches",
+    "data": [
+      "map",
+      ["getColumn", 0, 1, 2, 3],
+      {
+        "x": ["+", 10, ["*", ["itemIndex"], 12.5]],
+        "y": 55,
+        "colorName": ["get", ["item"], 0],
+        "hexCode": ["get", ["item"], 1],
+        "marker": { "enabled": false },
+        "dataLabels": {
+          "enabled": true,
+          "useHTML": true,
+          "format": "<div style='text-align:center;cursor:pointer;'><div style='width:30px;height:30px;border-radius:50%;background:{point.hexCode};border:2px solid transparent;box-shadow:0 2px 4px rgba(0,0,0,0.1);'></div><div style='font-size:9px;color:#a0aec0;font-weight:400;margin-top:4px;'>{point.colorName}</div></div>",
+          "align": "center",
+          "verticalAlign": "middle",
+          "style": { "textOutline": "none" }
+        }
+      }
+    ],
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+  }],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "dataLabels": {
+        "format": [
+          "case",
+          ["==", "point.colorName", ["get", ["getColumn", 3], 0]],
+          "<div style='text-align:center;cursor:pointer;'><div style='width:36px;height:36px;border-radius:50%;background:{point.hexCode};border:3px solid #1a202c;box-shadow:0 4px 12px rgba(0,0,0,0.2);'></div><div style='font-size:9px;color:#1a202c;font-weight:700;margin-top:4px;'>{point.colorName}</div></div>",
+          "<div style='text-align:center;cursor:pointer;'><div style='width:30px;height:30px;border-radius:50%;background:{point.hexCode};border:2px solid transparent;box-shadow:0 2px 4px rgba(0,0,0,0.1);'></div><div style='font-size:9px;color:#a0aec0;font-weight:400;margin-top:4px;'>{point.colorName}</div></div>"
+        ]
+      }
+    }]
+  }
+}

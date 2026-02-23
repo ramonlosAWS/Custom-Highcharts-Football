@@ -1,0 +1,17 @@
+CellID,RowLabel,ColLabel,CellValue,XPos,YPos,SelectedCell
+Q1-Product A,Product A,Q1,82,30,20,Q2-Product B
+Q2-Product A,Product A,Q2,91,47,20,Q2-Product B
+Q3-Product A,Product A,Q3,76,64,20,Q2-Product B
+Q4-Product A,Product A,Q4,88,81,20,Q2-Product B
+Q1-Product B,Product B,Q1,65,30,40,Q2-Product B
+Q2-Product B,Product B,Q2,94,47,40,Q2-Product B
+Q3-Product B,Product B,Q3,71,64,40,Q2-Product B
+Q4-Product B,Product B,Q4,83,81,40,Q2-Product B
+Q1-Product C,Product C,Q1,90,30,60,Q2-Product B
+Q2-Product C,Product C,Q2,78,47,60,Q2-Product B
+Q3-Product C,Product C,Q3,85,64,60,Q2-Product B
+Q4-Product C,Product C,Q4,92,81,60,Q2-Product B
+Q1-Product D,Product D,Q1,73,30,80,Q2-Product B
+Q2-Product D,Product D,Q2,86,47,80,Q2-Product B
+Q3-Product D,Product D,Q3,69,64,80,Q2-Product B
+Q4-Product D,Product D,Q4,77,81,80,Q2-Product B

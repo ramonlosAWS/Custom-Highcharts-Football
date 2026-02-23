@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Position Filter Buttons - Test</title>
+    <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+            color: #333;
+        }
+        #chart-container {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #0073bb;
+        }
+        .info h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .clicked-position {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .clicked-position strong {
+            color: #0073bb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Position Filter Buttons Widget</h1>
+        
+        <div id="chart-container"></div>
+        
+        <div class="info">
+            <h3>How It Works</h3>
+            <p><strong>In QuickSight:</strong> Clicking a button triggers a filter action that filters other visuals by position.</p>
+            <p><strong>In this test:</strong> Click events are logged below to demonstrate interactivity.</p>
+        </div>
+        
+        <div class="clicked-position" id="click-output">
+            Click a position button to see the filter action...
+        </div>
+    </div>
+
+    <script>
+        // Sample data matching CSV structure
+        const positionData = [
+            ['ALL', 'ALL'],
+            ['QB', 'QB'],
+            ['RB', 'RB'],
+            ['WR', 'WR'],
+            ['TE', 'TE'],
+            ['OT', 'OT'],
+            ['IOL', 'IOL'],
+            ['DT', 'DT'],
+            ['EDGE', 'EDGE'],
+            ['LB', 'LB'],
+            ['S', 'S'],
+            ['CB', 'CB'],
+            ['ST', 'ST']
+        ];
+
+        // Transform data for Highcharts
+        const chartData = positionData.map((item, index) => ({
+            x: 5 + (index * 7.5),
+            y: 50,
+            position: item[0],
+            displayName: item[1]
+        }));
+
+        // Create chart
+        Highcharts.chart('chart-container', {
+            chart: {
+                type: 'scatter',
+                backgroundColor: 'transparent',
+                height: 60,
+                spacing: [5, 0, 5, 0]
+            },
+            title: {
+                text: null
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            xAxis: {
+                min: 0,
+                max: 100,
+                visible: false
+            },
+            yAxis: {
+                min: 0,
+                max: 100,
+                visible: false
+            },
+            tooltip: {
+                enabled: false
+            },
+            plotOptions: {
+                scatter: {
+                    marker: {
+                        enabled: false
+                    }
+                },
+                series: {
+                    enableMouseTracking: true,
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function() {
+                                const position = this.position;
+                                const output = document.getElementById('click-output');
+                                
+                                if (position === 'ALL') {
+                                    output.innerHTML = '<strong>Filter Cleared:</strong> Showing all positions';
+                                } else {
+                                    output.innerHTML = '<strong>Filter Applied:</strong> Showing only <strong>' + position + '</strong> position';
+                                }
+                                
+                                // In QuickSight, this would trigger the filter action
+                                console.log('Position clicked:', position);
+                                console.log('Row index:', this.index);
+                            }
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'PositionButtons',
+                data: chartData,
+                dataLabels: {
+                    enabled: true,
+                    useHTML: true,
+                    formatter: function() {
+                        return '<div style="background:#0073bb;color:#fff;padding:8px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;min-width:50px;box-shadow:0 2px 4px rgba(0,0,0,0.15);">' + this.point.displayName + '</div>';
+                    },
+                    align: 'center',
+                    verticalAlign: 'middle',
+                    style: {
+                        textOutline: 'none'
+                    }
+                }
+            }]
+        });
+    </script>
+</body>
+</html>

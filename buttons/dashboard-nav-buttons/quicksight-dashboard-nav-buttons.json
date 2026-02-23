@@ -1,0 +1,80 @@
+{
+  "_comment": "Dashboard Navigation Buttons - Sets DashboardView parameter. Values: SUMMARY, TEAMNEEDS, 2025RANKS, 2026TRACKER. Field Wells: SelectedView (calc field = ${DashboardView}) in GROUP BY",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 55,
+    "spacing": [5, 0, 5, 0],
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false } },
+    "series": { "enableMouseTracking": true, "cursor": "pointer" }
+  },
+  "series": [
+    {
+      "name": "SUMMARY",
+      "data": [{ "x": 12, "y": 50, "view": "SUMMARY", "label": "SUMMARY" }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #ddd;letter-spacing:0.5px;'>{point.label}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "TEAMNEEDS",
+      "data": [{ "x": 37, "y": 50, "view": "TEAMNEEDS", "label": "TEAM NEEDS" }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #ddd;letter-spacing:0.5px;'>{point.label}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "2025RANKS",
+      "data": [{ "x": 62, "y": 50, "view": "2025RANKS", "label": "2025 RANKS" }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #ddd;letter-spacing:0.5px;'>{point.label}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "2026TRACKER",
+      "data": [{ "x": 87, "y": 50, "view": "2026TRACKER", "label": "2026 TRACKER" }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #ddd;letter-spacing:0.5px;'>{point.label}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    }
+  ],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "bgColor": ["case", ["==", "series.name", ["get", ["getColumn", 0], 0]], "#1a2b4c", "#ffffff"],
+      "textColor": ["case", ["==", "series.name", ["get", ["getColumn", 0], 0]], "#ffffff", "#1a2b4c"]
+    }]
+  }
+}

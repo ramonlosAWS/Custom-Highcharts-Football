@@ -1,0 +1,42 @@
+{
+  "_comment": "UNIFIED POSITION FILTER - Single widget with ALL option. Uses PositionFilter parameter. Field Wells: SelectedPosition (calc field = ${PositionFilter}) in GROUP BY. Add 13 Navigation Actions, one per series, each setting PositionFilter to the series name.",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 55,
+    "spacing": [5, 5, 5, 5],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [
+    { "name": "ALL", "data": [{ "x": 4, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>ALL</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "QB", "data": [{ "x": 12, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>QB</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "RB", "data": [{ "x": 20, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>RB</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "WR", "data": [{ "x": 28, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>WR</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "TE", "data": [{ "x": 36, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>TE</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "OT", "data": [{ "x": 44, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>OT</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "IOL", "data": [{ "x": 52, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>IOL</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "DT", "data": [{ "x": 60, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>DT</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "EDGE", "data": [{ "x": 68, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>EDGE</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "LB", "data": [{ "x": 76, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>LB</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "S", "data": [{ "x": 84, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>S</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } },
+    { "name": "CB", "data": [{ "x": 92, "y": 50 }], "dataLabels": { "enabled": true, "useHTML": true, "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>CB</div>", "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" } }, "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } } }
+  ],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "bgColor": ["case", ["==", "series.name", ["get", ["getColumn", 0], 0]], "#1a365d", "#ffffff"],
+      "textColor": ["case", ["==", "series.name", ["get", ["getColumn", 0], 0]], "#ffffff", "#1a365d"],
+      "borderColor": ["case", ["==", "series.name", ["get", ["getColumn", 0], 0]], "#1a365d", "#cbd5e0"]
+    }]
+  }
+}

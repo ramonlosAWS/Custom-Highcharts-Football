@@ -1,0 +1,44 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 55,
+    "spacing": [8, 15, 8, 15],
+    "animation": false
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [{
+    "name": "Segments",
+    "data": [
+      "map",
+      ["getColumn", 0, 1],
+      {
+        "x": ["+", 12, ["*", ["itemIndex"], 25]],
+        "y": 50,
+        "label": ["get", ["item"], 0],
+        "isFirst": ["==", ["itemIndex"], 0],
+        "isLast": ["==", ["itemIndex"], 3],
+        "bgColor": ["case", ["==", ["get", ["item"], 0], ["get", ["item"], 1]], "#1e293b", "#ffffff"],
+        "textColor": ["case", ["==", ["get", ["item"], 0], ["get", ["item"], 1]], "#ffffff", "#1e293b"]
+      }
+    ],
+    "dataLabels": {
+      "enabled": true,
+      "useHTML": true,
+      "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 20px;cursor:pointer;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;border:2px solid #1e293b;margin:-1px;'>{point.label}</div>",
+      "align": "center",
+      "verticalAlign": "middle",
+      "style": { "textOutline": "none" }
+    },
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+  }]
+}

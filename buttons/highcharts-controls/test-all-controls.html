@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Highcharts Interactive Controls for QuickSight</title>
+  <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+  <script src="https://code.highcharts.com/11.4.6/highcharts-more.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+      color: #1a202c;
+      padding: 30px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1a202c;
+    }
+    .subtitle {
+      color: #718096;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 24px;
+      max-width: 1400px;
+    }
+    .control-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .control-card.full-width {
+      grid-column: 1 / -1;
+    }
+    .card-header {
+      padding: 16px 20px 0;
+    }
+    .card-header h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2d3748;
+    }
+    .card-header p {
+      font-size: 12px;
+      color: #a0aec0;
+      margin-top: 2px;
+    }
+    .card-body {
+      padding: 0 8px 8px;
+    }
+    .param-display {
+      margin: 12px 20px;
+      padding: 8px 14px;
+      background: #edf2f7;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #4a5568;
+    }
+    .param-display span {
+      color: #2b6cb0;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Controls for QuickSight Highcharts</h1>
+  <p class="subtitle">All controls use scatter plot + triggerClick → navigation action → set parameter. No JavaScript in QuickSight.</p>
+
+  <div class="control-grid">
+
+    <!-- 1. DISCRETE SLIDER -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Discrete Slider</h2>
+        <p>Click any tick mark to set value. Track fills to selection.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="slider-val">5</span></div>
+      <div class="card-body"><div id="slider-control" style="height:90px;"></div></div>
+    </div>
+
+    <!-- 2. STAR RATING -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Star Rating</h2>
+        <p>Click a star to rate 1–5. Stars fill up to selection.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="star-val">3</span></div>
+      <div class="card-body"><div id="star-control" style="height:80px;"></div></div>
+    </div>
+
+    <!-- 3. INCREMENT / DECREMENT STEPPER -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Increment / Decrement Stepper</h2>
+        <p>Click − or + to adjust value. Each click sets parameter to next/prev step.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="stepper-val">5</span></div>
+      <div class="card-body"><div id="stepper-control" style="height:80px;"></div></div>
+    </div>
+
+    <!-- 4. TOGGLE SWITCH -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Toggle Switch</h2>
+        <p>Click to toggle ON/OFF. Visual indicator slides.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="toggle-val">ON</span></div>
+      <div class="card-body"><div id="toggle-control" style="height:70px;"></div></div>
+    </div>
+
+    <!-- 5. COLOR SWATCH PICKER -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Color Swatch Picker</h2>
+        <p>Click a color to select theme. Ring highlights selection.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="color-val">Blue</span></div>
+      <div class="card-body"><div id="color-control" style="height:90px;"></div></div>
+    </div>
+
+    <!-- 6. PROGRESS STEPPER / WIZARD -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Progress Stepper</h2>
+        <p>Click any step to jump. Completed steps show checkmarks.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="wizard-val">2</span></div>
+      <div class="card-body"><div id="wizard-control" style="height:90px;"></div></div>
+    </div>
+
+    <!-- 7. HEATMAP GRID SELECTOR -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Heatmap Grid Selector</h2>
+        <p>Click any cell to select a row×column combination.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="grid-val">Q2-Product B</span></div>
+      <div class="card-body"><div id="grid-control" style="height:220px;"></div></div>
+    </div>
+
+    <!-- 8. THUMBNAIL CARD SELECTOR -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Thumbnail Card Selector</h2>
+        <p>Click a card to select. Border and shadow highlight selection.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="card-val">Analytics</span></div>
+      <div class="card-body"><div id="card-control" style="height:120px;"></div></div>
+    </div>
+
+    <!-- 9. RADIAL DIAL SELECTOR -->
+    <div class="control-card full-width">
+      <div class="card-header">
+        <h2>Radial / Dial Selector</h2>
+        <p>Click segments on the arc to set value. Filled arc shows progress.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="dial-val">7</span></div>
+      <div class="card-body"><div id="dial-control" style="height:260px;"></div></div>
+    </div>
+
+  </div>
+
+<script>
+
+// ============================================================
+// SIMULATED QUICKSIGHT PARAMETER STATE
+// ============================================================
+const params = {
+  SliderValue: 5,
+  StarRating: 3,
+  StepperValue: 5,
+  ToggleState: 'ON',
+  ColorTheme: 'Blue',
+  WizardStep: 2,
+  GridSelection: 'Q2-Product B',
+  CardSelection: 'Analytics',
+  DialValue: 7
+};
+
+function updateParam(key, val) {
+  params[key] = val;
+  // Re-render all controls to simulate QuickSight pointRender refresh
+  renderAll();
+}
+
+// ============================================================
+// 1. DISCRETE SLIDER
+// ============================================================
+function renderSlider() {
+  const selected = params.SliderValue;
+  const min = 1, max = 10;
+  const steps = [];
+  for (let i = min; i <= max; i++) {
+    const pct = ((i - min) / (max - min)) * 80 + 10; // 10-90 range
+    const isFilled = i <= selected;
+    const isSelected = i === selected;
+    steps.push({
+      x: pct,
+      y: 50,
+      value: i,
+      marker: {
+        enabled: true,
+        symbol: 'circle',
+        radius: isSelected ? 12 : (isFilled ? 7 : 6),
+        fillColor: isFilled ? '#3182ce' : '#e2e8f0',
+        lineColor: isSelected ? '#2b6cb0' : (isFilled ? '#3182ce' : '#cbd5e0'),
+        lineWidth: isSelected ? 3 : 1
+      },
+      dataLabels: {
+        enabled: isSelected,
+        format: '<div style="font-size:13px;font-weight:700;color:#2b6cb0;text-align:center;">{point.value}</div>',
+        useHTML: true,
+        y: -22,
+        style: { textOutline: 'none' }
+      }
+    });
+  }
+
+  // Track segments (filled vs unfilled)
+  const trackData = [];
+  for (let i = min; i < max; i++) {
+    const x1 = ((i - min) / (max - min)) * 80 + 10;
+    const x2 = ((i + 1 - min) / (max - min)) * 80 + 10;
+    const isFilled = i < selected;
+    trackData.push({
+      x: (x1 + x2) / 2,
+      y: 50,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true,
+        useHTML: true,
+        format: `<div style="width:${(90/max)*1.1}px;height:4px;background:${isFilled ? '#3182ce' : '#e2e8f0'};border-radius:2px;"></div>`,
+        y: 0,
+        align: 'center',
+        verticalAlign: 'middle',
+        style: { textOutline: 'none' }
+      }
+    });
+  }
+
+  // Min/Max labels
+  const labelData = [
+    { x: 10, y: 20, marker: { enabled: false },
+      dataLabels: { enabled: true, format: '<div style="font-size:10px;color:#a0aec0;">1</div>', useHTML: true, style: { textOutline: 'none' } }
+    },
+    { x: 90, y: 20, marker: { enabled: false },
+      dataLabels: { enabled: true, format: '<div style="font-size:10px;color:#a0aec0;">10</div>', useHTML: true, style: { textOutline: 'none' } }
+    }
+  ];
+
+  document.getElementById('slider-val').textContent = selected;
+
+  Highcharts.chart('slider-control', {
+    chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [5,5,5,5], animation: false },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, states: { hover: { enabled: false }, inactive: { enabled: false } } }
+    },
+    series: [
+      { name: 'Track', data: trackData, enableMouseTracking: false },
+      { name: 'Labels', data: labelData, enableMouseTracking: false },
+      {
+        name: 'Steps',
+        data: steps,
+        point: { events: { click: function() { updateParam('SliderValue', this.value); } } }
+      }
+    ]
+  });
+}
+
+// ============================================================
+// 2. STAR RATING
+// ============================================================
+function renderStars() {
+  const selected = params.StarRating;
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    const isFilled = i <= selected;
+    stars.push({
+      x: 15 + (i - 1) * 17,
+      y: 50,
+      value: i,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true,
+        useHTML: true,
+        format: `<div style="font-size:32px;cursor:pointer;color:${isFilled ? '#f6ad55' : '#e2e8f0'};text-shadow:${isFilled ? '0 2px 8px rgba(246,173,85,0.4)' : 'none'};transition:transform 0.15s;">${isFilled ? '★' : '☆'}</div>`,
+        align: 'center',
+        verticalAlign: 'middle',
+        style: { textOutline: 'none' }
+      }
+    });
+  }
+
+  // Label
+  const labelText = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][selected];
+  stars.push({
+    x: 50, y: 10, marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="font-size:11px;color:#718096;font-weight:500;text-align:center;">${labelText}</div>`,
+      style: { textOutline: 'none' }
+    }
+  });
+
+  document.getElementById('star-val').textContent = selected;
+
+  Highcharts.chart('star-control', {
+    chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [5,5,5,5], animation: false },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, states: { hover: { enabled: false }, inactive: { enabled: false } } }
+    },
+    series: [{
+      data: stars,
+      point: { events: { click: function() { if (this.value) updateParam('StarRating', this.value); } } }
+    }]
+  });
+}
+
+// ============================================================
+// 3. INCREMENT / DECREMENT STEPPER
+// ============================================================
+function renderStepper() {
+  const val = params.StepperValue;
+  const min = 1, max = 10;
+
+  const data = [
+    // Minus button
+    {
+      x: 30, y: 50, action: 'dec', value: Math.max(min, val - 1),
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="width:40px;height:40px;border-radius:50%;background:${val <= min ? '#edf2f7' : '#fff'};border:2px solid ${val <= min ? '#e2e8f0' : '#3182ce'};display:flex;align-items:center;justify-content:center;cursor:${val <= min ? 'not-allowed' : 'pointer'};font-size:22px;font-weight:700;color:${val <= min ? '#cbd5e0' : '#3182ce'};box-shadow:${val <= min ? 'none' : '0 2px 6px rgba(49,130,206,0.2)'};">−</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    },
+    // Value display
+    {
+      x: 50, y: 50,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="min-width:60px;text-align:center;"><div style="font-size:36px;font-weight:800;color:#1a202c;line-height:1;">${val}</div><div style="font-size:10px;color:#a0aec0;margin-top:2px;">${min}–${max}</div></div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    },
+    // Plus button
+    {
+      x: 70, y: 50, action: 'inc', value: Math.min(max, val + 1),
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="width:40px;height:40px;border-radius:50%;background:${val >= max ? '#edf2f7' : '#3182ce'};border:2px solid ${val >= max ? '#e2e8f0' : '#3182ce'};display:flex;align-items:center;justify-content:center;cursor:${val >= max ? 'not-allowed' : 'pointer'};font-size:22px;font-weight:700;color:${val >= max ? '#cbd5e0' : '#fff'};box-shadow:${val >= max ? 'none' : '0 2px 6px rgba(49,130,206,0.3)'};">+</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    }
+  ];
+
+  document.getElementById('stepper-val').textContent = val;
+
+  Highcharts.chart('stepper-control', {
+    chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [5,5,5,5], animation: false },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, states: { hover: { enabled: false }, inactive: { enabled: false } } }
+    },
+    series: [{
+      data: data,
+      point: { events: { click: function() { if (this.value !== undefined && this.action) updateParam('StepperValue', this.value); } } }
+    }]
+  });
+}
+
+// ============================================================
+// 4. TOGGLE SWITCH
+// ============================================================
+function renderToggle() {
+  const isOn = params.ToggleState === 'ON';
+
+  const data = [
+    // Track background
+    {
+      x: 50, y: 50,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="width:56px;height:30px;border-radius:15px;background:${isOn ? '#48bb78' : '#cbd5e0'};position:relative;cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,0.15);"><div style="width:24px;height:24px;border-radius:50%;background:#fff;position:absolute;top:3px;${isOn ? 'left:29px' : 'left:3px'};box-shadow:0 1px 4px rgba(0,0,0,0.2);"></div></div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    },
+    // Label
+    {
+      x: 68, y: 50,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="font-size:13px;font-weight:600;color:${isOn ? '#48bb78' : '#a0aec0'};">${isOn ? 'ON' : 'OFF'}</div>`,
+        align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    }
+  ];
+
+  document.getElementById('toggle-val').textContent = params.ToggleState;
+
+  Highcharts.chart('toggle-control', {
+    chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [5,5,5,5], animation: false },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, states: { hover: { enabled: false }, inactive: { enabled: false } } }
+    },
+    series: [{
+      data: data,
+      point: { events: { click: function() { updateParam('ToggleState', isOn ? 'OFF' : 'ON'); } } }
+    }]
+  });
+}
+
+// ============================================================
+// 5. COLOR SWATCH PICKER
+// ============================================================
+function renderColorPicker() {
+  const selected = params.ColorTheme;
+  const colors = [
+    { name: 'Red', hex: '#e53e3e', light: '#fed7d7' },
+    { name: 'Orange', hex: '#dd6b20', light: '#feebc8' },
+    { name: 'Yellow', hex: '#d69e2e', light: '#fefcbf' },
+    { name: 'Green', hex: '#38a169', light: '#c6f6d5' },
+    { name: 'Blue', hex: '#3182ce', light: '#bee3f8' },
+    { name: 'Purple', hex: '#805ad5', light: '#e9d8fd' },
+    { name: 'Pink', hex: '#d53f8c', light: '#fed7e2' }
+  ];
+
+  const data = colors.map((c, i) => {
+    const isSelected = c.name === selected;
+    return {
+      x: 10 + i * 12.5,
+      y: 55,
+      colorName: c.name,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="text-align:center;cursor:pointer;"><div style="width:${isSelected ? 36 : 30}px;height:${isSelected ? 36 : 30}px;border-radius:50%;background:${c.hex};border:${isSelected ? '3px solid #1a202c' : '2px solid transparent'};box-shadow:${isSelected ? '0 0 0 3px ' + c.light + ', 0 4px 12px rgba(0,0,0,0.2)' : '0 2px 4px rgba(0,0,0,0.1)'};"></div><div style="font-size:9px;color:${isSelected ? '#1a202c' : '#a0aec0'};font-weight:${isSelected ? '700' : '400'};margin-top:4px;">${c.name}</div></div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    };
+  });
+
+  // Preview bar
+  const sel = colors.find(c => c.name === selected);
+  data.push({
+    x: 95, y: 55,
+    marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="width:4px;height:40px;border-radius:2px;background:${sel.hex};"></div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+    }
+  });
+
+  document.getElementById('color-val').textContent = selected;
+
+  Highcharts.chart('color-control', {
+    chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [5,5,5,5], animation: false },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, states: { hover: { enabled: false }, inactive: { enabled: false } } }
+    },
+    series: [{
+      data: data,
+      point: { events: { click: function() { if (this.colorName) updateParam('ColorTheme', this.colorName); } } }
+    }]
+  });
+}
+
+// ============================================================
+// 6. PROGRESS STEPPER / WIZARD
+// ============================================================
+function renderWizard() {
+  const current = params.WizardStep;
+  const steps = ['Setup', 'Configure', 'Review', 'Deploy'];
+  const data = [];
+
+  steps.forEach((label, i) => {
+    const stepNum = i + 1;
+    const isCompleted = stepNum < current;
+    const isCurrent = stepNum === current;
+    const isFuture = stepNum > current;
+
+    const bgColor = isCompleted ? '#48bb78' : (isCurrent ? '#3182ce' : '#edf2f7');
+    const textColor = (isCompleted || isCurrent) ? '#fff' : '#a0aec0';
+    const borderColor = isCompleted ? '#48bb78' : (isCurrent ? '#3182ce' : '#e2e8f0');
+    const icon = isCompleted ? '✓' : stepNum;
+
+    // Circle
+    data.push({
+      x: 15 + i * 24,
+      y: 60,
+      stepNum: stepNum,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="width:32px;height:32px;border-radius:50%;background:${bgColor};border:2px solid ${borderColor};display:flex;align-items:center;justify-content:center;font-size:${isCompleted ? '16px' : '13px'};font-weight:700;color:${textColor};cursor:pointer;box-shadow:${isCurrent ? '0 0 0 4px rgba(49,130,206,0.2)' : 'none'};">${icon}</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    });
+
+    // Label below
+    data.push({
+      x: 15 + i * 24,
+      y: 22,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="font-size:10px;color:${isCurrent ? '#3182ce' : (isCompleted ? '#48bb78' : '#a0aec0')};font-weight:${isCurrent ? '700' : '500'};text-align:center;white-space:nowrap;">${label}</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    });
+
+    // Connector line (except last)
+    if (i < steps.length - 1) {
+      const lineColor = stepNum < current ? '#48bb78' : '#e2e8f0';
+      data.push({
+        x: 15 + i * 24 + 12,
+        y: 60,
+        marker: { enabled: false },
+        dataLabels: {
+          enabled: true, useHTML: true,
+          format: `<div style="width:40px;height:3px;background:${lineColor};border-radius:1.5px;"></div>`,
+          align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+        }
+      });
+    }
+  });
+
+  document.getElementById('wizard-val').textContent = current;
+
+  Highcharts.chart('wizard-control', {
+    chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [5,5,5,5], animation: false },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, states: { hover: { enabled: false }, inactive: { enabled: false } } }
+    },
+    series: [{
+      data: data,
+      point: { events: { click: function() { if (this.stepNum) updateParam('WizardStep', this.stepNum); } } }
+    }]
+  });
+}
+
+// ============================================================
+// 7. HEATMAP GRID SELECTOR
+// ============================================================
+function renderGrid() {
+  const selected = params.GridSelection;
+  const rows = ['Product A', 'Product B', 'Product C', 'Product D'];
+  const cols = ['Q1', 'Q2', 'Q3', 'Q4'];
+  const values = [
+    [82, 91, 76, 88],
+    [65, 94, 71, 83],
+    [90, 78, 85, 92],
+    [73, 86, 69, 77]
+  ];
+
+  const data = [];
+
+  // Column headers
+  cols.forEach((col, ci) => {
+    data.push({
+      x: 30 + ci * 17,
+      y: 92,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="font-size:11px;font-weight:600;color:#4a5568;text-align:center;width:60px;">${col}</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    });
+  });
+
+  // Row headers
+  rows.forEach((row, ri) => {
+    data.push({
+      x: 10,
+      y: 78 - ri * 18,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="font-size:11px;font-weight:500;color:#4a5568;text-align:right;width:70px;">${row}</div>`,
+        align: 'right', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    });
+  });
+
+  // Grid cells
+  rows.forEach((row, ri) => {
+    cols.forEach((col, ci) => {
+      const cellId = `${col}-${row}`;
+      const isSelected = cellId === selected;
+      const val = values[ri][ci];
+      // Color intensity based on value
+      const intensity = (val - 60) / 40; // normalize 60-100 to 0-1
+      const r = Math.round(49 + (49 - 49) * intensity);
+      const g = Math.round(130 + (187 - 130) * intensity);
+      const b = Math.round(206 + (120 - 206) * intensity);
+      const bgColor = isSelected
+        ? '#2b6cb0'
+        : `rgba(${Math.round(190 - intensity * 140)}, ${Math.round(210 - intensity * 50)}, ${Math.round(240 - intensity * 80)}, 0.8)`;
+
+      data.push({
+        x: 30 + ci * 17,
+        y: 78 - ri * 18,
+        cellId: cellId,
+        cellValue: val,
+        marker: { enabled: false },
+        dataLabels: {
+          enabled: true, useHTML: true,
+          format: `<div style="width:56px;height:32px;border-radius:6px;background:${bgColor};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:${isSelected ? '700' : '500'};color:${isSelected ? '#fff' : '#2d3748'};cursor:pointer;border:${isSelected ? '2px solid #1a365d' : '1px solid rgba(0,0,0,0.06)'};box-shadow:${isSelected ? '0 0 0 3px rgba(49,130,206,0.25)' : '0 1px 2px rgba(0,0,0,0.04)'};">${val}</div>`,
+          align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+        }
+      });
+    });
+  });
+
+  document.getElementById('grid-val').textContent = selected;
+
+  Highcharts.chart('grid-control', {
+    chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [5,5,5,5], animation: false },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, states: { hover: { enabled: false }, inactive: { enabled: false } } }
+    },
+    series: [{
+      data: data,
+      point: { events: { click: function() { if (this.cellId) updateParam('GridSelection', this.cellId); } } }
+    }]
+  });
+}
+
+// ============================================================
+// 8. THUMBNAIL CARD SELECTOR
+// ============================================================
+function renderCards() {
+  const selected = params.CardSelection;
+  const cards = [
+    { name: 'Dashboard', icon: '📊', desc: 'Overview metrics' },
+    { name: 'Analytics', icon: '📈', desc: 'Deep dive analysis' },
+    { name: 'Reports', icon: '📋', desc: 'Generated reports' },
+    { name: 'Settings', icon: '⚙️', desc: 'Configuration' }
+  ];
+
+  const data = cards.map((card, i) => {
+    const isSelected = card.name === selected;
+    return {
+      x: 13 + i * 22,
+      y: 50,
+      cardName: card.name,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="width:110px;padding:12px 8px;border-radius:10px;background:${isSelected ? '#ebf4ff' : '#fff'};border:2px solid ${isSelected ? '#3182ce' : '#e2e8f0'};text-align:center;cursor:pointer;box-shadow:${isSelected ? '0 4px 12px rgba(49,130,206,0.2)' : '0 1px 3px rgba(0,0,0,0.06)'};"><div style="font-size:28px;margin-bottom:4px;">${card.icon}</div><div style="font-size:12px;font-weight:${isSelected ? '700' : '600'};color:${isSelected ? '#2b6cb0' : '#2d3748'};">${card.name}</div><div style="font-size:9px;color:#a0aec0;margin-top:2px;">${card.desc}</div></div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    };
+  });
+
+  document.getElementById('card-val').textContent = selected;
+
+  Highcharts.chart('card-control', {
+    chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [5,5,5,5], animation: false },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, states: { hover: { enabled: false }, inactive: { enabled: false } } }
+    },
+    series: [{
+      data: data,
+      point: { events: { click: function() { if (this.cardName) updateParam('CardSelection', this.cardName); } } }
+    }]
+  });
+}
+
+// ============================================================
+// 9. RADIAL / DIAL SELECTOR
+// ============================================================
+function renderDial() {
+  const selected = params.DialValue;
+  const min = 0, max = 10;
+  const cx = 50, cy = 55, radius = 35;
+  const startAngle = -140, endAngle = 140; // degrees
+
+  const data = [];
+
+  // Arc segments
+  for (let i = min; i <= max; i++) {
+    const angleDeg = startAngle + ((i - min) / (max - min)) * (endAngle - startAngle);
+    const angleRad = (angleDeg - 90) * Math.PI / 180;
+    const isFilled = i <= selected;
+    const isSelected = i === selected;
+
+    const x = cx + radius * Math.cos(angleRad);
+    const y = cy + radius * Math.sin(angleRad);
+
+    data.push({
+      x: x,
+      y: 100 - y, // flip Y for Highcharts
+      value: i,
+      marker: {
+        enabled: true,
+        symbol: 'circle',
+        radius: isSelected ? 14 : (isFilled ? 9 : 7),
+        fillColor: isFilled ? '#3182ce' : '#e2e8f0',
+        lineColor: isSelected ? '#1a365d' : (isFilled ? '#2b6cb0' : '#cbd5e0'),
+        lineWidth: isSelected ? 3 : 1
+      },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="font-size:${isSelected ? '12px' : '10px'};font-weight:${isSelected ? '700' : '500'};color:${isFilled ? '#fff' : '#a0aec0'};text-align:center;">${i}</div>`,
+        align: 'center', verticalAlign: 'middle',
+        y: 0,
+        style: { textOutline: 'none' }
+      }
+    });
+  }
+
+  // Center display
+  data.push({
+    x: cx,
+    y: 100 - cy,
+    marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="text-align:center;"><div style="font-size:48px;font-weight:900;color:#1a202c;line-height:1;">${selected}</div><div style="font-size:11px;color:#a0aec0;font-weight:500;margin-top:2px;">of ${max}</div></div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+    }
+  });
+
+  // Arc track lines between dots
+  for (let i = min; i < max; i++) {
+    const a1 = startAngle + ((i - min) / (max - min)) * (endAngle - startAngle);
+    const a2 = startAngle + ((i + 1 - min) / (max - min)) * (endAngle - startAngle);
+    const aMid = (a1 + a2) / 2;
+    const aRad = (aMid - 90) * Math.PI / 180;
+    const mx = cx + radius * Math.cos(aRad);
+    const my = cy + radius * Math.sin(aRad);
+    const isFilled = i < selected;
+
+    data.push({
+      x: mx,
+      y: 100 - my,
+      marker: {
+        enabled: true,
+        symbol: 'circle',
+        radius: 2,
+        fillColor: isFilled ? '#3182ce' : '#e2e8f0',
+        lineWidth: 0
+      },
+      dataLabels: { enabled: false }
+    });
+  }
+
+  document.getElementById('dial-val').textContent = selected;
+
+  Highcharts.chart('dial-control', {
+    chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [10,10,10,10], animation: false },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, states: { hover: { enabled: false }, inactive: { enabled: false } } }
+    },
+    series: [{
+      data: data,
+      point: { events: { click: function() { if (this.value !== undefined) updateParam('DialValue', this.value); } } }
+    }]
+  });
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll() {
+  renderSlider();
+  renderStars();
+  renderStepper();
+  renderToggle();
+  renderColorPicker();
+  renderWizard();
+  renderGrid();
+  renderCards();
+  renderDial();
+}
+
+renderAll();
+</script>
+</body>
+</html>

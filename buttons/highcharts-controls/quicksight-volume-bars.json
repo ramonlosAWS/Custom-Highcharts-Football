@@ -1,0 +1,57 @@
+{
+  "_comment": "Volume/Level Bars. Equalizer-style bars that grow taller left to right. Color zones: green→yellow→red. Click any bar to set level.",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 80,
+    "spacing": [5, 5, 5, 5],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [{
+    "name": "Bars",
+    "data": [
+      "map",
+      ["getColumn", 0, 1, 2, 3, 4],
+      {
+        "x": ["+", 12, ["*", ["itemIndex"], 6.5]],
+        "y": 50,
+        "barValue": ["get", ["item"], 0],
+        "barHeight": ["get", ["item"], 1],
+        "barColorFilled": ["get", ["item"], 2],
+        "marker": { "enabled": false },
+        "dataLabels": {
+          "enabled": true,
+          "useHTML": true,
+          "format": "<div style='width:12px;height:{point.barHeight}px;border-radius:2px;background:#edf2f7;cursor:pointer;border:1px solid #e2e8f0;'></div>",
+          "align": "center",
+          "verticalAlign": "middle",
+          "style": { "textOutline": "none" }
+        }
+      }
+    ],
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+  }],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "dataLabels": {
+        "format": [
+          "case",
+          ["<=", "point.barValue", ["get", ["getColumn", 4], 0]],
+          "<div style='width:12px;height:{point.barHeight}px;border-radius:2px;background:{point.barColorFilled};cursor:pointer;border:1px solid rgba(0,0,0,0.1);'></div>",
+          "<div style='width:12px;height:{point.barHeight}px;border-radius:2px;background:#edf2f7;cursor:pointer;border:1px solid #e2e8f0;'></div>"
+        ]
+      }
+    }]
+  }
+}

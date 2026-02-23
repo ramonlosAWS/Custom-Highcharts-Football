@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Highcharts Controls for QuickSight</title>
+  <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+  <script src="https://code.highcharts.com/11.4.6/highcharts-more.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+      color: #1a202c;
+      padding: 30px;
+    }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+    .subtitle { color: #718096; font-size: 14px; margin-bottom: 30px; }
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 24px;
+      max-width: 1400px;
+    }
+    .control-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .control-card.full-width { grid-column: 1 / -1; }
+    .card-header { padding: 16px 20px 0; }
+    .card-header h2 { font-size: 16px; font-weight: 600; color: #2d3748; }
+    .card-header p { font-size: 12px; color: #a0aec0; margin-top: 2px; }
+    .card-header .tag {
+      display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase;
+      padding: 2px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle;
+    }
+    .tag-new { background: #c6f6d5; color: #22543d; }
+    .tag-hack { background: #fed7e2; color: #97266d; }
+    .tag-wild { background: #fefcbf; color: #744210; }
+    .card-body { padding: 0 8px 8px; }
+    .param-display {
+      margin: 12px 20px; padding: 8px 14px; background: #edf2f7; border-radius: 6px;
+      font-size: 12px; font-family: 'SF Mono', 'Fira Code', monospace; color: #4a5568;
+      word-break: break-all;
+    }
+    .param-display span { color: #2b6cb0; font-weight: 600; }
+    .note {
+      margin: 0 20px 12px; padding: 8px 12px; background: #fffff0; border-left: 3px solid #d69e2e;
+      font-size: 11px; color: #744210; border-radius: 0 4px 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Advanced Interactive Controls <span style="font-size:14px;color:#718096;font-weight:400;">— pushing the limits</span></h1>
+  <p class="subtitle">Text input via on-screen keyboard, multi-select via parameter encoding, and more creative control patterns.</p>
+
+  <div class="control-grid">
+
+    <!-- 10. ON-SCREEN KEYBOARD (T9-STYLE TEXT INPUT) -->
+    <div class="control-card full-width">
+      <div class="card-header">
+        <h2>On-Screen Keyboard <span class="tag tag-hack">HACK</span></h2>
+        <p>Click letter keys to build a text string character by character. Backspace removes last char. Each click appends to parameter.</p>
+      </div>
+      <div class="note">⚡ In QuickSight: each key is a separate data point. Navigation action appends clicked letter to a string parameter via calc field logic. Requires a "buffer" approach — see README.</div>
+      <div class="param-display">Parameter: "<span id="keyboard-val"></span>"</div>
+      <div class="card-body"><div id="keyboard-control" style="height:220px;"></div></div>
+    </div>
+
+    <!-- 11. MULTI-SELECT CHECKBOXES -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Multi-Select Checkboxes <span class="tag tag-new">NEW</span></h2>
+        <p>Click items to toggle selection. Parameter stores comma-separated values.</p>
+      </div>
+      <div class="note">⚡ Uses pipe-delimited parameter string. Calc field on target dataset: contains(${Selections}, fieldValue)</div>
+      <div class="param-display">Parameter: "<span id="multiselect-val">QB|WR|TE</span>"</div>
+      <div class="card-body"><div id="multiselect-control" style="height:160px;"></div></div>
+    </div>
+
+    <!-- 12. CHIP / TAG SELECTOR -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Chip / Tag Selector <span class="tag tag-new">NEW</span></h2>
+        <p>Click chips to toggle. Selected chips get filled, unselected are outlined. Multi-select via encoded parameter.</p>
+      </div>
+      <div class="param-display">Parameter: "<span id="chip-val">Speed|Power</span>"</div>
+      <div class="card-body"><div id="chip-control" style="height:90px;"></div></div>
+    </div>
+
+    <!-- 13. RANGE SELECTOR (MIN/MAX) -->
+    <div class="control-card full-width">
+      <div class="card-header">
+        <h2>Range Selector (Min / Max) <span class="tag tag-wild">WILD</span></h2>
+        <p>Two rows of ticks — top sets MIN, bottom sets MAX. Highlighted zone shows the selected range.</p>
+      </div>
+      <div class="param-display">Parameter: "<span id="range-val">3-8</span>"</div>
+      <div class="card-body"><div id="range-control" style="height:130px;"></div></div>
+    </div>
+
+    <!-- 14. PRIORITY RANKER (DRAG SIMULATION) -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Priority Ranker <span class="tag tag-wild">WILD</span></h2>
+        <p>Click ▲/▼ arrows to move items up or down in priority order. Parameter stores ordered list.</p>
+      </div>
+      <div class="param-display">Parameter: "<span id="ranker-val">Speed,Accuracy,Power,Agility</span>"</div>
+      <div class="card-body"><div id="ranker-control" style="height:220px;"></div></div>
+    </div>
+
+    <!-- 15. NUMERIC KEYPAD -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Numeric Keypad <span class="tag tag-hack">HACK</span></h2>
+        <p>Phone-style number pad. Click digits to build a number. Clear and backspace included.</p>
+      </div>
+      <div class="param-display">Parameter: "<span id="numpad-val">42</span>"</div>
+      <div class="card-body"><div id="numpad-control" style="height:260px;"></div></div>
+    </div>
+
+    <!-- 16. SEGMENTED GAUGE -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Segmented Gauge <span class="tag tag-new">NEW</span></h2>
+        <p>Click segments to set a value. Colored zones indicate ranges (low/med/high).</p>
+      </div>
+      <div class="param-display">Parameter: <span id="gauge-val">6</span></div>
+      <div class="card-body"><div id="gauge-control" style="height:80px;"></div></div>
+    </div>
+
+    <!-- 17. DATE PICKER (MONTH/YEAR) -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Month/Year Picker <span class="tag tag-wild">WILD</span></h2>
+        <p>Click month cells to select. Arrow buttons cycle year. Parameter stores YYYY-MM.</p>
+      </div>
+      <div class="param-display">Parameter: "<span id="datepicker-val">2026-03</span>"</div>
+      <div class="card-body"><div id="datepicker-control" style="height:220px;"></div></div>
+    </div>
+
+    <!-- 18. EMOJI REACTION BAR -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Emoji Reaction Bar <span class="tag tag-new">NEW</span></h2>
+        <p>Click an emoji to react. Selected emoji scales up with count badge.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="emoji-val">👍</span></div>
+      <div class="card-body"><div id="emoji-control" style="height:80px;"></div></div>
+    </div>
+
+    <!-- 19. BREADCRUMB NAVIGATOR -->
+    <div class="control-card full-width">
+      <div class="card-header">
+        <h2>Breadcrumb Navigator <span class="tag tag-new">NEW</span></h2>
+        <p>Click any breadcrumb level to navigate back. Shows hierarchy path with chevrons.</p>
+      </div>
+      <div class="param-display">Parameter: "<span id="breadcrumb-val">AFC West</span>"</div>
+      <div class="card-body"><div id="breadcrumb-control" style="height:60px;"></div></div>
+    </div>
+
+    <!-- 20. SORT DIRECTION CONTROL -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Sort Direction Control <span class="tag tag-new">NEW</span></h2>
+        <p>Click column headers to sort. Click again to toggle ASC/DESC. Active column highlighted.</p>
+      </div>
+      <div class="param-display">Parameter: "<span id="sort-val">Rating-DESC</span>"</div>
+      <div class="card-body"><div id="sort-control" style="height:70px;"></div></div>
+    </div>
+
+    <!-- 21. VOLUME / LEVEL BARS -->
+    <div class="control-card">
+      <div class="card-header">
+        <h2>Volume / Level Bars <span class="tag tag-new">NEW</span></h2>
+        <p>Click bars to set level. Bars fill from left. Like an equalizer or volume indicator.</p>
+      </div>
+      <div class="param-display">Parameter: <span id="volume-val">7</span></div>
+      <div class="card-body"><div id="volume-control" style="height:80px;"></div></div>
+    </div>
+
+  </div>
+
+<script>
+
+// ============================================================
+// SIMULATED QUICKSIGHT PARAMETER STATE
+// ============================================================
+const params = {
+  KeyboardText: '',
+  MultiSelect: 'QB|WR|TE',
+  ChipSelect: 'Speed|Power',
+  RangeMin: 3,
+  RangeMax: 8,
+  RankerOrder: ['Speed', 'Accuracy', 'Power', 'Agility'],
+  NumpadText: '42',
+  GaugeValue: 6,
+  DatePickerYear: 2026,
+  DatePickerMonth: 3,
+  EmojiReaction: '👍',
+  BreadcrumbLevel: 'AFC West',
+  SortColumn: 'Rating',
+  SortDir: 'DESC',
+  VolumeLevel: 7
+};
+
+function updateParam(key, val) {
+  params[key] = val;
+  renderAll();
+}
+
+const chartDefaults = {
+  chart: { type: 'scatter', backgroundColor: 'transparent', spacing: [5,5,5,5], animation: false },
+  title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+  xAxis: { min: 0, max: 100, visible: false },
+  yAxis: { min: 0, max: 100, visible: false },
+  tooltip: { enabled: false },
+  plotOptions: {
+    scatter: { animation: false },
+    series: { enableMouseTracking: true, cursor: 'pointer', animation: false,
+      states: { hover: { enabled: false }, inactive: { enabled: false } } }
+  }
+};
+
+function makeChart(id, height, series) {
+  Highcharts.chart(id, {
+    ...chartDefaults,
+    chart: { ...chartDefaults.chart, height },
+    series
+  });
+}
+
+// ============================================================
+// 10. ON-SCREEN KEYBOARD
+// ============================================================
+function renderKeyboard() {
+  const text = params.KeyboardText;
+  document.getElementById('keyboard-val').textContent = text;
+
+  const rows = [
+    ['Q','W','E','R','T','Y','U','I','O','P'],
+    ['A','S','D','F','G','H','J','K','L'],
+    ['Z','X','C','V','B','N','M']
+  ];
+  const specials = [
+    { label: '⌫', action: 'backspace' },
+    { label: '␣', action: 'space' },
+    { label: 'CLR', action: 'clear' }
+  ];
+
+  const data = [];
+
+  // Display bar
+  data.push({
+    x: 50, y: 92,
+    marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="width:420px;height:32px;background:#f7fafc;border:2px solid #e2e8f0;border-radius:6px;padding:4px 12px;font-size:14px;font-family:monospace;color:#1a202c;display:flex;align-items:center;overflow:hidden;">${text || '<span style="color:#cbd5e0;">Type something...</span>'}<span style="display:inline-block;width:2px;height:18px;background:#3182ce;margin-left:1px;animation:none;"></span></div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+    }
+  });
+
+  // Letter keys
+  rows.forEach((row, ri) => {
+    const offsetX = ri === 0 ? 10 : (ri === 1 ? 14 : 20);
+    const keyWidth = 8;
+    row.forEach((key, ki) => {
+      data.push({
+        x: offsetX + ki * keyWidth,
+        y: 68 - ri * 22,
+        keyVal: key,
+        marker: { enabled: false },
+        dataLabels: {
+          enabled: true, useHTML: true,
+          format: `<div style="width:32px;height:32px;border-radius:6px;background:#fff;border:1px solid #d2d6dc;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#1a202c;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.08),0 2px 0 #d2d6dc;">${key}</div>`,
+          align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+        }
+      });
+    });
+  });
+
+  // Special keys
+  // Backspace
+  data.push({
+    x: 76, y: 24, keyVal: 'BACKSPACE',
+    marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="width:52px;height:32px;border-radius:6px;background:#fed7d7;border:1px solid #fc8181;display:flex;align-items:center;justify-content:center;font-size:14px;color:#c53030;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.08),0 2px 0 #fc8181;">⌫</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+    }
+  });
+  // Space
+  data.push({
+    x: 50, y: 4, keyVal: 'SPACE',
+    marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="width:180px;height:32px;border-radius:6px;background:#fff;border:1px solid #d2d6dc;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#a0aec0;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.08),0 2px 0 #d2d6dc;">SPACE</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+    }
+  });
+  // Clear
+  data.push({
+    x: 88, y: 4, keyVal: 'CLEAR',
+    marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="width:44px;height:32px;border-radius:6px;background:#edf2f7;border:1px solid #cbd5e0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#718096;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.08),0 2px 0 #cbd5e0;">CLR</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+    }
+  });
+
+  makeChart('keyboard-control', 220, [{
+    data,
+    point: { events: { click: function() {
+      const k = this.keyVal;
+      if (!k) return;
+      if (k === 'BACKSPACE') updateParam('KeyboardText', text.slice(0, -1));
+      else if (k === 'SPACE') updateParam('KeyboardText', text + ' ');
+      else if (k === 'CLEAR') updateParam('KeyboardText', '');
+      else if (k.length === 1) updateParam('KeyboardText', text + k);
+    }}}
+  }]);
+}
+
+// ============================================================
+// 11. MULTI-SELECT CHECKBOXES
+// ============================================================
+function renderMultiSelect() {
+  const selected = new Set(params.MultiSelect.split('|').filter(Boolean));
+  const options = ['QB', 'RB', 'WR', 'TE', 'OL', 'DL', 'LB', 'CB', 'S', 'K'];
+  document.getElementById('multiselect-val').textContent = params.MultiSelect;
+
+  const data = [];
+
+  // "Select All" / "Clear" buttons
+  data.push({
+    x: 12, y: 92, action: 'ALL',
+    marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="font-size:10px;color:#3182ce;font-weight:600;cursor:pointer;text-decoration:underline;">Select All</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+    }
+  });
+  data.push({
+    x: 30, y: 92, action: 'NONE',
+    marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="font-size:10px;color:#e53e3e;font-weight:600;cursor:pointer;text-decoration:underline;">Clear</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+    }
+  });
+
+  // Count badge
+  data.push({
+    x: 88, y: 92,
+    marker: { enabled: false },
+    dataLabels: {
+      enabled: true, useHTML: true,
+      format: `<div style="font-size:11px;color:#718096;">${selected.size} of ${options.length} selected</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+    }
+  });
+
+  // Checkbox items in 2 columns
+  options.forEach((opt, i) => {
+    const col = i < 5 ? 0 : 1;
+    const row = i % 5;
+    const isChecked = selected.has(opt);
+    data.push({
+      x: 15 + col * 45,
+      y: 72 - row * 16,
+      optionVal: opt,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="display:flex;align-items:center;gap:8px;cursor:pointer;"><div style="width:18px;height:18px;border-radius:4px;border:2px solid ${isChecked ? '#3182ce' : '#cbd5e0'};background:${isChecked ? '#3182ce' : '#fff'};display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;">${isChecked ? '✓' : ''}</div><span style="font-size:13px;font-weight:${isChecked ? '600' : '400'};color:${isChecked ? '#1a202c' : '#718096'};">${opt}</span></div>`,
+        align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    });
+  });
+
+  makeChart('multiselect-control', 160, [{
+    data,
+    point: { events: { click: function() {
+      if (this.action === 'ALL') {
+        updateParam('MultiSelect', options.join('|'));
+      } else if (this.action === 'NONE') {
+        updateParam('MultiSelect', '');
+      } else if (this.optionVal) {
+        const s = new Set(params.MultiSelect.split('|').filter(Boolean));
+        if (s.has(this.optionVal)) s.delete(this.optionVal);
+        else s.add(this.optionVal);
+        updateParam('MultiSelect', Array.from(s).join('|'));
+      }
+    }}}
+  }]);
+}
+
+// ============================================================
+// 12. CHIP / TAG SELECTOR
+// ============================================================
+function renderChips() {
+  const selected = new Set(params.ChipSelect.split('|').filter(Boolean));
+  const chips = ['Speed', 'Power', 'Accuracy', 'Agility', 'Endurance', 'IQ'];
+  document.getElementById('chip-val').textContent = params.ChipSelect;
+
+  const data = chips.map((chip, i) => {
+    const isSelected = selected.has(chip);
+    return {
+      x: 8 + i * 15,
+      y: 50,
+      chipVal: chip,
+      marker: { enabled: false },
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: `<div style="padding:6px 14px;border-radius:20px;background:${isSelected ? '#3182ce' : '#fff'};border:2px solid ${isSelected ? '#3182ce' : '#e2e8f0'};color:${isSelected ? '#fff' : '#4a5568'};font-size:12px;font-weight:${isSelected ? '600' : '500'};cursor:pointer;white-space:nowrap;box-shadow:${isSelected ? '0 2px 8px rgba(49,130,206,0.3)' : '0 1px 2px rgba(0,0,0,0.04)'};">${isSelected ? '✓ ' : ''}${chip}</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }
+      }
+    };
+  });
+
+  makeChart('chip-control', 90, [{
+    data,
+    point: { events: { click: function() {
+      if (!this.chipVal) return;
+      const s = new Set(params.ChipSelect.split('|').filter(Boolean));
+      if (s.has(this.chipVal)) s.delete(this.chipVal);
+      else s.add(this.chipVal);
+      updateParam('ChipSelect', Array.from(s).join('|'));
+    }}}
+  }]);
+}
+
+// ============================================================
+// 13. RANGE SELECTOR (MIN/MAX)
+// ============================================================
+function renderRange() {
+  const min = params.RangeMin;
+  const max = params.RangeMax;
+  const lo = 1, hi = 10;
+  document.getElementById('range-val').textContent = `${min}-${max}`;
+
+  const data = [];
+
+  // Labels
+  data.push({
+    x: 3, y: 72, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: '<div style="font-size:10px;font-weight:600;color:#718096;text-transform:uppercase;letter-spacing:0.5px;">MIN</div>',
+      align: 'right', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+  data.push({
+    x: 3, y: 28, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: '<div style="font-size:10px;font-weight:600;color:#718096;text-transform:uppercase;letter-spacing:0.5px;">MAX</div>',
+      align: 'right', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+
+  // Range display
+  data.push({
+    x: 92, y: 50, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: `<div style="text-align:center;"><div style="font-size:22px;font-weight:800;color:#2b6cb0;">${min}–${max}</div><div style="font-size:9px;color:#a0aec0;">range</div></div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+
+  // MIN row ticks
+  for (let i = lo; i <= hi; i++) {
+    const pct = 10 + ((i - lo) / (hi - lo)) * 72;
+    const inRange = i >= min && i <= max;
+    const isMin = i === min;
+    data.push({
+      x: pct, y: 72, isMinTick: true, value: i,
+      marker: {
+        enabled: true, symbol: 'circle',
+        radius: isMin ? 11 : 6,
+        fillColor: isMin ? '#3182ce' : (inRange ? '#bee3f8' : '#e2e8f0'),
+        lineColor: isMin ? '#1a365d' : (inRange ? '#90cdf4' : '#cbd5e0'),
+        lineWidth: isMin ? 2 : 1
+      },
+      dataLabels: {
+        enabled: isMin, useHTML: true,
+        format: `<div style="font-size:11px;font-weight:700;color:#fff;">${i}</div>`,
+        align: 'center', verticalAlign: 'middle', y: 0, style: { textOutline: 'none' }
+      }
+    });
+  }
+
+  // MAX row ticks
+  for (let i = lo; i <= hi; i++) {
+    const pct = 10 + ((i - lo) / (hi - lo)) * 72;
+    const inRange = i >= min && i <= max;
+    const isMax = i === max;
+    data.push({
+      x: pct, y: 28, isMaxTick: true, value: i,
+      marker: {
+        enabled: true, symbol: 'circle',
+        radius: isMax ? 11 : 6,
+        fillColor: isMax ? '#805ad5' : (inRange ? '#e9d8fd' : '#e2e8f0'),
+        lineColor: isMax ? '#553c9a' : (inRange ? '#d6bcfa' : '#cbd5e0'),
+        lineWidth: isMax ? 2 : 1
+      },
+      dataLabels: {
+        enabled: isMax, useHTML: true,
+        format: `<div style="font-size:11px;font-weight:700;color:#fff;">${i}</div>`,
+        align: 'center', verticalAlign: 'middle', y: 0, style: { textOutline: 'none' }
+      }
+    });
+  }
+
+  // Connecting zone highlight
+  for (let i = lo; i <= hi; i++) {
+    const pct = 10 + ((i - lo) / (hi - lo)) * 72;
+    const inRange = i >= min && i <= max;
+    if (inRange) {
+      data.push({
+        x: pct, y: 50, marker: { enabled: false },
+        dataLabels: { enabled: true, useHTML: true,
+          format: `<div style="width:4px;height:16px;background:linear-gradient(180deg,#bee3f8,#e9d8fd);border-radius:2px;"></div>`,
+          align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+      });
+    }
+  }
+
+  makeChart('range-control', 130, [{
+    data,
+    point: { events: { click: function() {
+      if (this.isMinTick && this.value <= params.RangeMax) updateParam('RangeMin', this.value);
+      if (this.isMaxTick && this.value >= params.RangeMin) updateParam('RangeMax', this.value);
+    }}}
+  }]);
+}
+
+// ============================================================
+// 14. PRIORITY RANKER
+// ============================================================
+function renderRanker() {
+  const items = params.RankerOrder;
+  document.getElementById('ranker-val').textContent = items.join(',');
+
+  const data = [];
+  const medals = ['🥇', '🥈', '🥉', '4'];
+
+  items.forEach((item, i) => {
+    const yPos = 85 - i * 22;
+
+    // Rank badge
+    data.push({
+      x: 10, y: yPos, marker: { enabled: false },
+      dataLabels: { enabled: true, useHTML: true,
+        format: `<div style="width:28px;height:28px;border-radius:50%;background:${i < 3 ? 'transparent' : '#edf2f7'};display:flex;align-items:center;justify-content:center;font-size:${i < 3 ? '18px' : '13px'};font-weight:700;color:#718096;">${medals[i]}</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+    });
+
+    // Item label
+    data.push({
+      x: 45, y: yPos, marker: { enabled: false },
+      dataLabels: { enabled: true, useHTML: true,
+        format: `<div style="width:140px;padding:6px 12px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;font-weight:600;color:#2d3748;text-align:center;">${item}</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+    });
+
+    // Up arrow (not for first item)
+    if (i > 0) {
+      data.push({
+        x: 75, y: yPos, moveAction: 'up', moveIndex: i,
+        marker: { enabled: false },
+        dataLabels: { enabled: true, useHTML: true,
+          format: `<div style="width:28px;height:28px;border-radius:6px;background:#ebf4ff;border:1px solid #90cdf4;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;color:#3182ce;">▲</div>`,
+          align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+      });
+    }
+
+    // Down arrow (not for last item)
+    if (i < items.length - 1) {
+      data.push({
+        x: 85, y: yPos, moveAction: 'down', moveIndex: i,
+        marker: { enabled: false },
+        dataLabels: { enabled: true, useHTML: true,
+          format: `<div style="width:28px;height:28px;border-radius:6px;background:#fff5f5;border:1px solid #feb2b2;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;color:#e53e3e;">▼</div>`,
+          align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+      });
+    }
+  });
+
+  makeChart('ranker-control', 220, [{
+    data,
+    point: { events: { click: function() {
+      if (!this.moveAction) return;
+      const arr = [...params.RankerOrder];
+      const idx = this.moveIndex;
+      if (this.moveAction === 'up' && idx > 0) {
+        [arr[idx], arr[idx-1]] = [arr[idx-1], arr[idx]];
+      } else if (this.moveAction === 'down' && idx < arr.length - 1) {
+        [arr[idx], arr[idx+1]] = [arr[idx+1], arr[idx]];
+      }
+      updateParam('RankerOrder', arr);
+    }}}
+  }]);
+}
+
+// ============================================================
+// 15. NUMERIC KEYPAD
+// ============================================================
+function renderNumpad() {
+  const text = params.NumpadText;
+  document.getElementById('numpad-val').textContent = text;
+
+  const keys = [
+    ['7','8','9'],
+    ['4','5','6'],
+    ['1','2','3'],
+    ['.','0','⌫']
+  ];
+
+  const data = [];
+
+  // Display
+  data.push({
+    x: 50, y: 92, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: `<div style="width:180px;height:36px;background:#1a202c;border-radius:8px;padding:4px 14px;font-size:22px;font-weight:700;color:#48bb78;font-family:'SF Mono',monospace;display:flex;align-items:center;justify-content:flex-end;letter-spacing:1px;">${text || '0'}</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+
+  // Key grid
+  keys.forEach((row, ri) => {
+    row.forEach((key, ki) => {
+      const isBackspace = key === '⌫';
+      const isDot = key === '.';
+      data.push({
+        x: 35 + ki * 15, y: 70 - ri * 18,
+        keyVal: key,
+        marker: { enabled: false },
+        dataLabels: { enabled: true, useHTML: true,
+          format: `<div style="width:40px;height:36px;border-radius:8px;background:${isBackspace ? '#fed7d7' : '#f7fafc'};border:1px solid ${isBackspace ? '#fc8181' : '#e2e8f0'};display:flex;align-items:center;justify-content:center;font-size:${isBackspace ? '16px' : '16px'};font-weight:600;color:${isBackspace ? '#c53030' : '#1a202c'};cursor:pointer;box-shadow:0 2px 0 ${isBackspace ? '#fc8181' : '#d2d6dc'};">${key}</div>`,
+          align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+      });
+    });
+  });
+
+  // Clear button
+  data.push({
+    x: 50, y: 4, keyVal: 'CLEAR', marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: `<div style="width:130px;height:28px;border-radius:6px;background:#edf2f7;border:1px solid #cbd5e0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#718096;cursor:pointer;">CLEAR</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+
+  makeChart('numpad-control', 260, [{
+    data,
+    point: { events: { click: function() {
+      const k = this.keyVal;
+      if (!k) return;
+      if (k === '⌫') updateParam('NumpadText', text.slice(0, -1));
+      else if (k === 'CLEAR') updateParam('NumpadText', '');
+      else if (k === '.' && text.includes('.')) return; // only one decimal
+      else updateParam('NumpadText', text + k);
+    }}}
+  }]);
+}
+
+// ============================================================
+// 16. SEGMENTED GAUGE
+// ============================================================
+function renderGauge() {
+  const val = params.GaugeValue;
+  const max = 10;
+  document.getElementById('gauge-val').textContent = val;
+
+  const data = [];
+
+  // Segments
+  for (let i = 1; i <= max; i++) {
+    const pct = 5 + ((i - 1) / (max - 1)) * 80;
+    const isFilled = i <= val;
+    const isSelected = i === val;
+
+    // Color zones: 1-3 red, 4-6 yellow, 7-10 green
+    let fillColor, borderColor;
+    if (isFilled) {
+      if (i <= 3) { fillColor = '#fc8181'; borderColor = '#e53e3e'; }
+      else if (i <= 6) { fillColor = '#f6e05e'; borderColor = '#d69e2e'; }
+      else { fillColor = '#68d391'; borderColor = '#38a169'; }
+    } else {
+      fillColor = '#edf2f7'; borderColor = '#e2e8f0';
+    }
+
+    data.push({
+      x: pct, y: 55, value: i,
+      marker: { enabled: false },
+      dataLabels: { enabled: true, useHTML: true,
+        format: `<div style="width:${isSelected ? 36 : 28}px;height:${isSelected ? 36 : 28}px;border-radius:4px;background:${fillColor};border:2px solid ${borderColor};display:flex;align-items:center;justify-content:center;font-size:${isSelected ? '14px' : '11px'};font-weight:${isSelected ? '800' : '600'};color:${isFilled ? '#1a202c' : '#cbd5e0'};cursor:pointer;box-shadow:${isSelected ? '0 0 0 3px rgba(0,0,0,0.1)' : 'none'};">${i}</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+    });
+  }
+
+  // Zone labels
+  data.push({ x: 14, y: 18, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: '<div style="font-size:9px;font-weight:600;color:#e53e3e;text-transform:uppercase;">Low</div>',
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } });
+  data.push({ x: 42, y: 18, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: '<div style="font-size:9px;font-weight:600;color:#d69e2e;text-transform:uppercase;">Medium</div>',
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } });
+  data.push({ x: 72, y: 18, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: '<div style="font-size:9px;font-weight:600;color:#38a169;text-transform:uppercase;">High</div>',
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } });
+
+  makeChart('gauge-control', 80, [{
+    data,
+    point: { events: { click: function() { if (this.value) updateParam('GaugeValue', this.value); } } }
+  }]);
+}
+
+// ============================================================
+// 17. MONTH/YEAR PICKER
+// ============================================================
+function renderDatePicker() {
+  const year = params.DatePickerYear;
+  const month = params.DatePickerMonth;
+  document.getElementById('datepicker-val').textContent = `${year}-${String(month).padStart(2, '0')}`;
+
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const data = [];
+
+  // Year display with arrows
+  data.push({
+    x: 35, y: 90, yearAction: 'prev', marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: `<div style="width:28px;height:28px;border-radius:50%;background:#edf2f7;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;color:#4a5568;">◀</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+  data.push({
+    x: 50, y: 90, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: `<div style="font-size:20px;font-weight:800;color:#1a202c;text-align:center;min-width:80px;">${year}</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+  data.push({
+    x: 65, y: 90, yearAction: 'next', marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: `<div style="width:28px;height:28px;border-radius:50%;background:#edf2f7;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;color:#4a5568;">▶</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+
+  // Month grid (4x3)
+  months.forEach((m, i) => {
+    const col = i % 4;
+    const row = Math.floor(i / 4);
+    const isSelected = i + 1 === month;
+    const isPast = year === 2026 && i + 1 < 2; // example: Jan 2026 is past
+    data.push({
+      x: 20 + col * 20, y: 65 - row * 22,
+      monthVal: i + 1,
+      marker: { enabled: false },
+      dataLabels: { enabled: true, useHTML: true,
+        format: `<div style="width:52px;height:30px;border-radius:6px;background:${isSelected ? '#3182ce' : '#fff'};border:${isSelected ? '2px solid #2b6cb0' : '1px solid #e2e8f0'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:${isSelected ? '700' : '500'};color:${isSelected ? '#fff' : '#4a5568'};cursor:pointer;box-shadow:${isSelected ? '0 2px 8px rgba(49,130,206,0.3)' : '0 1px 2px rgba(0,0,0,0.04)'};">${m}</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+    });
+  });
+
+  makeChart('datepicker-control', 220, [{
+    data,
+    point: { events: { click: function() {
+      if (this.yearAction === 'prev') updateParam('DatePickerYear', year - 1);
+      else if (this.yearAction === 'next') updateParam('DatePickerYear', year + 1);
+      else if (this.monthVal) updateParam('DatePickerMonth', this.monthVal);
+    }}}
+  }]);
+}
+
+// ============================================================
+// 18. EMOJI REACTION BAR
+// ============================================================
+function renderEmoji() {
+  const selected = params.EmojiReaction;
+  document.getElementById('emoji-val').textContent = selected;
+
+  const emojis = [
+    { icon: '👍', label: 'Like' },
+    { icon: '❤️', label: 'Love' },
+    { icon: '😂', label: 'Haha' },
+    { icon: '😮', label: 'Wow' },
+    { icon: '😢', label: 'Sad' },
+    { icon: '🔥', label: 'Fire' }
+  ];
+
+  const data = emojis.map((e, i) => {
+    const isSelected = e.icon === selected;
+    return {
+      x: 15 + i * 14,
+      y: 50,
+      emojiVal: e.icon,
+      marker: { enabled: false },
+      dataLabels: { enabled: true, useHTML: true,
+        format: `<div style="text-align:center;cursor:pointer;"><div style="font-size:${isSelected ? '34px' : '24px'};${isSelected ? 'filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));' : ''}">${e.icon}</div><div style="font-size:9px;color:${isSelected ? '#2b6cb0' : '#a0aec0'};font-weight:${isSelected ? '700' : '400'};margin-top:2px;">${e.label}</div>${isSelected ? '<div style="width:4px;height:4px;border-radius:50%;background:#3182ce;margin:3px auto 0;"></div>' : ''}</div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+    };
+  });
+
+  makeChart('emoji-control', 80, [{
+    data,
+    point: { events: { click: function() { if (this.emojiVal) updateParam('EmojiReaction', this.emojiVal); } } }
+  }]);
+}
+
+// ============================================================
+// 19. BREADCRUMB NAVIGATOR
+// ============================================================
+function renderBreadcrumb() {
+  const current = params.BreadcrumbLevel;
+  document.getElementById('breadcrumb-val').textContent = current;
+
+  const hierarchy = [
+    { label: 'NFL', value: 'NFL' },
+    { label: 'AFC', value: 'AFC' },
+    { label: 'AFC West', value: 'AFC West' },
+    { label: 'Kansas City Chiefs', value: 'Kansas City Chiefs' }
+  ];
+
+  // Find current index
+  const currentIdx = hierarchy.findIndex(h => h.value === current);
+  const visibleCrumbs = hierarchy.slice(0, currentIdx + 1);
+
+  const data = [];
+  let xPos = 5;
+
+  visibleCrumbs.forEach((crumb, i) => {
+    const isLast = i === visibleCrumbs.length - 1;
+
+    // Crumb label
+    data.push({
+      x: xPos, y: 50,
+      crumbVal: crumb.value,
+      marker: { enabled: false },
+      dataLabels: { enabled: true, useHTML: true,
+        format: `<div style="font-size:13px;font-weight:${isLast ? '700' : '500'};color:${isLast ? '#1a202c' : '#3182ce'};cursor:${isLast ? 'default' : 'pointer'};white-space:nowrap;${!isLast ? 'text-decoration:none;' : ''}">${crumb.label}</div>`,
+        align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' } }
+    });
+
+    xPos += crumb.label.length * 1.8 + 4;
+
+    // Chevron (not after last)
+    if (!isLast) {
+      data.push({
+        x: xPos, y: 50,
+        marker: { enabled: false },
+        dataLabels: { enabled: true, useHTML: true,
+          format: '<div style="font-size:12px;color:#cbd5e0;margin:0 2px;">›</div>',
+          align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+      });
+      xPos += 3;
+    }
+  });
+
+  // If not at deepest level, show "drill down" hint
+  if (currentIdx < hierarchy.length - 1) {
+    const next = hierarchy[currentIdx + 1];
+    data.push({
+      x: xPos + 5, y: 50,
+      crumbVal: next.value,
+      marker: { enabled: false },
+      dataLabels: { enabled: true, useHTML: true,
+        format: `<div style="font-size:11px;color:#a0aec0;cursor:pointer;padding:3px 8px;background:#edf2f7;border-radius:4px;">→ ${next.label}</div>`,
+        align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' } }
+    });
+  }
+
+  makeChart('breadcrumb-control', 60, [{
+    data,
+    point: { events: { click: function() { if (this.crumbVal) updateParam('BreadcrumbLevel', this.crumbVal); } } }
+  }]);
+}
+
+// ============================================================
+// 20. SORT DIRECTION CONTROL
+// ============================================================
+function renderSort() {
+  const col = params.SortColumn;
+  const dir = params.SortDir;
+  document.getElementById('sort-val').textContent = `${col}-${dir}`;
+
+  const columns = ['Name', 'Rating', 'Speed', 'Power', 'Value'];
+
+  const data = columns.map((c, i) => {
+    const isActive = c === col;
+    const arrow = isActive ? (dir === 'ASC' ? '↑' : '↓') : '';
+    return {
+      x: 8 + i * 18,
+      y: 50,
+      colName: c,
+      marker: { enabled: false },
+      dataLabels: { enabled: true, useHTML: true,
+        format: `<div style="padding:6px 12px;border-radius:6px;background:${isActive ? '#2d3748' : '#f7fafc'};border:1px solid ${isActive ? '#2d3748' : '#e2e8f0'};color:${isActive ? '#fff' : '#4a5568'};font-size:12px;font-weight:${isActive ? '700' : '500'};cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;box-shadow:${isActive ? '0 2px 6px rgba(0,0,0,0.15)' : '0 1px 2px rgba(0,0,0,0.04)'};">${c} <span style="font-size:14px;">${arrow}</span></div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+    };
+  });
+
+  makeChart('sort-control', 70, [{
+    data,
+    point: { events: { click: function() {
+      if (!this.colName) return;
+      if (this.colName === params.SortColumn) {
+        updateParam('SortDir', params.SortDir === 'ASC' ? 'DESC' : 'ASC');
+      } else {
+        params.SortColumn = this.colName;
+        updateParam('SortDir', 'DESC');
+      }
+    }}}
+  }]);
+}
+
+// ============================================================
+// 21. VOLUME / LEVEL BARS
+// ============================================================
+function renderVolume() {
+  const val = params.VolumeLevel;
+  const max = 12;
+  document.getElementById('volume-val').textContent = val;
+
+  const data = [];
+
+  // Speaker icon
+  data.push({
+    x: 5, y: 50, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: `<div style="font-size:20px;">${val === 0 ? '🔇' : (val <= 4 ? '🔈' : (val <= 8 ? '🔉' : '🔊'))}</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+
+  // Bars
+  for (let i = 1; i <= max; i++) {
+    const pct = 12 + ((i - 1) / (max - 1)) * 75;
+    const isFilled = i <= val;
+    const barHeight = 12 + (i / max) * 28; // bars get taller
+
+    // Color gradient: green → yellow → red
+    let color;
+    if (i <= 4) color = isFilled ? '#48bb78' : '#edf2f7';
+    else if (i <= 8) color = isFilled ? '#ecc94b' : '#edf2f7';
+    else color = isFilled ? '#fc8181' : '#edf2f7';
+
+    data.push({
+      x: pct, y: 50, value: i,
+      marker: { enabled: false },
+      dataLabels: { enabled: true, useHTML: true,
+        format: `<div style="width:12px;height:${barHeight}px;border-radius:2px;background:${color};cursor:pointer;border:1px solid ${isFilled ? 'rgba(0,0,0,0.1)' : '#e2e8f0'};"></div>`,
+        align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+    });
+  }
+
+  // Value display
+  data.push({
+    x: 95, y: 50, marker: { enabled: false },
+    dataLabels: { enabled: true, useHTML: true,
+      format: `<div style="font-size:18px;font-weight:800;color:#1a202c;">${val}</div>`,
+      align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } }
+  });
+
+  makeChart('volume-control', 80, [{
+    data,
+    point: { events: { click: function() { if (this.value) updateParam('VolumeLevel', this.value); } } }
+  }]);
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll() {
+  renderKeyboard();
+  renderMultiSelect();
+  renderChips();
+  renderRange();
+  renderRanker();
+  renderNumpad();
+  renderGauge();
+  renderDatePicker();
+  renderEmoji();
+  renderBreadcrumb();
+  renderSort();
+  renderVolume();
+}
+
+renderAll();
+</script>
+</body>
+</html>

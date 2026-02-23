@@ -1,0 +1,38 @@
+{
+  "_comment": "SUMMARY button - Optimized. Field Wells: SelectedView (calc field) in GROUP BY",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 50,
+    "spacing": [0, 0, 0, 0],
+    "animation": false
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [{
+    "name": "SUMMARY",
+    "data": [{ "x": 50, "y": 50 }],
+    "dataLabels": {
+      "enabled": true,
+      "useHTML": true,
+      "format": "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #ddd;letter-spacing:0.5px;'>SUMMARY</div>",
+      "align": "center",
+      "verticalAlign": "middle"
+    },
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+  }],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "bgColor": ["case", ["==", ["get", ["getColumn", 0], 0], "SUMMARY"], "#1a2b4c", "#ffffff"],
+      "textColor": ["case", ["==", ["get", ["getColumn", 0], 0], "SUMMARY"], "#ffffff", "#1a2b4c"]
+    }]
+  }
+}

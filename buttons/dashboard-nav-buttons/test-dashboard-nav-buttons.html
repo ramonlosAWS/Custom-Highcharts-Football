@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard Navigation Buttons Test</title>
+  <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f0f0; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { color: #333; }
+    .chart-container { background: #f8f8f8; border-radius: 8px; margin-bottom: 20px; }
+    .controls { margin: 20px 0; padding: 15px; background: #fff; border-radius: 8px; }
+    .controls label { margin-right: 15px; }
+    .info { background: #e8f4fc; padding: 15px; border-radius: 8px; margin-top: 20px; }
+    .current-value { font-size: 18px; font-weight: bold; color: #1a2b4c; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dashboard Navigation Buttons</h1>
+    
+    <div class="controls">
+      <strong>Simulate Parameter Value:</strong><br><br>
+      <label><input type="radio" name="view" value="SUMMARY" checked onclick="updateChart('SUMMARY')"> SUMMARY</label>
+      <label><input type="radio" name="view" value="TEAMNEEDS" onclick="updateChart('TEAMNEEDS')"> TEAM NEEDS</label>
+      <label><input type="radio" name="view" value="2025RANKS" onclick="updateChart('2025RANKS')"> 2025 RANKS</label>
+      <label><input type="radio" name="view" value="2026TRACKER" onclick="updateChart('2026TRACKER')"> 2026 TRACKER</label>
+      <div class="current-value">Current: <span id="currentValue">SUMMARY</span></div>
+    </div>
+    
+    <div id="chart-container" class="chart-container"></div>
+    
+    <div class="info">
+      <h3>QuickSight Setup Instructions</h3>
+      <ol>
+        <li><strong>Create Parameter:</strong> Name: <code>DashboardView</code>, Type: String, Default: <code>SUMMARY</code></li>
+        <li><strong>Create Calculated Field:</strong> Name: <code>SelectedView</code>, Expression: <code>${DashboardView}</code></li>
+        <li><strong>Field Wells:</strong> Add <code>SelectedView</code> to GROUP BY</li>
+        <li><strong>Add Navigation Actions</strong> (one per button):
+          <ul>
+            <li>SUMMARY button → Set <code>DashboardView</code> = <code>SUMMARY</code></li>
+            <li>TEAM NEEDS button → Set <code>DashboardView</code> = <code>TEAMNEEDS</code></li>
+            <li>2025 RANKS button → Set <code>DashboardView</code> = <code>2025RANKS</code></li>
+            <li>2026 TRACKER button → Set <code>DashboardView</code> = <code>2026TRACKER</code></li>
+          </ul>
+        </li>
+        <li><strong>Conditional Visibility:</strong> Use <code>DashboardView</code> parameter in conditional rules to show/hide widgets</li>
+      </ol>
+      
+      <h3>Parameter Values (no spaces)</h3>
+      <table border="1" cellpadding="8" style="border-collapse: collapse; margin-top: 10px;">
+        <tr><th>Button Label</th><th>Parameter Value</th></tr>
+        <tr><td>SUMMARY</td><td><code>SUMMARY</code></td></tr>
+        <tr><td>TEAM NEEDS</td><td><code>TEAMNEEDS</code></td></tr>
+        <tr><td>2025 RANKS</td><td><code>2025RANKS</code></td></tr>
+        <tr><td>2026 TRACKER</td><td><code>2026TRACKER</code></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let currentView = 'SUMMARY';
+    
+    function getChartConfig(selectedView) {
+      // Simulate QuickSight's pointRender behavior
+      const isSelected = (name) => name === selectedView;
+      
+      return {
+        chart: {
+          type: 'scatter',
+          backgroundColor: 'transparent',
+          height: 55,
+          spacing: [5, 0, 5, 0],
+          style: { fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+        },
+        title: { text: null },
+        legend: { enabled: false },
+        credits: { enabled: false },
+        xAxis: { min: 0, max: 100, visible: false },
+        yAxis: { min: 0, max: 100, visible: false },
+        tooltip: { enabled: false },
+        plotOptions: {
+          scatter: { marker: { enabled: false } },
+          series: { 
+            enableMouseTracking: true, 
+            cursor: 'pointer',
+            point: {
+              events: {
+                click: function() {
+                  updateChart(this.series.name);
+                  document.querySelector(`input[value="${this.series.name}"]`).checked = true;
+                }
+              }
+            }
+          }
+        },
+        series: [
+          {
+            name: 'SUMMARY',
+            data: [{ 
+              x: 12, y: 50, 
+              view: 'SUMMARY', 
+              label: 'SUMMARY',
+              bgColor: isSelected('SUMMARY') ? '#1a2b4c' : '#ffffff',
+              textColor: isSelected('SUMMARY') ? '#ffffff' : '#1a2b4c'
+            }],
+            dataLabels: {
+              enabled: true,
+              useHTML: true,
+              format: "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #ddd;letter-spacing:0.5px;'>{point.label}</div>",
+              align: 'center',
+              verticalAlign: 'middle',
+              style: { textOutline: 'none' }
+            }
+          },
+          {
+            name: 'TEAMNEEDS',
+            data: [{ 
+              x: 37, y: 50, 
+              view: 'TEAMNEEDS', 
+              label: 'TEAM NEEDS',
+              bgColor: isSelected('TEAMNEEDS') ? '#1a2b4c' : '#ffffff',
+              textColor: isSelected('TEAMNEEDS') ? '#ffffff' : '#1a2b4c'
+            }],
+            dataLabels: {
+              enabled: true,
+              useHTML: true,
+              format: "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #ddd;letter-spacing:0.5px;'>{point.label}</div>",
+              align: 'center',
+              verticalAlign: 'middle',
+              style: { textOutline: 'none' }
+            }
+          },
+          {
+            name: '2025RANKS',
+            data: [{ 
+              x: 62, y: 50, 
+              view: '2025RANKS', 
+              label: '2025 RANKS',
+              bgColor: isSelected('2025RANKS') ? '#1a2b4c' : '#ffffff',
+              textColor: isSelected('2025RANKS') ? '#ffffff' : '#1a2b4c'
+            }],
+            dataLabels: {
+              enabled: true,
+              useHTML: true,
+              format: "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #ddd;letter-spacing:0.5px;'>{point.label}</div>",
+              align: 'center',
+              verticalAlign: 'middle',
+              style: { textOutline: 'none' }
+            }
+          },
+          {
+            name: '2026TRACKER',
+            data: [{ 
+              x: 87, y: 50, 
+              view: '2026TRACKER', 
+              label: '2026 TRACKER',
+              bgColor: isSelected('2026TRACKER') ? '#1a2b4c' : '#ffffff',
+              textColor: isSelected('2026TRACKER') ? '#ffffff' : '#1a2b4c'
+            }],
+            dataLabels: {
+              enabled: true,
+              useHTML: true,
+              format: "<div style='background:{point.bgColor};color:{point.textColor};padding:10px 24px;cursor:pointer;font-weight:600;font-size:13px;text-align:center;border:1px solid #ddd;letter-spacing:0.5px;'>{point.label}</div>",
+              align: 'center',
+              verticalAlign: 'middle',
+              style: { textOutline: 'none' }
+            }
+          }
+        ]
+      };
+    }
+    
+    function updateChart(view) {
+      currentView = view;
+      document.getElementById('currentValue').textContent = view;
+      Highcharts.chart('chart-container', getChartConfig(view));
+    }
+    
+    // Initial render
+    updateChart('SUMMARY');
+  </script>
+</body>
+</html>

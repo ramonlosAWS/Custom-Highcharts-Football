@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickSight Embedded with Overlay Buttons</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .dashboard-wrapper {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* Custom button overlay - positioned OUTSIDE the iframe */
+        .custom-button-bar {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 10px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #0073bb;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 50px;
+        }
+        
+        .filter-btn:hover {
+            background: #005a94;
+            transform: translateY(-1px);
+        }
+        
+        .filter-btn.active {
+            background: #003d66;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* Placeholder for QuickSight iframe */
+        .quicksight-container {
+            width: 100%;
+            height: 800px;
+            padding-top: 60px; /* Space for button bar */
+        }
+        
+        .quicksight-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Event log for demo */
+        .event-log {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #0073bb;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .event-log h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .event-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+            font-family: monospace;
+        }
+        
+        .event-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-box {
+            margin: 20px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 4px;
+        }
+        
+        .info-box h3 {
+            margin: 0 0 10px 0;
+            color: #0073bb;
+        }
+        
+        .info-box code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Custom buttons rendered OUTSIDE QuickSight iframe -->
+        <div class="custom-button-bar" id="buttonBar">
+            <!-- Buttons will be generated dynamically -->
+        </div>
+        
+        <!-- QuickSight iframe container -->
+        <div class="quicksight-container">
+            <div class="quicksight-iframe" id="quicksightContainer">
+                <!-- In production, this would be the embedded QuickSight dashboard -->
+                <div style="text-align:center;">
+                    <p><strong>QuickSight Dashboard Would Render Here</strong></p>
+                    <p style="font-size:12px;color:#999;">The button bar above is rendered outside the iframe<br>and communicates via the QuickSight Embedding SDK</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="info-box">
+        <h3>How This Works</h3>
+        <p>The button bar is rendered <strong>outside</strong> the QuickSight iframe, in your micro-app's DOM. When clicked:</p>
+        <ol>
+            <li>Your app handles the click event directly (no iframe restrictions)</li>
+            <li>Use <code>embeddedDashboard.setParameters()</code> to update QuickSight parameters</li>
+            <li>QuickSight filters update based on the parameter value</li>
+            <li>Listen for <code>PARAMETERS_CHANGED</code> to sync state if needed</li>
+        </ol>
+    </div>
+    
+    <div class="event-log" id="eventLog">
+        <h3>Event Log</h3>
+        <div id="logContent"></div>
+    </div>
+
+    <script>
+        // Position filter configuration
+        const positions = [
+            { code: 'ALL', label: 'ALL' },
+            { code: 'QB', label: 'QB' },
+            { code: 'RB', label: 'RB' },
+            { code: 'WR', label: 'WR' },
+            { code: 'TE', label: 'TE' },
+            { code: 'OT', label: 'OT' },
+            { code: 'IOL', label: 'IOL' },
+            { code: 'DT', label: 'DT' },
+            { code: 'EDGE', label: 'EDGE' },
+            { code: 'LB', label: 'LB' },
+            { code: 'S', label: 'S' },
+            { code: 'CB', label: 'CB' },
+            { code: 'ST', label: 'ST' }
+        ];
+        
+        let activePosition = 'ALL';
+        let embeddedDashboard = null; // Would be set by QuickSight SDK
+        
+        // Generate buttons
+        function renderButtons() {
+            const buttonBar = document.getElementById('buttonBar');
+            buttonBar.innerHTML = positions.map(pos => `
+                <button 
+                    class="filter-btn ${pos.code === activePosition ? 'active' : ''}"
+                    data-position="${pos.code}"
+                    onclick="handlePositionClick('${pos.code}')"
+                >
+                    ${pos.label}
+                </button>
+            `).join('');
+        }
+        
+        // Handle button click
+        function handlePositionClick(position) {
+            activePosition = position;
+            renderButtons();
+            
+            logEvent('BUTTON_CLICKED', { position });
+            
+            // In production, call QuickSight SDK:
+            if (embeddedDashboard) {
+                embeddedDashboard.setParameters([
+                    { Name: 'PositionFilter', Values: position === 'ALL' ? [] : [position] }
+                ]).then(() => {
+                    logEvent('PARAMETERS_SET', { position });
+                }).catch(err => {
+                    logEvent('ERROR', { message: err.message });
+                });
+            } else {
+                // Demo mode - simulate the SDK call
+                logEvent('SDK_CALL_SIMULATED', { 
+                    method: 'setParameters',
+                    params: [{ Name: 'PositionFilter', Values: position === 'ALL' ? [] : [position] }]
+                });
+            }
+        }
+        
+        // Event logging for demo
+        function logEvent(type, data) {
+            const logContent = document.getElementById('logContent');
+            const timestamp = new Date().toLocaleTimeString();
+            const eventItem = document.createElement('div');
+            eventItem.className = 'event-item';
+            eventItem.innerHTML = `<strong>${timestamp}</strong> [${type}] ${JSON.stringify(data)}`;
+            logContent.insertBefore(eventItem, logContent.firstChild);
+        }
+        
+        // Initialize
+        renderButtons();
+        logEvent('INITIALIZED', { positions: positions.length });
+        
+        // ============================================
+        // PRODUCTION CODE - QuickSight Embedding SDK
+        // ============================================
+        /*
+        import { createEmbeddingContext } from 'amazon-quicksight-embedding-sdk';
+        
+        async function initQuickSight() {
+            const embeddingContext = await createEmbeddingContext();
+            
+            const frameOptions = {
+                url: 'YOUR_QUICKSIGHT_EMBED_URL',
+                container: document.getElementById('quicksightContainer'),
+                height: '100%',
+                width: '100%',
+                onChange: (changeEvent) => {
+                    // This fires for parameter changes
+                    if (changeEvent.eventName === 'PARAMETERS_CHANGED') {
+                        const positionParam = changeEvent.parameters?.find(p => p.Name === 'PositionFilter');
+                        if (positionParam) {
+                            activePosition = positionParam.Values[0] || 'ALL';
+                            renderButtons(); // Sync button state
+                            logEvent('PARAMETERS_CHANGED', { position: activePosition });
+                        }
+                    }
+                }
+            };
+            
+            embeddedDashboard = await embeddingContext.embedDashboard(frameOptions);
+            
+            // Listen for events that DO work
+            embeddedDashboard.on('CONTENT_LOADED', () => logEvent('CONTENT_LOADED', {}));
+            embeddedDashboard.on('PARAMETERS_CHANGED', (e) => logEvent('PARAMETERS_CHANGED', e));
+            embeddedDashboard.on('SELECTED_SHEET_CHANGED', (e) => logEvent('SELECTED_SHEET_CHANGED', e));
+        }
+        
+        initQuickSight();
+        */
+    </script>
+</body>
+</html>

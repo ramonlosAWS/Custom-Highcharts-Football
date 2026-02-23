@@ -1,0 +1,5 @@
+StepNum,StepLabel,SelectedStep
+1,Setup,2
+2,Configure,2
+3,Review,2
+4,Deploy,2

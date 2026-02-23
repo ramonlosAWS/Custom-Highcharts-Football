@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFL Position Filter - Segmented Control</title>
+  <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #ffffff;
+      margin: 0;
+      padding: 40px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h2 { color: #1e293b; margin-bottom: 5px; }
+    p { color: #64748b; font-size: 14px; margin-top: 0; }
+    .chart-wrapper {
+      margin-bottom: 40px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+    }
+    .label { font-size: 12px; color: #94a3b8; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>NFL Position Filter — Segmented Control</h2>
+    <p>Click buttons to see selected state. NFL-style rounded pill with sliding highlight.</p>
+
+    <div class="label">9 Positions (Current Dataset)</div>
+    <div class="chart-wrapper">
+      <div id="chart9"></div>
+    </div>
+
+    <div class="label">13 Positions (Full Dataset)</div>
+    <div class="chart-wrapper">
+      <div id="chart13"></div>
+    </div>
+  </div>
+
+<script>
+
+// Simulate QuickSight data
+const positions9 = ['ALL','DB','DL','LB','OL','QB','RB','SPEC','TE'];
+const positions13 = ['ALL','QB','RB','WR','TE','OT','IOL','DT','EDGE','LB','S','CB','ST'];
+
+let selected9 = 'SPEC';
+let selected13 = 'ALL';
+
+function buildConfig(positions, selected, count) {
+  const spacing = count <= 9 ? 7.2 : 5.5;
+  const startX = count <= 9 ? 18 : 14;
+  const btnWidth = count <= 9 ? 82 : 64;
+  const fontSize = count <= 9 ? 13 : 11;
+  const trackWidth = count <= 9 ? 750 : 820;
+
+  const data = positions.map((pos, i) => {
+    const isSel = pos === selected;
+    const isFirst = i === 0;
+    return {
+      x: startX + i * spacing,
+      y: 50,
+      label: pos,
+      isSelected: isSel,
+      bgColor: isSel ? '#2d3748' : '#edf0f4',
+      textColor: isSel ? '#ffffff' : '#64748b',
+      fontWeight: isSel ? '800' : '600',
+      borderRadius: isSel ? '8px' : '0',
+      boxShadow: isSel ? '0 2px 8px rgba(0,0,0,0.25)' : 'none',
+      divider: isSel ? 'none' : (isFirst ? 'none' : '1px solid #cbd5e1'),
+      letterSpacing: isSel ? '1.5px' : '0.5px',
+      btnWidth: btnWidth,
+      fontSize: fontSize
+    };
+  });
+
+  return {
+    chart: {
+      type: 'scatter',
+      backgroundColor: 'transparent',
+      height: 55,
+      width: 1100,
+      spacing: [5, 10, 5, 10],
+      animation: false,
+      style: {
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+      }
+    },
+    title: { text: null },
+    legend: { enabled: false },
+    credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { marker: { enabled: false }, animation: false },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false }
+    },
+    series: [
+      {
+        name: 'Track',
+        data: [{ x: 50, y: 50 }],
+        dataLabels: {
+          enabled: true,
+          useHTML: true,
+          format: `<div style='width:${trackWidth}px;height:42px;background:#edf0f4;border-radius:10px;'></div>`,
+          align: 'center',
+          verticalAlign: 'middle',
+          style: { textOutline: 'none' }
+        },
+        enableMouseTracking: false,
+        zIndex: 0,
+        states: { hover: { enabled: false }, inactive: { enabled: false } }
+      },
+      {
+        name: 'Positions',
+        data: data,
+        dataLabels: {
+          enabled: true,
+          useHTML: true,
+          format: `<div style='background:{point.bgColor};color:{point.textColor};padding:10px 0;cursor:pointer;font-weight:{point.fontWeight};font-size:{point.fontSize}px;text-align:center;width:{point.btnWidth}px;border-radius:{point.borderRadius};box-shadow:{point.boxShadow};letter-spacing:{point.letterSpacing};text-transform:uppercase;border-left:{point.divider};position:relative;z-index:1;'>{point.label}</div>`,
+          align: 'left',
+          verticalAlign: 'middle',
+          x: -(btnWidth / 2),
+          style: { textOutline: 'none' }
+        },
+        point: {
+          events: {
+            click: function() {
+              if (count === 9) {
+                selected9 = this.label;
+                render9();
+              } else {
+                selected13 = this.label;
+                render13();
+              }
+            }
+          }
+        }
+      },
+      {
+        name: 'Label',
+        data: [{ x: 5, y: 50 }],
+        dataLabels: {
+          enabled: true,
+          useHTML: true,
+          format: "<div style='color:#64748b;font-size:11px;font-weight:700;letter-spacing:1px;white-space:nowrap;text-transform:uppercase;'>View by:</div>",
+          align: 'center',
+          verticalAlign: 'middle',
+          style: { textOutline: 'none' }
+        },
+        enableMouseTracking: false,
+        cursor: 'default',
+        states: { hover: { enabled: false }, inactive: { enabled: false } }
+      }
+    ]
+  };
+}
+
+function render9() {
+  Highcharts.chart('chart9', buildConfig(positions9, selected9, 9));
+}
+function render13() {
+  Highcharts.chart('chart13', buildConfig(positions13, selected13, 13));
+}
+
+render9();
+render13();
+</script>
+</body>
+</html>

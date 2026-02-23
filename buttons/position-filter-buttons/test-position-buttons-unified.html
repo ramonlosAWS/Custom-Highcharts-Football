@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Position Filter Buttons - Unified Widget Test</title>
+    <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f4f8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 { margin: 0 0 20px 0; font-size: 22px; color: #1a365d; }
+        #chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .status {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .status-label { font-size: 12px; color: #666; text-transform: uppercase; }
+        .status-value { font-size: 18px; font-weight: 700; color: #1a365d; margin-top: 5px; }
+        .info {
+            background: #e6f2ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #1a365d;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .info h3 { margin: 0 0 10px 0; font-size: 14px; color: #1a365d; }
+        .info code { background: #d0e3f7; padding: 2px 6px; border-radius: 3px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Position Filter Buttons - Unified Widget</h1>
+        
+        <div id="chart-container"></div>
+        
+        <div class="status">
+            <div class="status-label">Current Filter (PositionFilter parameter)</div>
+            <div class="status-value" id="current-filter">ALL</div>
+        </div>
+        
+        <div class="info">
+            <h3>QuickSight Setup</h3>
+            <p>1. Create parameter: <code>PositionFilter</code> (String, default: ALL)</p>
+            <p>2. Create calc field on minimal dataset: <code>SelectedPosition = ${PositionFilter}</code></p>
+            <p>3. Field Wells: Add <code>SelectedPosition</code> to GROUP BY</p>
+            <p>4. Add 12 Navigation Actions (one per button), each setting <code>PositionFilter</code> to the button value</p>
+            <p>5. On target visuals, add calc field: <code>ShowByPosition = ifelse(${PositionFilter}='ALL',1,ifelse(Position=${PositionFilter},1,0))</code></p>
+            <p>6. Filter target visuals: <code>ShowByPosition = 1</code></p>
+        </div>
+    </div>
+
+    <script>
+        // Simulate the SelectedPosition calc field value (from parameter)
+        let selectedPosition = 'ALL';
+        
+        function getSelectedPosition() {
+            return selectedPosition;
+        }
+        
+        function createChart() {
+            Highcharts.chart('chart-container', {
+                chart: {
+                    type: 'scatter',
+                    backgroundColor: 'transparent',
+                    height: 55,
+                    spacing: [5, 5, 5, 5],
+                    animation: false
+                },
+                title: { text: null },
+                legend: { enabled: false },
+                credits: { enabled: false },
+                xAxis: { min: 0, max: 100, visible: false },
+                yAxis: { min: 0, max: 100, visible: false },
+                tooltip: { enabled: false },
+                plotOptions: {
+                    scatter: { marker: { enabled: false }, animation: false },
+                    series: { 
+                        enableMouseTracking: true, 
+                        cursor: 'pointer', 
+                        animation: false,
+                        point: {
+                            events: {
+                                click: function() {
+                                    selectedPosition = this.series.name;
+                                    document.getElementById('current-filter').textContent = selectedPosition;
+                                    createChart(); // Re-render to update highlighting
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [
+                    { name: 'ALL', data: [{ x: 4, y: 50, bgColor: getSelectedPosition() === 'ALL' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'ALL' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'ALL' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>ALL</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'QB', data: [{ x: 12, y: 50, bgColor: getSelectedPosition() === 'QB' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'QB' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'QB' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>QB</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'RB', data: [{ x: 20, y: 50, bgColor: getSelectedPosition() === 'RB' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'RB' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'RB' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>RB</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'WR', data: [{ x: 28, y: 50, bgColor: getSelectedPosition() === 'WR' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'WR' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'WR' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>WR</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'TE', data: [{ x: 36, y: 50, bgColor: getSelectedPosition() === 'TE' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'TE' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'TE' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>TE</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'OT', data: [{ x: 44, y: 50, bgColor: getSelectedPosition() === 'OT' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'OT' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'OT' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>OT</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'IOL', data: [{ x: 52, y: 50, bgColor: getSelectedPosition() === 'IOL' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'IOL' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'IOL' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>IOL</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'DT', data: [{ x: 60, y: 50, bgColor: getSelectedPosition() === 'DT' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'DT' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'DT' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>DT</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'EDGE', data: [{ x: 68, y: 50, bgColor: getSelectedPosition() === 'EDGE' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'EDGE' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'EDGE' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>EDGE</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'LB', data: [{ x: 76, y: 50, bgColor: getSelectedPosition() === 'LB' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'LB' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'LB' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>LB</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'S', data: [{ x: 84, y: 50, bgColor: getSelectedPosition() === 'S' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'S' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'S' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>S</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } },
+                    { name: 'CB', data: [{ x: 92, y: 50, bgColor: getSelectedPosition() === 'CB' ? '#1a365d' : '#ffffff', textColor: getSelectedPosition() === 'CB' ? '#ffffff' : '#1a365d', borderColor: getSelectedPosition() === 'CB' ? '#1a365d' : '#cbd5e0' }], dataLabels: { enabled: true, useHTML: true, format: "<div style='background:{point.bgColor};color:{point.textColor};padding:7px 12px;border-radius:4px;cursor:pointer;font-weight:600;font-size:11px;text-align:center;border:2px solid {point.borderColor};min-width:32px;'>CB</div>", align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' } } }
+                ]
+            });
+        }
+        
+        createChart();
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+{
+  "_comment": "Radial Dial Selector. Dataset: one row per tick (0-10) with StepValue, X, Y (pre-calculated arc positions), SelectedValue (calc field). Click arc segments to set value.",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 260,
+    "spacing": [10, 10, 10, 10],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [
+    {
+      "_comment": "Arc tick marks - clickable circles positioned along arc",
+      "name": "Ticks",
+      "data": [
+        "map",
+        ["getColumn", 0, 1, 2, 3],
+        {
+          "x": ["get", ["item"], 1],
+          "y": ["get", ["item"], 2],
+          "value": ["get", ["item"], 0],
+          "marker": {
+            "enabled": true,
+            "symbol": "circle",
+            "radius": 7,
+            "fillColor": "#e2e8f0",
+            "lineColor": "#cbd5e0",
+            "lineWidth": 1
+          },
+          "dataLabels": {
+            "enabled": true,
+            "useHTML": true,
+            "format": "<div style='font-size:10px;font-weight:500;color:#a0aec0;text-align:center;'>{point.value}</div>",
+            "align": "center",
+            "verticalAlign": "middle",
+            "y": 0,
+            "style": { "textOutline": "none" }
+          }
+        }
+      ],
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+    },
+    {
+      "_comment": "Center value display",
+      "name": "Center",
+      "enableMouseTracking": false,
+      "data": [{
+        "x": 50,
+        "y": 45,
+        "currentVal": ["get", ["getColumn", 3], 0],
+        "marker": { "enabled": false },
+        "dataLabels": {
+          "enabled": true,
+          "useHTML": true,
+          "format": "<div style='text-align:center;'><div style='font-size:48px;font-weight:900;color:#1a202c;line-height:1;'>{point.currentVal}</div><div style='font-size:11px;color:#a0aec0;font-weight:500;margin-top:2px;'>of 10</div></div>",
+          "align": "center",
+          "verticalAlign": "middle",
+          "style": { "textOutline": "none" }
+        }
+      }]
+    }
+  ],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "marker": {
+        "fillColor": [
+          "case",
+          ["<=", "point.value", ["get", ["getColumn", 3], 0]],
+          "#3182ce",
+          "#e2e8f0"
+        ],
+        "lineColor": [
+          "case",
+          ["==", "point.value", ["get", ["getColumn", 3], 0]],
+          "#1a365d",
+          ["<=", "point.value", ["get", ["getColumn", 3], 0]],
+          "#2b6cb0",
+          "#cbd5e0"
+        ],
+        "radius": [
+          "case",
+          ["==", "point.value", ["get", ["getColumn", 3], 0]],
+          14,
+          ["<=", "point.value", ["get", ["getColumn", 3], 0]],
+          9,
+          7
+        ],
+        "lineWidth": [
+          "case",
+          ["==", "point.value", ["get", ["getColumn", 3], 0]],
+          3,
+          1
+        ]
+      },
+      "dataLabels": {
+        "format": [
+          "case",
+          ["<=", "point.value", ["get", ["getColumn", 3], 0]],
+          "<div style='font-size:10px;font-weight:700;color:#fff;text-align:center;'>{point.value}</div>",
+          "<div style='font-size:10px;font-weight:500;color:#a0aec0;text-align:center;'>{point.value}</div>"
+        ]
+      }
+    }]
+  }
+}

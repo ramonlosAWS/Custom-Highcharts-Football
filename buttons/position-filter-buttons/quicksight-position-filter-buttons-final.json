@@ -1,0 +1,159 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 60,
+    "spacing": [5, 0, 5, 0],
+    "style": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+    }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false } },
+    "series": { "enableMouseTracking": true, "cursor": "pointer" }
+  },
+  "series": [
+    {
+      "name": "ALL",
+      "data": [{ "x": 4, "y": 50, "position": "ALL" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "QB",
+      "data": [{ "x": 12, "y": 50, "position": "QB" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "RB",
+      "data": [{ "x": 20, "y": 50, "position": "RB" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "WR",
+      "data": [{ "x": 28, "y": 50, "position": "WR" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "TE",
+      "data": [{ "x": 36, "y": 50, "position": "TE" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "OT",
+      "data": [{ "x": 44, "y": 50, "position": "OT" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "IOL",
+      "data": [{ "x": 52, "y": 50, "position": "IOL" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "DT",
+      "data": [{ "x": 60, "y": 50, "position": "DT" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "EDGE",
+      "data": [{ "x": 68, "y": 50, "position": "EDGE" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "LB",
+      "data": [{ "x": 76, "y": 50, "position": "LB" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "S",
+      "data": [{ "x": 84, "y": 50, "position": "S" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    },
+    {
+      "name": "CB",
+      "data": [{ "x": 92, "y": 50, "position": "CB" }],
+      "dataLabels": {
+        "enabled": true, "useHTML": true,
+        "format": "<div style='background:{point.bgColor};color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600;font-size:12px;min-width:40px;text-align:center;border:2px solid {point.borderColor};'>{point.position}</div>",
+        "align": "center", "verticalAlign": "middle", "style": { "textOutline": "none" }
+      },
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+    }
+  ],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "bgColor": [
+        "case",
+        ["==", "series.name", ["get", ["getColumn", 0], 0]],
+        "#005a94",
+        "#0073bb"
+      ],
+      "borderColor": [
+        "case",
+        ["==", "series.name", ["get", ["getColumn", 0], 0]],
+        "#003d66",
+        "#0073bb"
+      ]
+    }]
+  }
+}

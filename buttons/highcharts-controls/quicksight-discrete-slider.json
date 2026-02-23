@@ -1,0 +1,94 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 90,
+    "spacing": [5, 5, 5, 5],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [
+    {
+      "_comment": "Track segments between ticks - visual only, no interaction",
+      "name": "Track",
+      "enableMouseTracking": false,
+      "data": [
+        "map",
+        ["getColumn", 0, 1],
+        {
+          "x": ["+", ["get", ["item"], 1], 4],
+          "y": 50,
+          "marker": { "enabled": false },
+          "dataLabels": {
+            "enabled": ["case", ["==", ["itemIndex"], ["-", ["length", ["getColumn", 0]], 1]], false, true],
+            "useHTML": true,
+            "format": "<div style='width:32px;height:4px;border-radius:2px;background:#e2e8f0;'></div>",
+            "align": "center",
+            "verticalAlign": "middle",
+            "style": { "textOutline": "none" }
+          }
+        }
+      ]
+    },
+    {
+      "_comment": "Clickable tick marks - each sets parameter to its StepValue",
+      "name": "Steps",
+      "data": [
+        "map",
+        ["getColumn", 0, 1, 2],
+        {
+          "x": ["get", ["item"], 1],
+          "y": 50,
+          "stepLabel": ["get", ["item"], 0],
+          "marker": {
+            "enabled": true,
+            "symbol": "circle",
+            "radius": 7,
+            "fillColor": "#e2e8f0",
+            "lineColor": "#cbd5e0",
+            "lineWidth": 1
+          },
+          "dataLabels": {
+            "enabled": false
+          }
+        }
+      ],
+      "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+    }
+  ],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "_comment_marker": "Fill ticks up to and including selected value",
+      "marker": {
+        "fillColor": [
+          "case",
+          ["<=", "point.x", ["get", ["filter", ["getColumn", 1, 2], ["==", ["get", ["item"], 1], ["get", ["getColumn", 2], 0]]], 0, 0]],
+          "#3182ce",
+          "#e2e8f0"
+        ],
+        "lineColor": [
+          "case",
+          ["==", "point.x", ["get", ["filter", ["getColumn", 1, 2], ["==", ["get", ["item"], 1], ["get", ["getColumn", 2], 0]]], 0, 0]],
+          "#1a365d",
+          "#cbd5e0"
+        ],
+        "radius": [
+          "case",
+          ["==", "point.x", ["get", ["filter", ["getColumn", 1, 2], ["==", ["get", ["item"], 1], ["get", ["getColumn", 2], 0]]], 0, 0]],
+          12,
+          7
+        ]
+      }
+    }]
+  }
+}

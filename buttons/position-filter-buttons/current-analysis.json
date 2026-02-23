@@ -1,0 +1,8 @@
+{
+  "DataSetIdentifierDeclarations": [
+    {
+      "Identifier": "NFL Raw Roster Data",
+      "DataSetArn": "arn:aws:quicksight:us-east-1:079495165177:dataset/bcb2d440-0506-4c60-ab42-5d02ad737c16"
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFL Buttons — All Sets</title>
+  <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #eef1f5;
+      padding: 30px;
+      margin: 0;
+    }
+    .section {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .section-title {
+      margin: 0 0 4px 0; color: #333; font-size: 14px; font-weight: 600;
+    }
+    .section-sub {
+      margin: 0 0 12px 0; color: #999; font-size: 11px;
+    }
+    .info {
+      margin-top: 8px; padding: 6px 10px;
+      background: #f0f4f8; border-radius: 4px; font-size: 12px; color: #555; display: inline-block;
+    }
+    .source { color: #28a745; font-weight: 600; font-size: 10px; margin-left: 8px; }
+    .nosource { color: #dc3545; font-weight: 600; font-size: 10px; margin-left: 8px; }
+  </style>
+</head>
+<body>
+
+  <h2 style="margin:0 0 20px 0;color:#333;font-size:18px;">NFL Buttons — All 14 Sets <span style="font-size:12px;color:#888;font-weight:normal;">(from Static Driver.csv + design)</span></h2>
+
+  <h3 style="margin:20px 0 10px 0;color:#666;font-size:13px;text-transform:uppercase;letter-spacing:1px;">From Static Driver CSV</h3>
+
+  <!-- 1. Position Groups -->
+  <div class="section">
+    <div class="section-title">Position Groups <span class="source">CSV</span></div>
+    <div class="section-sub" id="meta-position"></div>
+    <div id="chart-position"></div>
+    <div class="info">Selected: <span id="sel-position">All</span></div>
+  </div>
+
+  <!-- 2. Combine Days -->
+  <div class="section">
+    <div class="section-title">Combine Days <span class="source">CSV</span></div>
+    <div class="section-sub" id="meta-combine"></div>
+    <div id="chart-combine"></div>
+    <div class="info">Selected: <span id="sel-combine">All</span></div>
+  </div>
+
+  <!-- 3. RankBy -->
+  <div class="section">
+    <div class="section-title">Rank By <span class="source">CSV</span></div>
+    <div class="section-sub" id="meta-rankby"></div>
+    <div id="chart-rankby"></div>
+    <div class="info">Selected: <span id="sel-rankby">Overall Score</span></div>
+  </div>
+
+  <!-- 4. Draft Class -->
+  <div class="section">
+    <div class="section-title">Draft Class <span class="source">CSV</span></div>
+    <div class="section-sub" id="meta-draftclass"></div>
+    <div id="chart-draftclass"></div>
+    <div class="info">Selected: <span id="sel-draftclass">All</span></div>
+  </div>
+
+  <!-- 5. LogoSort -->
+  <div class="section">
+    <div class="section-title">Logo Sort <span class="source">CSV</span></div>
+    <div class="section-sub" id="meta-logosort"></div>
+    <div id="chart-logosort"></div>
+    <div class="info">Selected: <span id="sel-logosort">Alpha</span></div>
+  </div>
+
+  <!-- 6. TeamContentBody -->
+  <div class="section">
+    <div class="section-title">Team Content Body <span class="source">CSV</span></div>
+    <div class="section-sub" id="meta-contentbody"></div>
+    <div id="chart-contentbody"></div>
+    <div class="info">Selected: <span id="sel-contentbody">DRAFT CLASS</span></div>
+  </div>
+
+  <!-- 7. TeamDraftTargets -->
+  <div class="section">
+    <div class="section-title">Team Draft Targets <span class="source">CSV</span></div>
+    <div class="section-sub" id="meta-drafttargets"></div>
+    <div id="chart-drafttargets"></div>
+    <div class="info">Selected: <span id="sel-drafttargets">ROUND 1</span></div>
+  </div>
+
+  <!-- 8. Draft Round -->
+  <div class="section">
+    <div class="section-title">Draft Round <span class="source">CSV</span></div>
+    <div class="section-sub" id="meta-draftround"></div>
+    <div id="chart-draftround"></div>
+    <div class="info">Selected: <span id="sel-draftround">ROUND 1</span></div>
+  </div>
+
+  <!-- 9. Team Roster Filter -->
+  <div class="section">
+    <div class="section-title">Team Roster Filter <span class="source">CSV</span></div>
+    <div class="section-sub" id="meta-roster"></div>
+    <div id="chart-roster"></div>
+    <div class="info">Selected: <span id="sel-roster">STARTERS</span></div>
+  </div>
+
+  <h3 style="margin:30px 0 10px 0;color:#666;font-size:13px;text-transform:uppercase;letter-spacing:1px;">From Design (not in CSV)</h3>
+
+  <!-- 10. Unit Filter -->
+  <div class="section">
+    <div class="section-title">Unit Filter <span class="nosource">DESIGN</span></div>
+    <div class="section-sub" id="meta-unit"></div>
+    <div id="chart-unit"></div>
+    <div class="info">Selected: <span id="sel-unit">ALL</span></div>
+  </div>
+
+  <!-- 11. Team Fit Filter -->
+  <div class="section">
+    <div class="section-title">Team Fit Filter <span class="nosource">DESIGN</span></div>
+    <div class="section-sub" id="meta-teamfit"></div>
+    <div id="chart-teamfit"></div>
+    <div class="info">Selected: <span id="sel-teamfit">TEAM FIT</span></div>
+  </div>
+
+  <!-- 12. Source Filter -->
+  <div class="section">
+    <div class="section-title">Source Filter <span class="nosource">DESIGN</span></div>
+    <div class="section-sub" id="meta-source"></div>
+    <div id="chart-source"></div>
+    <div class="info">Selected: <span id="sel-source">GRINDING THE MOCKS</span></div>
+  </div>
+
+  <!-- 13. Page Selector -->
+  <div class="section">
+    <div class="section-title">Page Selector <span class="nosource">DESIGN</span></div>
+    <div class="section-sub" id="meta-page"></div>
+    <div id="chart-page"></div>
+    <div class="info">Selected: <span id="sel-page">1</span></div>
+  </div>
+
+  <!-- 14. Team View Filter -->
+  <div class="section">
+    <div class="section-title">Team View Filter <span class="nosource">DESIGN</span></div>
+    <div class="section-sub" id="meta-teamview"></div>
+    <div id="chart-teamview"></div>
+    <div class="info">Selected: <span id="sel-teamview">TEAM SNAPSHOT</span></div>
+  </div>
+
+<script>
+/**
+ * SIZING ALGORITHM
+ * chartWidth = (numButtons * divWidthPx) + divWidthPx
+ * pxPerUnit = chartWidth / 100
+ * spacingUnits = divWidthPx / pxPerUnit
+ * startX = (100 - (numButtons - 1) * spacingUnits) / 2
+ */
+function calcSizing(numButtons, divWidthPx) {
+  const chartWidth = (numButtons * divWidthPx) + divWidthPx;
+  const pxPerUnit = chartWidth / 100;
+  const spacingUnits = divWidthPx / pxPerUnit;
+  const totalSpan = (numButtons - 1) * spacingUnits;
+  const startX = (100 - totalSpan) / 2;
+  return {
+    chartWidth: Math.round(chartWidth),
+    startX: Math.round(startX * 100) / 100,
+    spacingUnits: Math.round(spacingUnits * 100) / 100
+  };
+}
+
+function makeChart(containerId, metaId, selId, labels, defaultVal, divWidthPx) {
+  let selected = defaultVal;
+  const total = labels.length;
+  const sizing = calcSizing(total, divWidthPx);
+
+  document.getElementById(metaId).textContent =
+    total + ' buttons · divWidth ' + divWidthPx + 'px · chartWidth ' + sizing.chartWidth +
+    'px · startX ' + sizing.startX + ' · spacing ' + sizing.spacingUnits + ' units';
+
+  function getData() {
+    return labels.map((lbl, i) => ({
+      x: sizing.startX + i * sizing.spacingUnits,
+      y: 50,
+      label: lbl,
+      bg: lbl === selected ? '#1a2b4c' : 'transparent',
+      tc: lbl === selected ? '#ffffff' : '#1a2b4c',
+      fw: '600',
+      div: i < total - 1 ? '1px solid #c0c8d1' : 'none'
+    }));
+  }
+
+  Highcharts.chart(containerId, {
+    chart: {
+      type: 'scatter', backgroundColor: 'transparent',
+      height: 38, width: sizing.chartWidth,
+      spacing: [5, 0, 5, 0], animation: false,
+      style: { fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+    },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { marker: { enabled: false, radius: 0 }, animation: false, states: { hover: { enabled: false }, select: { enabled: false }, inactive: { enabled: false } } },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false, marker: { enabled: false, radius: 0, states: { hover: { enabled: false, radius: 0 }, select: { enabled: false, radius: 0 } } } }
+    },
+    series: [{
+      name: 'Buttons',
+      data: getData(),
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: "<div style='width:" + divWidthPx + "px;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>",
+        align: 'center', verticalAlign: 'middle',
+        overflow: 'allow', crop: false,
+        style: { textOutline: 'none' }
+      },
+      point: {
+        events: {
+          click: function() {
+            selected = this.label;
+            document.getElementById(selId).textContent = selected;
+            this.series.setData(getData(), true, false, false);
+          }
+        }
+      }
+    }]
+  });
+}
+
+// === FROM STATIC DRIVER CSV ===
+
+// 1. Position Groups (13) — labels match CSV
+makeChart('chart-position', 'meta-position', 'sel-position',
+  ['All','QB','RB','WR','TE','T','G','C','DT','ED','LB','CB','S'], 'All', 60);
+
+// 2. Combine Days (5)
+makeChart('chart-combine', 'meta-combine', 'sel-combine',
+  ['All','Day 1','Day 2','Day 3','Day 4'], 'All', 70);
+
+// 3. RankBy (13)
+makeChart('chart-rankby', 'meta-rankby', 'sel-rankby',
+  ['Overall Score','Production Score','Athleticism Score','10-yd Split','40 Time','40 Top Speed','Vertical Jump','Broad Jump','Short Shuttle','Three Cone','Height','Weight','Arm Length'],
+  'Overall Score', 110);
+
+// 4. Draft Class (4)
+makeChart('chart-draftclass', 'meta-draftclass', 'sel-draftclass',
+  ['All','2023','2024','2025'], 'All', 60);
+
+// 5. LogoSort (2)
+makeChart('chart-logosort', 'meta-logosort', 'sel-logosort',
+  ['Alpha','Draft Order'], 'Alpha', 100);
+
+// 6. TeamContentBody (3)
+makeChart('chart-contentbody', 'meta-contentbody', 'sel-contentbody',
+  ['DRAFT CLASS','FRONT OFFICE TENDENCIES','MOCK DRAFT TRACKER'], 'DRAFT CLASS', 220);
+
+// 7. TeamDraftTargets (3)
+makeChart('chart-drafttargets', 'meta-drafttargets', 'sel-drafttargets',
+  ['ROUND 1','DAY 2','DAY 3'], 'ROUND 1', 90);
+
+// 8. Draft Round (7)
+makeChart('chart-draftround', 'meta-draftround', 'sel-draftround',
+  ['ROUND 1','ROUND 2','ROUND 3','ROUND 4','ROUND 5','ROUND 6','ROUND 7'], 'ROUND 1', 85);
+
+// 9. Team Roster Filter (3)
+makeChart('chart-roster', 'meta-roster', 'sel-roster',
+  ['STARTERS','TOP 51','90-MAN'], 'STARTERS', 113);
+
+// === FROM DESIGN (not in CSV) ===
+
+// 10. Unit Filter (3)
+makeChart('chart-unit', 'meta-unit', 'sel-unit',
+  ['ALL','OFFENSE','DEFENSE'], 'ALL', 105);
+
+// 11. Team Fit Filter (4)
+makeChart('chart-teamfit', 'meta-teamfit', 'sel-teamfit',
+  ['TEAM FIT','TOP 101','OUTGOING','CUT CANDIDATES'], 'TEAM FIT', 138);
+
+// 12. Source Filter (2)
+makeChart('chart-source', 'meta-source', 'sel-source',
+  ['GRINDING THE MOCKS',"DJ'S TOP 50"], 'GRINDING THE MOCKS', 185);
+
+// 13. Page Selector (3)
+makeChart('chart-page', 'meta-page', 'sel-page',
+  ['1','2','3'], '1', 45);
+
+// 14. Team View Filter (3)
+makeChart('chart-teamview', 'meta-teamview', 'sel-teamview',
+  ['TEAM SNAPSHOT','TEAM NEEDS','DIVISION RANKS'], 'TEAM SNAPSHOT', 163);
+</script>
+</body>
+</html>

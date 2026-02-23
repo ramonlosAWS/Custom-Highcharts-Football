@@ -1,0 +1,43 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 60,
+    "spacing": [8, 15, 8, 15],
+    "animation": false
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [{
+    "name": "GradientButtons",
+    "data": [
+      "map",
+      ["getColumn", 0, 1],
+      {
+        "x": ["+", 10, ["*", ["itemIndex"], 22]],
+        "y": 50,
+        "label": ["get", ["item"], 0],
+        "bgGradient": ["case", ["==", ["get", ["item"], 0], ["get", ["item"], 1]], "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", "linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%)"],
+        "textColor": ["case", ["==", ["get", ["item"], 0], ["get", ["item"], 1]], "#ffffff", "#4a5568"],
+        "shadow": ["case", ["==", ["get", ["item"], 0], ["get", ["item"], 1]], "0 4px 15px rgba(102, 126, 234, 0.4)", "0 2px 8px rgba(0,0,0,0.08)"]
+      }
+    ],
+    "dataLabels": {
+      "enabled": true,
+      "useHTML": true,
+      "format": "<div style='background:{point.bgGradient};color:{point.textColor};padding:12px 20px;border-radius:10px;cursor:pointer;font-weight:600;font-size:13px;box-shadow:{point.shadow};min-width:70px;text-align:center;'>{point.label}</div>",
+      "align": "center",
+      "verticalAlign": "middle",
+      "style": { "textOutline": "none" }
+    },
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+  }]
+}

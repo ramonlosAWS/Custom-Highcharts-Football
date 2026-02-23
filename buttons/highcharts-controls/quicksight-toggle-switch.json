@@ -1,0 +1,50 @@
+{
+  "_comment": "Toggle Switch. Dataset: 1 row with ToggleState calc field. Two data points (ON area, OFF area) both clickable. pointRender swaps visual state based on parameter.",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 70,
+    "spacing": [5, 5, 5, 5],
+    "animation": false,
+    "style": { "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false }, "animation": false },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false }
+  },
+  "series": [{
+    "name": "Toggle",
+    "data": [{
+      "x": 50,
+      "y": 50,
+      "marker": { "enabled": false },
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='width:56px;height:30px;border-radius:15px;background:#cbd5e0;position:relative;cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,0.15);'><div style='width:24px;height:24px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;box-shadow:0 1px 4px rgba(0,0,0,0.2);'></div></div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    }],
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": 0 }] } }
+  }],
+  "quicksight": {
+    "pointRender": ["updatePointAttributes", {
+      "dataLabels": {
+        "format": [
+          "case",
+          ["==", ["get", ["getColumn", 0], 0], "ON"],
+          "<div style='display:flex;align-items:center;gap:10px;'><div style='width:56px;height:30px;border-radius:15px;background:#48bb78;position:relative;cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,0.15);'><div style='width:24px;height:24px;border-radius:50%;background:#fff;position:absolute;top:3px;left:29px;box-shadow:0 1px 4px rgba(0,0,0,0.2);'></div></div><span style='font-size:13px;font-weight:600;color:#48bb78;'>ON</span></div>",
+          "<div style='display:flex;align-items:center;gap:10px;'><div style='width:56px;height:30px;border-radius:15px;background:#cbd5e0;position:relative;cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,0.15);'><div style='width:24px;height:24px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;box-shadow:0 1px 4px rgba(0,0,0,0.2);'></div></div><span style='font-size:13px;font-weight:600;color:#a0aec0;'>OFF</span></div>"
+        ]
+      }
+    }]
+  }
+}
