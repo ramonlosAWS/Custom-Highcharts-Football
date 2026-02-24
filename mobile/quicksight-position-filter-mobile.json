@@ -1,0 +1,88 @@
+{
+  "_comment": "Position Filter — Mobile Responsive. 13 buttons in 3 rows (5/4/4) for mobile, single row for desktop. Uses responsive rules to swap chart height and format. IMPORTANT: In QuickSight, responsive rules can change chartOptions but NOT data point positions. So we pre-layout as 3 rows and use responsive rules to collapse to 1 row on desktop by setting all y=50 and adjusting x spacing. HOWEVER — QuickSight responsive rules cannot change series.data. So the practical approach is: use TWO separate visuals with conditional visibility based on a screen-size parameter, OR accept the 3-row layout as the universal mobile config.",
+  "_approach": "This config is the MOBILE version. Use the original position-filter-v2.json for desktop. In QuickSight, place both visuals and use conditional visibility or free-form layout sizing to show the right one.",
+  "_setup": "Parameter: PositionFilter (String, default ALL). Dataset: position-filter-data-v2.csv + calc field SelectedPosition = ${PositionFilter} + calc field RowNum = ifelse(SortOrder<=5, 1, ifelse(SortOrder<=9, 2, 3)) + calc field RowIndex = ifelse(SortOrder<=5, SortOrder-1, ifelse(SortOrder<=9, SortOrder-6, SortOrder-10)). Field Wells GROUP BY: SortOrder (col 0, sort asc), ButtonLabel (col 1), SelectedPosition (col 2), RowNum (col 3), RowIndex (col 4). Nav Action: on select, set PositionFilter = ButtonLabel.",
+  "_widgetSize": "Width: ~340px, Height: ~110px",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 100,
+    "spacing": [5, 0, 5, 0],
+    "animation": false,
+    "style": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false, "radius": 0 },
+      "animation": false,
+      "states": { "hover": { "enabled": false }, "select": { "enabled": false }, "inactive": { "enabled": false } }
+    },
+    "series": {
+      "enableMouseTracking": true,
+      "cursor": "pointer",
+      "animation": false,
+      "marker": {
+        "enabled": false, "radius": 0,
+        "states": { "hover": { "enabled": false, "radius": 0 }, "select": { "enabled": false, "radius": 0 } }
+      }
+    }
+  },
+  "series": [{
+    "name": "PositionFilter",
+    "data": [
+      "map",
+      ["getColumn", 1, 2, 3, 4],
+      {
+        "x": [
+          "case",
+          ["==", ["get", ["item"], 2], 1],
+          ["+", 17.6, ["*", ["get", ["item"], 3], 16.5]],
+          ["==", ["get", ["item"], 2], 2],
+          ["+", 25.8, ["*", ["get", ["item"], 3], 16.5]],
+          ["+", 25.8, ["*", ["get", ["item"], 3], 16.5]]
+        ],
+        "y": [
+          "case",
+          ["==", ["get", ["item"], 2], 1], 78,
+          ["==", ["get", ["item"], 2], 2], 50,
+          22
+        ],
+        "label": ["get", ["item"], 0],
+        "bg": [
+          "case",
+          ["==", ["get", ["item"], 0], ["get", ["item"], 1]],
+          "#1a2b4c",
+          "transparent"
+        ],
+        "tc": [
+          "case",
+          ["==", ["get", ["item"], 0], ["get", ["item"], 1]],
+          "#ffffff",
+          "#1a2b4c"
+        ],
+        "fw": "600",
+        "rowNum": ["get", ["item"], 2],
+        "rowIdx": ["get", ["item"], 3]
+      }
+    ],
+    "dataLabels": {
+      "enabled": true,
+      "useHTML": true,
+      "format": "<div style='width:56px;height:26px;line-height:26px;text-align:center;font-size:11px;font-weight:{point.fw};color:{point.tc};background:{point.bg};cursor:pointer;box-sizing:border-box;border-right:1px solid #c0c8d1;'>{point.label}</div>",
+      "align": "center",
+      "verticalAlign": "middle",
+      "overflow": "allow",
+      "crop": false,
+      "style": { "textOutline": "none" }
+    },
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+  }]
+}

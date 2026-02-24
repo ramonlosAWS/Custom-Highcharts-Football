@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFL Buttons — All 14 Sets — Mobile Responsive</title>
+  <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #eef1f5; padding: 20px; margin: 0;
+    }
+    .width-display {
+      position: fixed; top: 10px; right: 10px; background: #1a2b4c; color: #fff;
+      padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; z-index: 999;
+    }
+    h2 { margin: 0 0 6px 0; color: #333; font-size: 16px; }
+    h3 {
+      margin: 24px 0 10px 0; color: #666; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .section {
+      background: white; padding: 16px 20px; border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 14px;
+    }
+    .section-title {
+      margin: 0 0 2px 0; color: #333; font-size: 13px; font-weight: 600;
+    }
+    .section-sub {
+      margin: 0 0 8px 0; color: #aaa; font-size: 10px;
+    }
+    .info {
+      margin-top: 6px; padding: 5px 10px;
+      background: #f0f4f8; border-radius: 4px; font-size: 11px; color: #555; display: inline-block;
+    }
+    .tier { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-left: 6px; }
+    .t1 { background: #dcfce7; color: #16a34a; }
+    .t2 { background: #fef9c3; color: #a16207; }
+    .t3 { background: #fef2f2; color: #dc2626; }
+    .resize-hint {
+      background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px;
+      padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #856404;
+    }
+  </style>
+</head>
+<body>
+
+<div class="width-display" id="width-display"></div>
+
+<h2>NFL Buttons — All 14 Sets — Mobile Responsive</h2>
+<div class="resize-hint">
+  Resize browser to test. <strong>≤500px</strong> triggers mobile layout.
+  Tier 1 (2-4 btns): shrink. Tier 2 (5-7): 2 rows. Tier 3 (8-13): 2-3 rows.
+</div>
+
+<h3>Tier 1 — Shrink in Place (2-4 buttons)</h3>
+
+<div class="section">
+  <div class="section-title">Logo Sort <span class="tier t1">T1 · 2 btns</span></div>
+  <div class="section-sub" id="meta-logosort"></div>
+  <div id="chart-logosort"></div>
+  <div class="info">Selected: <span id="sel-logosort">Alpha</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Source Filter <span class="tier t1">T1 · 2 btns</span></div>
+  <div class="section-sub" id="meta-source"></div>
+  <div id="chart-source"></div>
+  <div class="info">Selected: <span id="sel-source">GRINDING THE MOCKS</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Page Selector <span class="tier t1">T1 · 3 btns</span></div>
+  <div class="section-sub" id="meta-page"></div>
+  <div id="chart-page"></div>
+  <div class="info">Selected: <span id="sel-page">1</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Unit Filter <span class="tier t1">T1 · 3 btns</span></div>
+  <div class="section-sub" id="meta-unit"></div>
+  <div id="chart-unit"></div>
+  <div class="info">Selected: <span id="sel-unit">ALL</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Team Draft Targets <span class="tier t1">T1 · 3 btns</span></div>
+  <div class="section-sub" id="meta-drafttargets"></div>
+  <div id="chart-drafttargets"></div>
+  <div class="info">Selected: <span id="sel-drafttargets">ROUND 1</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Roster Filter <span class="tier t1">T1 · 3 btns</span></div>
+  <div class="section-sub" id="meta-roster"></div>
+  <div id="chart-roster"></div>
+  <div class="info">Selected: <span id="sel-roster">STARTERS</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Team View Filter <span class="tier t1">T1 · 3 btns</span></div>
+  <div class="section-sub" id="meta-teamview"></div>
+  <div id="chart-teamview"></div>
+  <div class="info">Selected: <span id="sel-teamview">TEAM SNAPSHOT</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Draft Class <span class="tier t1">T1 · 4 btns</span></div>
+  <div class="section-sub" id="meta-draftclass"></div>
+  <div id="chart-draftclass"></div>
+  <div class="info">Selected: <span id="sel-draftclass">All</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Team Fit Filter <span class="tier t1">T1 · 4 btns</span></div>
+  <div class="section-sub" id="meta-teamfit"></div>
+  <div id="chart-teamfit"></div>
+  <div class="info">Selected: <span id="sel-teamfit">TEAM FIT</span></div>
+</div>
+
+<h3>Tier 2 — Two Rows (5-7 buttons)</h3>
+
+<div class="section">
+  <div class="section-title">Combine Days <span class="tier t2">T2 · 5 btns</span></div>
+  <div class="section-sub" id="meta-combine"></div>
+  <div id="chart-combine"></div>
+  <div class="info">Selected: <span id="sel-combine">All</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Draft Round <span class="tier t2">T2 · 7 btns</span></div>
+  <div class="section-sub" id="meta-draftround"></div>
+  <div id="chart-draftround"></div>
+  <div class="info">Selected: <span id="sel-draftround">ROUND 1</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Team Content Body <span class="tier t2">T2 · 3 wide btns</span></div>
+  <div class="section-sub" id="meta-contentbody"></div>
+  <div id="chart-contentbody"></div>
+  <div class="info">Selected: <span id="sel-contentbody">DRAFT CLASS</span></div>
+</div>
+
+<h3>Tier 3 — Three Rows (8-13 buttons)</h3>
+
+<div class="section">
+  <div class="section-title">Position Filter <span class="tier t3">T3 · 13 btns</span></div>
+  <div class="section-sub" id="meta-position"></div>
+  <div id="chart-position"></div>
+  <div class="info">Selected: <span id="sel-position">ALL</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Position Groups (alt labels) <span class="tier t3">T3 · 13 btns</span></div>
+  <div class="section-sub" id="meta-posgroups"></div>
+  <div id="chart-posgroups"></div>
+  <div class="info">Selected: <span id="sel-posgroups">All</span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Rank By <span class="tier t3">T3 · 13 wide btns</span></div>
+  <div class="section-sub" id="meta-rankby"></div>
+  <div id="chart-rankby"></div>
+  <div class="info">Selected: <span id="sel-rankby">Overall Score</span></div>
+</div>
+
+<script>
+// ── Width display ──
+function updateWidth() {
+  document.getElementById('width-display').textContent = window.innerWidth + 'px';
+}
+window.addEventListener('resize', updateWidth);
+updateWidth();
+
+// ── Shared base config ──
+const base = {
+  chart: {
+    type: 'scatter', backgroundColor: 'transparent',
+    spacing: [5, 0, 5, 0], animation: false,
+    style: { fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+  xAxis: { min: 0, max: 100, visible: false },
+  yAxis: { min: 0, max: 100, visible: false },
+  tooltip: { enabled: false },
+  plotOptions: {
+    scatter: { marker: { enabled: false, radius: 0 }, animation: false,
+      states: { hover: { enabled: false }, select: { enabled: false }, inactive: { enabled: false } } },
+    series: { enableMouseTracking: true, cursor: 'pointer', animation: false,
+      marker: { enabled: false, radius: 0,
+        states: { hover: { enabled: false, radius: 0 }, select: { enabled: false, radius: 0 } } } }
+  }
+};
+
+// ── Sizing math ──
+function calcLayout(labels, divPx) {
+  const n = labels.length;
+  const chartW = (n * divPx) + divPx;
+  const unit = chartW / 100;
+  const btnU = divPx / unit;
+  const startX = (100 - (n - 1) * btnU) / 2;
+  return { chartW, btnU, startX };
+}
+
+// ── Row splitter for mobile ──
+// Splits N items into rows that fit within maxPerRow
+function splitRows(labels, maxPerRow) {
+  const rows = [];
+  for (let i = 0; i < labels.length; i += maxPerRow) {
+    rows.push(labels.slice(i, i + maxPerRow));
+  }
+  return rows;
+}
+
+// ── Generic responsive chart builder ──
+function makeResponsiveChart(containerId, metaId, selId, labels, defaultVal, desktopDivPx, mobileDivPx, mobileMaxPerRow) {
+  let selected = defaultVal;
+  const n = labels.length;
+  const dLayout = calcLayout(labels, desktopDivPx);
+  const mRows = splitRows(labels, mobileMaxPerRow);
+  const numRows = mRows.length;
+  const mobileHeight = numRows === 1 ? 38 : (numRows * 32 + 16);
+  const BREAKPOINT = 500;
+
+  // Y positions for rows (evenly spaced, top to bottom)
+  function rowY(rowIdx, totalRows) {
+    if (totalRows === 1) return 50;
+    const top = 80, bottom = 20;
+    return top - rowIdx * ((top - bottom) / (totalRows - 1));
+  }
+
+  function desktopData() {
+    return labels.map((lbl, i) => ({
+      x: dLayout.startX + i * dLayout.btnU,
+      y: 50, label: lbl,
+      bg: lbl === selected ? '#1a2b4c' : 'transparent',
+      tc: lbl === selected ? '#ffffff' : '#1a2b4c',
+      fw: '600',
+      div: i < n - 1 ? '1px solid #c0c8d1' : 'none'
+    }));
+  }
+
+  function mobileData(chartWidth) {
+    const unit = chartWidth / 100;
+    const btnU = mobileDivPx / unit;
+    const pts = [];
+    mRows.forEach((row, ri) => {
+      const rowStartX = (100 - (row.length - 1) * btnU) / 2;
+      row.forEach((lbl, ci) => {
+        pts.push({
+          x: rowStartX + ci * btnU,
+          y: rowY(ri, numRows),
+          label: lbl,
+          bg: lbl === selected ? '#1a2b4c' : 'transparent',
+          tc: lbl === selected ? '#ffffff' : '#1a2b4c',
+          fw: '600',
+          div: ci < row.length - 1 ? '1px solid #c0c8d1' : 'none'
+        });
+      });
+    });
+    return pts;
+  }
+
+  const desktopFmt = "<div style='width:" + desktopDivPx + "px;height:28px;line-height:28px;text-align:center;font-size:12px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>";
+  const mobileFmt = "<div style='width:" + mobileDivPx + "px;height:26px;line-height:26px;text-align:center;font-size:11px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>";
+
+  document.getElementById(metaId).textContent =
+    n + ' btns · desktop ' + desktopDivPx + 'px/' + dLayout.chartW + 'px · mobile ' +
+    mobileDivPx + 'px/' + mRows.map(r => r.length).join('+') + ' rows';
+
+  const chart = Highcharts.chart(containerId, {
+    ...base,
+    chart: { ...base.chart, height: 38 },
+    series: [{
+      name: 'Btns', data: desktopData(),
+      dataLabels: {
+        enabled: true, useHTML: true, format: desktopFmt,
+        align: 'center', verticalAlign: 'middle', overflow: 'allow', crop: false,
+        style: { textOutline: 'none' }
+      },
+      point: { events: { click: function() {
+        selected = this.label;
+        document.getElementById(selId).textContent = selected;
+        refresh();
+      }}}
+    }],
+    responsive: {
+      rules: [{
+        condition: { maxWidth: BREAKPOINT },
+        chartOptions: {
+          chart: { height: mobileHeight },
+          series: [{ dataLabels: { format: mobileFmt } }]
+        }
+      }]
+    }
+  });
+
+  function refresh() {
+    const w = chart.chartWidth;
+    if (w <= BREAKPOINT) {
+      chart.series[0].setData(mobileData(w), true, false, false);
+      chart.setSize(undefined, mobileHeight, false);
+    } else {
+      chart.series[0].setData(desktopData(), true, false, false);
+      chart.setSize(undefined, 38, false);
+    }
+  }
+
+  let timer;
+  window.addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(refresh, 150); });
+  // Initial check
+  setTimeout(refresh, 100);
+}
+
+// ═══════════════════════════════════════════
+// TIER 1 — Shrink in place (2-4 buttons)
+// ═══════════════════════════════════════════
+
+// Logo Sort (2)
+makeResponsiveChart('chart-logosort', 'meta-logosort', 'sel-logosort',
+  ['Alpha','Draft Order'], 'Alpha', 100, 80, 2);
+
+// Source Filter (2) — wide labels
+makeResponsiveChart('chart-source', 'meta-source', 'sel-source',
+  ['GRINDING THE MOCKS',"DJ'S TOP 50"], 'GRINDING THE MOCKS', 185, 140, 2);
+
+// Page Selector (3)
+makeResponsiveChart('chart-page', 'meta-page', 'sel-page',
+  ['1','2','3'], '1', 45, 40, 3);
+
+// Unit Filter (3)
+makeResponsiveChart('chart-unit', 'meta-unit', 'sel-unit',
+  ['ALL','OFFENSE','DEFENSE'], 'ALL', 105, 80, 3);
+
+// Team Draft Targets (3)
+makeResponsiveChart('chart-drafttargets', 'meta-drafttargets', 'sel-drafttargets',
+  ['ROUND 1','DAY 2','DAY 3'], 'ROUND 1', 90, 75, 3);
+
+// Roster Filter (3)
+makeResponsiveChart('chart-roster', 'meta-roster', 'sel-roster',
+  ['STARTERS','TOP 51','90-MAN'], 'STARTERS', 113, 85, 3);
+
+// Team View Filter (3)
+makeResponsiveChart('chart-teamview', 'meta-teamview', 'sel-teamview',
+  ['TEAM SNAPSHOT','TEAM NEEDS','DIVISION RANKS'], 'TEAM SNAPSHOT', 163, 110, 3);
+
+// Draft Class (4)
+makeResponsiveChart('chart-draftclass', 'meta-draftclass', 'sel-draftclass',
+  ['All','2023','2024','2025'], 'All', 60, 55, 4);
+
+// Team Fit Filter (4)
+makeResponsiveChart('chart-teamfit', 'meta-teamfit', 'sel-teamfit',
+  ['TEAM FIT','TOP 101','OUTGOING','CUT CANDIDATES'], 'TEAM FIT', 138, 80, 4);
+
+// ═══════════════════════════════════════════
+// TIER 2 — Two rows (5-7 buttons)
+// ═══════════════════════════════════════════
+
+// Combine Days (5) → mobile: 3+2
+makeResponsiveChart('chart-combine', 'meta-combine', 'sel-combine',
+  ['All','Day 1','Day 2','Day 3','Day 4'], 'All', 70, 65, 3);
+
+// Draft Round (7) → mobile: 4+3
+makeResponsiveChart('chart-draftround', 'meta-draftround', 'sel-draftround',
+  ['ROUND 1','ROUND 2','ROUND 3','ROUND 4','ROUND 5','ROUND 6','ROUND 7'], 'ROUND 1', 85, 72, 4);
+
+// Team Content Body (3 wide) → mobile: stacked 1+1+1
+makeResponsiveChart('chart-contentbody', 'meta-contentbody', 'sel-contentbody',
+  ['DRAFT CLASS','FRONT OFFICE TENDENCIES','MOCK DRAFT TRACKER'], 'DRAFT CLASS', 220, 200, 1);
+
+// ═══════════════════════════════════════════
+// TIER 3 — Three rows (8-13 buttons)
+// ═══════════════════════════════════════════
+
+// Position Filter v2 (13) → mobile: 5+4+4
+makeResponsiveChart('chart-position', 'meta-position', 'sel-position',
+  ['ALL','QB','RB','WR','TE','OT','OG','OC','DT','ED','LB','CB','DS'], 'ALL', 48, 56, 5);
+
+// Position Groups alt (13) → mobile: 5+4+4
+makeResponsiveChart('chart-posgroups', 'meta-posgroups', 'sel-posgroups',
+  ['All','QB','RB','WR','TE','T','G','C','DT','ED','LB','CB','S'], 'All', 60, 56, 5);
+
+// Rank By (13 wide) → mobile: 3+3+3+2+2
+makeResponsiveChart('chart-rankby', 'meta-rankby', 'sel-rankby',
+  ['Overall Score','Production Score','Athleticism Score','10-yd Split','40 Time','40 Top Speed','Vertical Jump','Broad Jump','Short Shuttle','Three Cone','Height','Weight','Arm Length'],
+  'Overall Score', 110, 100, 3);
+
+</script>
+</body>
+</html>

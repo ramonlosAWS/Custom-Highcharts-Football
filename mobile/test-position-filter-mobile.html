@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Position Filter — Mobile Responsive Test</title>
+  <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #eef1f5; padding: 20px; margin: 0;
+    }
+    h2 { margin: 0 0 6px 0; color: #333; font-size: 16px; }
+    .subtitle { margin: 0 0 16px 0; color: #888; font-size: 12px; }
+    .section {
+      background: white; padding: 20px; border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px;
+    }
+    .info {
+      margin-top: 10px; padding: 8px 12px;
+      background: #f0f4f8; border-radius: 4px; font-size: 12px; color: #555;
+    }
+    .resize-hint {
+      background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px;
+      padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #856404;
+    }
+    .width-display {
+      position: fixed; top: 10px; right: 10px; background: #1a2b4c; color: #fff;
+      padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="width-display" id="width-display"></div>
+
+  <h2>Position Filter — Mobile Responsive</h2>
+  <p class="subtitle">13 buttons: ALL QB RB WR TE OT OG OC DT ED LB CB DS</p>
+
+  <div class="resize-hint">
+    Resize your browser window to see the responsive behavior.<br>
+    <strong>Desktop (>600px):</strong> Single row, 13 buttons inline<br>
+    <strong>Mobile (≤600px):</strong> 3 rows — 5 / 4 / 4 layout with smaller buttons
+  </div>
+
+  <!-- Desktop: single row -->
+  <div class="section">
+    <div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Desktop Layout (single row)</div>
+    <div id="chart-desktop"></div>
+    <div class="info">Selected: <span id="sel-desktop">ALL</span></div>
+  </div>
+
+  <!-- Mobile: 3 rows -->
+  <div class="section">
+    <div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Mobile Layout (3 rows)</div>
+    <div id="chart-mobile"></div>
+    <div class="info">Selected: <span id="sel-mobile">ALL</span></div>
+  </div>
+
+  <!-- Responsive: auto-switches -->
+  <div class="section" style="border: 2px solid #3b82f6;">
+    <div style="font-size:11px;color:#3b82f6;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:700;">Responsive (auto-switches at 600px)</div>
+    <div id="chart-responsive"></div>
+    <div class="info">Selected: <span id="sel-responsive">ALL</span></div>
+  </div>
+
+<script>
+const positions = ['ALL','QB','RB','WR','TE','OT','OG','OC','DT','ED','LB','CB','DS'];
+const TOTAL = positions.length; // 13
+
+// ── Width display ──
+function updateWidth() {
+  document.getElementById('width-display').textContent = window.innerWidth + 'px';
+}
+window.addEventListener('resize', updateWidth);
+updateWidth();
+
+// ── Shared config builder ──
+const baseConfig = {
+  chart: {
+    type: 'scatter', backgroundColor: 'transparent',
+    spacing: [5, 0, 5, 0], animation: false,
+    style: { fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+  },
+  title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+  xAxis: { min: 0, max: 100, visible: false },
+  yAxis: { min: 0, max: 100, visible: false },
+  tooltip: { enabled: false },
+  plotOptions: {
+    scatter: { marker: { enabled: false, radius: 0 }, animation: false,
+      states: { hover: { enabled: false }, select: { enabled: false }, inactive: { enabled: false } } },
+    series: { enableMouseTracking: true, cursor: 'pointer', animation: false,
+      marker: { enabled: false, radius: 0,
+        states: { hover: { enabled: false, radius: 0 }, select: { enabled: false, radius: 0 } } } }
+  }
+};
+
+// ── Desktop: single row ──
+// 13 buttons × 48px = 624px. Chart ~700px.
+// btnU = 48/7 = 6.86 units. startX = (100 - 12*6.86)/2 = 8.86
+(function() {
+  let selected = 'ALL';
+  const btnPx = 48, chartW = 700;
+  const unit = chartW / 100;
+  const btnU = btnPx / unit;
+  const startX = (100 - (TOTAL - 1) * btnU) / 2;
+
+  function getData() {
+    return positions.map((p, i) => ({
+      x: startX + i * btnU,
+      y: 50, label: p,
+      bg: p === selected ? '#1a2b4c' : 'transparent',
+      tc: p === selected ? '#ffffff' : '#1a2b4c',
+      fw: '600',
+      div: i < TOTAL - 1 ? '1px solid #c0c8d1' : 'none'
+    }));
+  }
+
+  Highcharts.chart('chart-desktop', {
+    ...baseConfig,
+    chart: { ...baseConfig.chart, height: 38, width: chartW },
+    series: [{
+      name: 'Pos', data: getData(),
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: "<div style='width:48px;height:28px;line-height:28px;text-align:center;font-size:12px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;'>{point.label}</div>",
+        align: 'center', verticalAlign: 'middle', overflow: 'allow', crop: false,
+        style: { textOutline: 'none' }
+      },
+      point: { events: { click: function() {
+        selected = this.label;
+        document.getElementById('sel-desktop').textContent = selected;
+        this.series.setData(getData(), true, false, false);
+      }}}
+    }]
+  });
+})();
+
+// ── Mobile: 3 rows (5 / 4 / 4) ──
+// Row 1 (y=78): ALL QB RB WR TE
+// Row 2 (y=50): OT OG OC DT
+// Row 3 (y=22): ED LB CB DS
+(function() {
+  let selected = 'ALL';
+  const btnPx = 56, chartW = 340;
+  const unit = chartW / 100;
+  const btnU = btnPx / unit;
+
+  // Row layouts: [startIndex, count]
+  const rows = [
+    { start: 0, count: 5, y: 78 },
+    { start: 5, count: 4, y: 50 },
+    { start: 9, count: 4, y: 22 }
+  ];
+
+  function getData() {
+    const pts = [];
+    rows.forEach(row => {
+      const rowStartX = (100 - (row.count - 1) * btnU) / 2;
+      for (let i = 0; i < row.count; i++) {
+        const idx = row.start + i;
+        const p = positions[idx];
+        pts.push({
+          x: rowStartX + i * btnU,
+          y: row.y,
+          label: p,
+          bg: p === selected ? '#1a2b4c' : 'transparent',
+          tc: p === selected ? '#ffffff' : '#1a2b4c',
+          fw: '600',
+          div: i < row.count - 1 ? '1px solid #c0c8d1' : 'none'
+        });
+      }
+    });
+    return pts;
+  }
+
+  Highcharts.chart('chart-mobile', {
+    ...baseConfig,
+    chart: { ...baseConfig.chart, height: 100, width: chartW },
+    series: [{
+      name: 'Pos', data: getData(),
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: "<div style='width:56px;height:26px;line-height:26px;text-align:center;font-size:11px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;'>{point.label}</div>",
+        align: 'center', verticalAlign: 'middle', overflow: 'allow', crop: false,
+        style: { textOutline: 'none' }
+      },
+      point: { events: { click: function() {
+        selected = this.label;
+        document.getElementById('sel-mobile').textContent = selected;
+        this.series.setData(getData(), true, false, false);
+      }}}
+    }]
+  });
+})();
+
+// ── Responsive: auto-switches using Highcharts responsive rules ──
+// This is the one that matters for QuickSight
+(function() {
+  let selected = 'ALL';
+
+  // Desktop layout (single row)
+  const dBtnPx = 48, dChartW = 700;
+  const dUnit = dChartW / 100;
+  const dBtnU = dBtnPx / dUnit;
+  const dStartX = (100 - (TOTAL - 1) * dBtnU) / 2;
+
+  // Mobile layout (3 rows: 5/4/4)
+  const mBtnPx = 56;
+  const mRows = [
+    { start: 0, count: 5, y: 78 },
+    { start: 5, count: 4, y: 50 },
+    { start: 9, count: 4, y: 22 }
+  ];
+
+  function desktopData() {
+    return positions.map((p, i) => ({
+      x: dStartX + i * dBtnU,
+      y: 50, label: p,
+      bg: p === selected ? '#1a2b4c' : 'transparent',
+      tc: p === selected ? '#ffffff' : '#1a2b4c',
+      fw: '600',
+      div: i < TOTAL - 1 ? '1px solid #c0c8d1' : 'none'
+    }));
+  }
+
+  function mobileData(chartWidth) {
+    const unit = chartWidth / 100;
+    const btnU = mBtnPx / unit;
+    const pts = [];
+    mRows.forEach(row => {
+      const rowStartX = (100 - (row.count - 1) * btnU) / 2;
+      for (let i = 0; i < row.count; i++) {
+        const idx = row.start + i;
+        const p = positions[idx];
+        pts.push({
+          x: rowStartX + i * btnU,
+          y: row.y,
+          label: p,
+          bg: p === selected ? '#1a2b4c' : 'transparent',
+          tc: p === selected ? '#ffffff' : '#1a2b4c',
+          fw: '600',
+          div: i < row.count - 1 ? '1px solid #c0c8d1' : 'none'
+        });
+      }
+    });
+    return pts;
+  }
+
+  const chart = Highcharts.chart('chart-responsive', {
+    ...baseConfig,
+    chart: { ...baseConfig.chart, height: 38 },
+    series: [{
+      name: 'Pos', data: desktopData(),
+      dataLabels: {
+        enabled: true, useHTML: true,
+        format: "<div style='width:48px;height:28px;line-height:28px;text-align:center;font-size:12px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;'>{point.label}</div>",
+        align: 'center', verticalAlign: 'middle', overflow: 'allow', crop: false,
+        style: { textOutline: 'none' }
+      },
+      point: { events: { click: function() {
+        selected = this.label;
+        document.getElementById('sel-responsive').textContent = selected;
+        refreshResponsive();
+      }}}
+    }],
+    responsive: {
+      rules: [{
+        condition: { maxWidth: 600 },
+        chartOptions: {
+          chart: { height: 100 },
+          series: [{
+            dataLabels: {
+              format: "<div style='width:56px;height:26px;line-height:26px;text-align:center;font-size:11px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;'>{point.label}</div>"
+            }
+          }]
+        }
+      }]
+    }
+  });
+
+  function refreshResponsive() {
+    const w = chart.chartWidth;
+    if (w <= 600) {
+      chart.series[0].setData(mobileData(w), true, false, false);
+      chart.setSize(undefined, 100, false);
+    } else {
+      chart.series[0].setData(desktopData(), true, false, false);
+      chart.setSize(undefined, 38, false);
+    }
+  }
+
+  // Re-layout on resize
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(refreshResponsive, 150);
+  });
+})();
+</script>
+</body>
+</html>
