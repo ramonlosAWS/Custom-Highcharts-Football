@@ -26,7 +26,7 @@
       "map",
       ["getColumn", 1, 2],
       {
-        "x": ["+", 38, ["*", ["itemIndex"], 24]],
+        "x": ["+", 25, ["*", ["itemIndex"], 50]],
         "y": 50,
         "label": ["get", ["item"], 0],
         "bg": [
@@ -52,7 +52,7 @@
     "dataLabels": {
       "enabled": true,
       "useHTML": true,
-      "format": "<div style='width:180px;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>",
+      "format": "<div style='width:186px;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;padding:0 8px;'>{point.label}</div>",
       "align": "center",
       "verticalAlign": "middle",
       "overflow": "allow",

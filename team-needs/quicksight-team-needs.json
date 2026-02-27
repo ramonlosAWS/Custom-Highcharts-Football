@@ -1,0 +1,56 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 240,
+    "spacing": [5, 5, 5, 5]
+  },
+  "title": {
+    "text": null
+  },
+  "legend": {
+    "enabled": false
+  },
+  "credits": {
+    "enabled": false
+  },
+  "xAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "yAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "tooltip": {
+    "enabled": false
+  },
+  "plotOptions": {
+    "scatter": {
+      "marker": {
+        "enabled": false
+      },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "FourColumns",
+      "data": [{
+        "x": 50,
+        "y": 50,
+        "teamColor": ["get", ["getColumn", 2], 0],
+        "teamNeeds": ["get", ["getColumn", 3], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='width:350px;padding:15px 10px 15px 15px;border-left:4px solid {point.teamColor};background:transparent;'><div style='font-size:14px;font-weight:700;color:#333;margin-bottom:5px;'>TOP 5 TEAM NEEDS</div><div style='font-size:11px;color:#999;text-transform:uppercase;margin-bottom:18px;'>ENTERING FREE AGENCY</div><div style='font-size:32px;font-weight:700;color:#333;line-height:1.3;'>{point.teamNeeds}</div></div>",
+        "align": "center",
+        "verticalAlign": "middle"
+      }
+    }
+  ]
+}

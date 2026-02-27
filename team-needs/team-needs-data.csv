@@ -1,0 +1,33 @@
+UniqueID,TeamAbbr,TeamColor,TeamNeeds,GMName,HCName,OCName,DCName
+1,LV,#000000,"RB, WR, CB, OL, LB",John Spytek,Klint Kubiak,,
+2,NYJ,#125740,"OL, WR, TE, S, DL",Darren Mougey,Aaron Glenn,,Brian Duker
+3,ARI,#97233F,"OL, WR, EDGE, DL, CB",Monti Ossenfort,Mike LaFleur,,
+4,TEN,#0C2340,"QB, EDGE, WR, LB, S",Mike Borgonzi,Robert Saleh,Brian Daboll,Gus Bradley
+5,NYG,#0B2265,"QB, OL, LB, CB, DL",Joe Schoen,John Harbaugh,Matt Nagy,Dennard Wilson
+6,CLE,#311D00,"QB, OL, EDGE, RB, S",Andrew Berry,Todd Monken,Travis Switzer,
+7,WAS,#5A1414,"EDGE, CB, WR, S, OL",Adam Peters,Dan Quinn,David Blough,Daronte Jones
+8,NO,#D3BC8D,"CB, OL, WR, DL, QB",Mickey Loomis,Kellen Moore,Drew Nussmeier,Brandon Staley
+9,KC,#E31837,"DL, OL, EDGE, S, WR",Brett Veach ,Andy Reid,Eric Bieniemy,Steve Spagnulo
+10,CIN,#FB4F14,"EDGE, S, LB, OL, CB",Duke Tobin,Zac Taylor,Dan Pitcher,Al Golden
+11,MIA,#008E97,"OL, DL, S, CB, TE",Jon-Eric Sullivan,Jeff Hafley,Bobby Slowik,Sean Duggan
+12,DAL,#041E42,"WR, RB, CB, LB, DL",Jerry Jones,Brian Shottenheimer,Klayton Adams,Christian Parker
+13,LAR,#003594,"LB, CB, OL, TE, WR",Les Snead,Sean McVay,,Chris Shula
+14,BAL,#241773,"OL, CB, S, DL, EDGE",Eric DeCosta,Jesse Minter,Declan Doyle,Anthony Weaver
+15,TB,#D50A0A,"LB, CB, EDGE, S, OL",Jason Licht,Todd Bowles,Zac Robinson,Todd Bowles
+16,IND,#002C5F,"TE, OL, LB, EDGE, RB",Chris Ballard,Shane Steichen,Jim Bob Cooter,Lou Anarumo
+17,DET,#0076B6,"EDGE, OL, S, DL, WR",Brad Holmes,Dan Campbell,Drew Petzing,Kelvin Sheppard
+18,MIN,#4F2683,"CB, OL, S, LB, DL",Rob Brzezinski,Kevin O'Connell,Wes Phillips,Brian Flores
+19,CAR,#0085CA,"EDGE, S, CB, WR, DL",Dan Morgan,David Canales,Brad Idzik,Ejiro Evero
+20,GB,#203731,"CB, WR, EDGE, DL, OL",Brian Gutekunst,Matt LaFleur,Adam Stenavich,Jonathan Gannon
+21,PIT,#FFB612,"QB, RB, DL, WR, OL",Omar Khan,Mike McCarthy,,Patrick Graham
+22,LAC,#0080C6,"TE, WR, DL, RB, EDGE",Joe Hortiz,Jim Harbaugh,Mike McDaniel,Chris O'Leary
+23,PHI,#004C54,"S, DL, CB, EDGE, OL",Howie Roseman,Nick Sirianni,Sean Mannion,Vic Fangio
+24,CHI,#0B162A,"OL, EDGE, RB, S, TE",Ryan Poles,Ben Johnson,,Dennis Allen
+25,BUF,#00338D,"CB, DL, WR, EDGE, S",Brandon Beane,Joe Brady,Pete Carmichael Jr.,Jim Leonard
+26,SF,#AA0000,"DL, EDGE, OL, RB, CB",John Lynch,Kyle Shanahan,Klay Kubiak,Raheem Morris
+27,HOU,#03202F,"OL, WR, DL, S, CB",Nick Caserio,DeMeco Ryans,Nick Caley,Matt Burke
+28,DEN,#FB4F14,"RB, WR, CB, TE, DL",George Paton,Sean Payton,Davis Webb,Vance Joseph
+29,NE,#002244,"OL, DL, WR, RB, TE",Elliot Wolf,Mike Vrabel,Josh McDaniels,Terrell Williams
+30,SEA,#002244,"OL, WR, CB, S, DL",John Schneider,Mike Macdonald,,Aden Durde
+31,ATL,#A71930,"EDGE, DL, CB, OL, S",Ian Cunningham,Kevin Stefanski,Tommy Rees,Jeff Ulbrich
+32,JAX,#006778,"DL, CB, S, OL, WR",James Gladstone,Liam Coen,Grant Udinksi,Anthony Campanile

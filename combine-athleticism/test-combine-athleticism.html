@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Edge Athleticism Scores - 2026 NFL Combine</title>
+  <script src="../highcharts.js"></script>
+  <script src="../highcharts-more.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { background: #f0f0f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+    #container { width: 820px; }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script>
+    var players = [
+      { rank: 1, name: "Homer Simpson", college: "Florida", score: 92, barColor: "#0077c8", logo: "data:image/png;base64,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" },
+      { rank: 2, name: "Bart Simpson", college: "Georgia", score: 72, barColor: "#ffc000", logo: "data:image/png;base64,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" },
+      { rank: 3, name: "Nelson Muntz", college: "Alabama", score: 77, barColor: "#00b050", logo: "data:image/png;base64,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" },
+      { rank: 4, name: "Milhouse Van Houten", college: "Michigan", score: 66, barColor: "#ffc000", logo: "data:image/png;base64,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" },
+      { rank: 5, name: "Ralph Wiggum", college: "Texas", score: 55, barColor: "#c00000", logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAElUlEQVR42u1XX4hUVRj/fd85c++sM9Wazgg9RG/iWrsvsWOZ3FkokjDTtRFp/VNUhBjRSxAITfsgRI9GG5oEbquEA636ICGZc0laXRNsybW3/oBiM+Surbs7M/ee8/WyY1s6u+psLdT84MI5nHO/8zvn+w800EADDfy/QdXBoUxGVceZXM4SIP8mEQEol8lwdb4xlzMz/5DN8hRp+ieJHcpklGSzPOML9m5ujd2HWEqRbTZMv6pAD685eGpkupBZb3QXxKbL7N/mNTPKy5WVJaR4VIfjZ57uGxonADi8tb3DZb27FBom4AEmRAk0IEK71/YNHK4KvNCSk+5u2HqIZbPg5cMZqpI7sqX9OSZ+Q0Qet4KSAJejWtlSELy5/sDZEzepr39bWzPbBU8Ryc77m5y2kcnKt4GxOzsPDB4HgJOep9O+b6o2KgLKpz1VTCblQqFAALA8mZREoUDpvG+IpvYBlPc81eH7IQAc3rLiSc20qzkaaR+ZqAxZi11Wu8fX7/dHb+kk0+Y3nOPzzantruKepojCWDnoDQy/8/zBgZ+rB0KAKoGatiwgEFC90NEtKx8ETHfc1S9OBgbG2h1rPz3TU4sD1fKmqjpzm1KtrkO9yZjbVhgv/wbY9wKrejf0DRQA4MjLqSVcRkdAqCiIMlYIzGGE2SGE+TX7z14BgGMvPZEIwmArE72diLmLi9fLQxWxWzf0DX5XVfutoseMHnrS83SH74eHMi3xaPTe95sianvMUbgyVh4lwg8iYomwLO5EFhqRG8IEgCLC9Uo4IiIXQcQEWbokHl04XjGYCMI9xWvqrVeOfjNWPWPWODhTuKHubgsA/V2pdIRph4Gsc7XSVgShEYRiDd2sCWhipRWBiVAOTchERwzsh+t6B0/ebnRQsxHs9n3JZsHvwlNjSTPqCBZYwWPGSsRYURYQAjH+9hGIBRArQsZKBaBrmuSTQOSrz5aurCAzTK/3DM8aEfh2QkM673GH74e6bF9LxNyP4o5OuFo5AikCYqimasSKlaKrlBNz1OLF8aYeCG+nXM6k8x7fUaq7nVREgPR3ta+KuXrVRGgvWgRDZPV5JoobEaEpeQKIIiIjMqFAbRb24Xsc3XK9FJxad/Ds14I/vXrOCNZCf1fqvBvh1nJoLEBTJiPG1YpLofm+s2+wtR75+m5SVKKlQJNXm9QzH3xRFsIeR3FPKTR/8WJHMZVCsxcAjq1e7TalJk1xOCl3mjKpnuoDAHKZFVHt2GFHq4eC0FoAiGjmILS/qFi47Nm95yZxByq9KyepcTPJe57amDs9ScDHUc0QEiskNqoZAPat3XtuIu95qp7Sjeuxj2IyKQCIiE6UQgsSYhLicmghbL8EQFN7MC8Eb6Rbg0WKCCARkAgzAQaLMAdFb10EE1PVizA6NZMVQAQQTWRB1Dl9z3y+IERwKaKIAVgAVitiAi7Nhey6CObTvhWA2DH7fi+HP8Yi2olFtDNWCn8yovYJQPm0b+ekaaon3BAgB154ZGGzs+BRALg8TudezZ2+Wl2b99ZQatSVc9p2zmXbOB9tawMNNNDAfxV/AIy/JujNkVzrAAAAAElFTkSuQmCC" }
+    ];
+
+    var startY = 20;
+    var rowGap = 15;
+
+    var rowData = players.map(function(p, i) {
+      var nameParts = p.name.split(' ');
+      var firstName = nameParts[0];
+      var lastName = nameParts.slice(1).join(' ');
+      return {
+        x: 0,
+        y: startY + i * rowGap,
+        rank: p.rank,
+        firstName: firstName,
+        lastName: lastName,
+        score: p.score,
+        barColor: p.barColor,
+        barWidth: Math.round(((p.score - 50) / 49) * 100),
+        logo: p.logo
+      };
+    });
+
+    Highcharts.chart('container', {
+      chart: {
+        type: 'scatter',
+        backgroundColor: '#ffffff',
+        height: 560,
+        spacing: [15, 20, 15, 20],
+        style: { fontFamily: "'Barlow Condensed', sans-serif" },
+        animation: false
+      },
+      title: { text: null },
+      legend: { enabled: false },
+      credits: { enabled: false },
+      xAxis: { min: 0, max: 100, visible: false },
+      yAxis: { min: 0, max: 100, visible: false, reversed: true },
+      tooltip: { enabled: false },
+      plotOptions: {
+        scatter: { marker: { enabled: false }, enableMouseTracking: false },
+        bubble: {
+          minSize: 44,
+          maxSize: 44,
+          enableMouseTracking: false
+        }
+      },
+      series: [
+        {
+          name: 'Title',
+          type: 'scatter',
+          data: [{ x: 0, y: 2 }],
+          dataLabels: {
+            enabled: true, useHTML: true,
+            formatter: function() {
+              return '<div>'
+                + '<div style="font-size:28px;font-weight:900;color:#1a1a2e;letter-spacing:1px;text-transform:uppercase;">Top Edge Athleticism Scores</div>'
+                + '<div style="font-size:16px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">2026 NFL Combine</div>'
+                + '</div>';
+            },
+            align: 'left', verticalAlign: 'top',
+            style: { textOutline: 'none' }
+          }
+        },
+        {
+          name: 'CollegeLogos',
+          type: 'bubble',
+          data: players.map(function(p, i) {
+            return {
+              x: 7.5,
+              y: startY + i * rowGap,
+              z: 10,
+              name: p.college,
+              marker: { symbol: 'url(' + p.logo + ')' }
+            };
+          }),
+          dataLabels: { enabled: false }
+        },
+        {
+          name: 'Rows',
+          type: 'scatter',
+          data: rowData,
+          dataLabels: {
+            enabled: true, useHTML: true,
+            formatter: function() {
+              var p = this.point;
+              return '<div style="display:flex;align-items:center;width:700px;height:56px;">'
+                + '<div style="width:35px;font-size:22px;font-weight:700;color:#aaa;text-align:center;">' + p.rank + '</div>'
+                + '<div style="width:55px;"></div>'
+                + '<div style="width:160px;"><span style="font-size:18px;font-weight:600;color:#333;">' + p.firstName + ' </span><span style="font-size:18px;font-weight:800;color:#333;">' + p.lastName + '</span></div>'
+                + '<div style="flex:1;position:relative;height:28px;overflow:visible;z-index:1;">'
+                + '<div style="position:absolute;left:0;top:0;height:100%;width:' + p.barWidth + '%;background:' + p.barColor + ';border-radius:4px;"></div>'
+                + '<div style="position:absolute;top:50%;transform:translateY(-50%);left:' + p.barWidth + '%;margin-left:-20px;width:40px;height:40px;border-radius:50%;background:' + p.barColor + ';display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.4);z-index:2;">' + p.score + '</div>'
+                + '</div>'
+                + '</div>';
+            },
+            align: 'left', verticalAlign: 'middle',
+            overflow: 'allow', crop: false,
+            style: { textOutline: 'none' }
+          }
+        },
+        {
+          name: 'Dividers',
+          type: 'scatter',
+          data: [
+            { x: 0, y: 28 }, { x: 0, y: 43 }, { x: 0, y: 58 }, { x: 0, y: 73 }
+          ],
+          dataLabels: {
+            enabled: true, useHTML: true,
+            formatter: function() {
+              return '<div style="width:700px;height:1px;background:rgba(0,0,0,0.1);margin-left:35px;"></div>';
+            },
+            align: 'left', verticalAlign: 'middle',
+            style: { textOutline: 'none' }
+          }
+        },
+        {
+          name: 'LegendBar',
+          type: 'scatter',
+          data: [{ x: 58, y: 94 }],
+          dataLabels: {
+            enabled: true, useHTML: true,
+            formatter: function() {
+              return '<div style="text-align:center;">'
+                + '<div style="width:280px;height:8px;border-radius:4px;background:linear-gradient(90deg,#c00000 0%,#ffc000 25%,#00b050 55%,#0077c8 100%);"></div>'
+                + '<div style="display:flex;justify-content:space-between;width:280px;margin-top:3px;">'
+                + '<span style="font-size:10px;color:#999;">50</span>'
+                + '<span style="font-size:10px;color:#999;">60</span>'
+                + '<span style="font-size:10px;color:#999;">75</span>'
+                + '<span style="font-size:10px;color:#999;">90</span>'
+                + '<span style="font-size:10px;color:#999;">99</span>'
+                + '</div>'
+                + '<div style="display:flex;justify-content:space-between;width:280px;margin-top:1px;">'
+                + '<span style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:0.5px;">< AVG</span>'
+                + '<span style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:0.5px;">AVERAGE</span>'
+                + '<span style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:0.5px;">GOOD</span>'
+                + '<span style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:0.5px;">ELITE</span>'
+                + '</div></div>';
+            },
+            align: 'center', verticalAlign: 'bottom',
+            style: { textOutline: 'none' }
+          }
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

@@ -30,9 +30,14 @@ Expression: ${RosterFilter}
 On each target dataset, add calc field:
 ```
 Name: ShowByRoster
-Expression: ifelse(${RosterFilter}='STARTERS', 1, ifelse(RosterType=${RosterFilter}, 1, 0))
+Expression: ifelse(${RosterFilter}='90-MAN', 1, ${RosterFilter}='TOP 51' AND {Team Top 51 Contracts}<52, 1, ${RosterFilter}='STARTERS' AND {starter_flag}=1, 1, 0)
 ```
 Filter target visuals: `ShowByRoster = 1`
+
+**Logic:** Classification is derived from player data, not a pre-assigned column:
+- **90-MAN** → shows all players (no condition)
+- **TOP 51** → shows players where `Team Top 51 Contracts < 52`
+- **STARTERS** → shows players where `starter_flag = 1`
 
 ## Files
 - `quicksight-roster-filter.json` — Highcharts config

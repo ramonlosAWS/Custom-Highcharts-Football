@@ -1,0 +1,54 @@
+{
+  "chart": {
+    "polar": true,
+    "type": "line",
+    "backgroundColor": "#1a1a2e",
+    "height": 400,
+    "animation": false,
+    "style": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, sans-serif"
+    }
+  },
+  "title": {
+    "text": "highcharts-more.js Test: Polar/Radar",
+    "style": { "color": "#ffffff", "fontSize": "16px" }
+  },
+  "subtitle": {
+    "text": "If this renders as a radar/spider chart, highcharts-more.js is loaded",
+    "style": { "color": "#888888", "fontSize": "12px" }
+  },
+  "credits": { "enabled": false },
+  "legend": { "enabled": false },
+  "xAxis": {
+    "categories": ["Speed", "Strength", "Agility", "Power", "Quickness"],
+    "tickmarkPlacement": "on",
+    "lineWidth": 0,
+    "labels": {
+      "style": { "color": "#cccccc", "fontSize": "13px" }
+    }
+  },
+  "yAxis": {
+    "gridLineInterpolation": "polygon",
+    "min": 0,
+    "max": 100,
+    "labels": { "enabled": false },
+    "gridLineColor": "rgba(255,255,255,0.15)"
+  },
+  "tooltip": {
+    "pointFormat": "{series.name}: <b>{point.y}</b>"
+  },
+  "series": [
+    {
+      "name": "Player A",
+      "data": [88, 72, 95, 68, 91],
+      "color": "#0077c8",
+      "pointPlacement": "on"
+    },
+    {
+      "name": "Player B",
+      "data": [65, 90, 70, 85, 60],
+      "color": "#ffc000",
+      "pointPlacement": "on"
+    }
+  ]
+}

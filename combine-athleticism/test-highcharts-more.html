@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test highcharts-more.js Chart Types for QuickSight</title>
+  <script src="../highcharts.js"></script>
+  <script src="../highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/11.4.6/modules/solid-gauge.js"></script>
+  <style>
+    body {
+      background: #1e1e2f;
+      color: #ccc;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 { color: #fff; text-align: center; margin-bottom: 5px; }
+    .subtitle { text-align: center; color: #888; margin-bottom: 30px; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1400px; margin: 0 auto; }
+    .chart-card {
+      background: #2a2a3e;
+      border-radius: 8px;
+      padding: 15px;
+      border: 1px solid #3a3a5e;
+    }
+    .chart-card h3 { margin: 0 0 5px 0; color: #fff; font-size: 16px; }
+    .chart-card .note { font-size: 11px; color: #888; margin-bottom: 10px; }
+    .chart-container { height: 320px; }
+    .status { font-size: 12px; margin-top: 8px; padding: 6px 10px; border-radius: 4px; }
+    .status.pass { background: #1b4332; color: #52b788; }
+    .status.info { background: #1a2744; color: #74b9ff; }
+    .full-width { grid-column: 1 / -1; }
+    .legend { max-width: 1400px; margin: 30px auto 0; padding: 15px; background: #2a2a3e; border-radius: 8px; border: 1px solid #3a3a5e; }
+    .legend h3 { color: #fff; margin: 0 0 10px 0; }
+    .legend p { margin: 5px 0; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>highcharts-more.js Feature Test for QuickSight</h1>
+  <div class="subtitle">Highcharts 11.4.6 — JSON-only configs (no JS functions) to mirror QS constraints</div>
+
+  <div class="grid">
+
+    <!-- 1. Bubble Chart -->
+    <div class="chart-card">
+      <h3>1. Bubble Chart</h3>
+      <div class="note">Type: bubble — requires highcharts-more.js</div>
+      <div id="chart-bubble" class="chart-container"></div>
+      <div class="status pass">KNOWN WORKING in QS — used in combine-athleticism visual for logos</div>
+    </div>
+
+    <!-- 2. Packed Bubble Chart -->
+    <div class="chart-card">
+      <h3>2. Packed Bubble Chart</h3>
+      <div class="note">Type: packedbubble — requires highcharts-more.js</div>
+      <div id="chart-packedbubble" class="chart-container"></div>
+      <div class="status info">TEST in QS — mentioned in steering doc as recommended chart type</div>
+    </div>
+
+    <!-- 3. Polar / Radar Chart -->
+    <div class="chart-card">
+      <h3>3. Polar / Radar Chart</h3>
+      <div class="note">chart.polar: true — requires highcharts-more.js</div>
+      <div id="chart-polar" class="chart-container"></div>
+      <div class="status info">TEST in QS — useful for player attribute comparisons</div>
+    </div>
+
+    <!-- 4. Area Range -->
+    <div class="chart-card">
+      <h3>4. Area Range Chart</h3>
+      <div class="note">Type: arearange — requires highcharts-more.js</div>
+      <div id="chart-arearange" class="chart-container"></div>
+      <div class="status info">TEST in QS — useful for showing min/max ranges</div>
+    </div>
+
+    <!-- 5. Column Range -->
+    <div class="chart-card">
+      <h3>5. Column Range Chart</h3>
+      <div class="note">Type: columnrange — requires highcharts-more.js</div>
+      <div id="chart-columnrange" class="chart-container"></div>
+      <div class="status info">TEST in QS — useful for showing value ranges per category</div>
+    </div>
+
+    <!-- 6. Gauge Chart -->
+    <div class="chart-card">
+      <h3>6. Gauge Chart</h3>
+      <div class="note">Type: gauge — requires highcharts-more.js</div>
+      <div id="chart-gauge" class="chart-container"></div>
+      <div class="status info">TEST in QS — useful for KPI speedometers</div>
+    </div>
+
+    <!-- 7. Solid Gauge -->
+    <div class="chart-card">
+      <h3>7. Solid Gauge</h3>
+      <div class="note">Type: solidgauge — requires highcharts-more.js + solid-gauge module</div>
+      <div id="chart-solidgauge" class="chart-container"></div>
+      <div class="status info">TEST in QS — may need separate module (solid-gauge.js)</div>
+    </div>
+
+    <!-- 8. Box Plot -->
+    <div class="chart-card">
+      <h3>8. Box Plot</h3>
+      <div class="note">Type: boxplot — requires highcharts-more.js</div>
+      <div id="chart-boxplot" class="chart-container"></div>
+      <div class="status info">TEST in QS — useful for statistical distributions</div>
+    </div>
+
+    <!-- 9. Waterfall Chart -->
+    <div class="chart-card">
+      <h3>9. Waterfall Chart</h3>
+      <div class="note">Type: waterfall — requires highcharts-more.js</div>
+      <div id="chart-waterfall" class="chart-container"></div>
+      <div class="status info">TEST in QS — useful for financial breakdowns</div>
+    </div>
+
+    <!-- 10. Error Bar -->
+    <div class="chart-card">
+      <h3>10. Error Bar Chart</h3>
+      <div class="note">Type: errorbar — requires highcharts-more.js</div>
+      <div id="chart-errorbar" class="chart-container"></div>
+      <div class="status info">TEST in QS — useful for confidence intervals</div>
+    </div>
+
+    <!-- 11. Polygon -->
+    <div class="chart-card">
+      <h3>11. Polygon Series</h3>
+      <div class="note">Type: polygon — requires highcharts-more.js</div>
+      <div id="chart-polygon" class="chart-container"></div>
+      <div class="status info">TEST in QS — useful for custom shapes/zones</div>
+    </div>
+
+    <!-- 12. Bubble with useHTML dataLabels -->
+    <div class="chart-card">
+      <h3>12. Bubble + HTML DataLabels (QS Pattern)</h3>
+      <div class="note">Bubble with base64 marker + useHTML labels — the QS combo pattern</div>
+      <div id="chart-bubble-html" class="chart-container"></div>
+      <div class="status pass">KNOWN WORKING — this is the pattern used for logo displays</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <h3>QuickSight Compatibility Notes</h3>
+    <p><span style="color:#52b788;">KNOWN WORKING</span> — Confirmed working in QuickSight Highcharts visual</p>
+    <p><span style="color:#74b9ff;">TEST</span> — Needs testing in QuickSight. Renders locally with Highcharts 11.4.6</p>
+    <p>All configs below use JSON-only (no JS functions) to match QuickSight security constraints.</p>
+    <p>QuickSight loads: highcharts.js (core). The question is whether highcharts-more.js is also loaded.</p>
+    <p>If bubble charts work in QS (confirmed), then highcharts-more.js IS loaded — meaning all these types should work.</p>
+  </div>
+

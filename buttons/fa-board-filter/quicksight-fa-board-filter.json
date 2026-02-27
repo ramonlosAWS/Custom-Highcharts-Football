@@ -26,7 +26,7 @@
       "map",
       ["getColumn", 1, 2],
       {
-        "x": ["+", 14, ["*", ["itemIndex"], 19]],
+        "x": ["+", 12.5, ["*", ["itemIndex"], 25]],
         "y": 50,
         "label": ["get", ["item"], 0],
         "bg": [
