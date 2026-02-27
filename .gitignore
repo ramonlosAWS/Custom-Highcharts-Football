@@ -1,3 +1,7 @@
 .DS_Store
 .kiro/
 .vscode/
+
+# Highcharts library files (local testing only)
+highcharts.js
+highcharts-more.js
