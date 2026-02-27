@@ -1,0 +1,66 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 80,
+    "spacing": [5, 5, 5, 5],
+    "style": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [{
+    "type": "scatter",
+    "data": [{
+      "x": 3,
+      "y": 50,
+      "metricLabel": "CAP SPACE",
+      "rawVal": ["*", ["get", ["getColumn", 5], 0], 1],
+      "displayVal": ["case",
+        ["<", ["*", ["get", ["getColumn", 5], 0], 1], 0],
+        ["+", "($", ["*", ["*", ["get", ["getColumn", 5], 0], 1], -1], ")"],
+        ["+", "$", ["get", ["getColumn", 5], 0]]
+      ],
+      "rank": ["get", ["getColumn", 0], 0],
+      "barWidth": ["+", "",
+        ["case",
+          ["<", ["*", ["get", ["getColumn", 5], 0], 1], 0],
+          ["/", ["*", ["*", ["get", ["getColumn", 5], 0], 1], -1], 1050000],
+          ["/", ["*", ["get", ["getColumn", 5], 0], 1], 1050000]
+        ],
+        "%"
+      ],
+      "barColor": ["case",
+        ["<", ["*", ["get", ["getColumn", 5], 0], 1], 0], "#dc3545",
+        "#10b981"
+      ],
+      "textColor": ["case",
+        ["<", ["*", ["get", ["getColumn", 5], 0], 1], 0], "#dc3545",
+        "#333"
+      ],
+      "borderColor": ["case",
+        ["<", ["*", ["get", ["getColumn", 5], 0], 1], 0], "#dc3545",
+        "#10b981"
+      ]
+    }],
+    "dataLabels": {
+      "enabled": true,
+      "useHTML": true,
+      "format": "<div style='width:340px;padding:8px;background:#f8f8f8;border-left:3px solid {point.borderColor};border-radius:4px;'><div style='font-size:8px;color:#999;font-weight:600;letter-spacing:0.3px;margin-bottom:3px;'>{point.metricLabel}</div><div style='display:flex;align-items:center;gap:8px;'><div style='font-size:16px;font-weight:900;color:{point.textColor};min-width:120px;'>{point.displayVal}</div><div style='display:flex;align-items:center;gap:6px;flex:1;'><div style='background:#e8e8e8;color:#666;font-size:9px;font-weight:700;padding:3px 6px;border-radius:3px;'>#{point.rank}</div><div style='flex:1;position:relative;height:14px;background:#e8e8e8;border-radius:7px;overflow:hidden;'><div style='position:absolute;left:0;top:0;bottom:0;width:{point.barWidth};background:{point.barColor};border-radius:7px;'></div></div></div></div></div>",
+      "align": "left",
+      "verticalAlign": "middle",
+      "style": { "textOutline": "none" }
+    }
+  }]
+}

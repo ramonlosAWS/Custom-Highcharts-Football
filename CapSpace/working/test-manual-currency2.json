@@ -1,0 +1,246 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 400
+  },
+  "title": { "text": "Manual Currency — All 3 Values + Zero Padding" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false, "reversed": true },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "CapSpace",
+      "data": [{
+        "x": 50,
+        "y": 15,
+        "formatted": ["+", "$",
+          ["+",
+            ["case",
+              [">=", ["get", ["getColumnFromValue", 0], 0], 1000000000],
+              ["+", ["floor", ["/", ["get", ["getColumnFromValue", 0], 0], 1000000000]], ","],
+              ""
+            ],
+            ["+",
+              ["case",
+                [">=", ["get", ["getColumnFromValue", 0], 0], 1000000],
+                ["+",
+                  ["case",
+                    ["and", [">=", ["get", ["getColumnFromValue", 0], 0], 1000000000], ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000000], 1000000]], 100]],
+                    ["+", "0",
+                      ["case",
+                        ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000000], 1000000]], 10],
+                        ["+", "0", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000000], 1000000]]],
+                        ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000000], 1000000]]
+                      ]
+                    ],
+                    ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000000], 1000000]]
+                  ],
+                  ","
+                ],
+                ""
+              ],
+              ["+",
+                ["case",
+                  [">=", ["get", ["getColumnFromValue", 0], 0], 1000],
+                  ["+",
+                    ["case",
+                      ["and", [">=", ["get", ["getColumnFromValue", 0], 0], 1000000], ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000], 1000]], 100]],
+                      ["+", "0",
+                        ["case",
+                          ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000], 1000]], 10],
+                          ["+", "0", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000], 1000]]],
+                          ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000], 1000]]
+                        ]
+                      ],
+                      ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000], 1000]]
+                    ],
+                    ","
+                  ],
+                  ""
+                ],
+                ["case",
+                  ["and", [">=", ["get", ["getColumnFromValue", 0], 0], 1000], ["<", ["%", ["get", ["getColumnFromValue", 0], 0], 1000], 100]],
+                  ["+", "0",
+                    ["case",
+                      ["<", ["%", ["get", ["getColumnFromValue", 0], 0], 1000], 10],
+                      ["+", "0", ["%", ["get", ["getColumnFromValue", 0], 0], 1000]],
+                      ["%", ["get", ["getColumnFromValue", 0], 0], 1000]
+                    ]
+                  ],
+                  ["%", ["get", ["getColumnFromValue", 0], 0], 1000]
+                ]
+              ]
+            ]
+          ]
+        ]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:22px;font-weight:700;'>Cap Space: {point.formatted}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "ActiveCap",
+      "data": [{
+        "x": 50,
+        "y": 45,
+        "formatted": ["+", "$",
+          ["+",
+            ["case",
+              [">=", ["get", ["getColumnFromValue", 1], 0], 1000000000],
+              ["+", ["floor", ["/", ["get", ["getColumnFromValue", 1], 0], 1000000000]], ","],
+              ""
+            ],
+            ["+",
+              ["case",
+                [">=", ["get", ["getColumnFromValue", 1], 0], 1000000],
+                ["+",
+                  ["case",
+                    ["and", [">=", ["get", ["getColumnFromValue", 1], 0], 1000000000], ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000000], 1000000]], 100]],
+                    ["+", "0",
+                      ["case",
+                        ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000000], 1000000]], 10],
+                        ["+", "0", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000000], 1000000]]],
+                        ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000000], 1000000]]
+                      ]
+                    ],
+                    ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000000], 1000000]]
+                  ],
+                  ","
+                ],
+                ""
+              ],
+              ["+",
+                ["case",
+                  [">=", ["get", ["getColumnFromValue", 1], 0], 1000],
+                  ["+",
+                    ["case",
+                      ["and", [">=", ["get", ["getColumnFromValue", 1], 0], 1000000], ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000], 1000]], 100]],
+                      ["+", "0",
+                        ["case",
+                          ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000], 1000]], 10],
+                          ["+", "0", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000], 1000]]],
+                          ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000], 1000]]
+                        ]
+                      ],
+                      ["floor", ["/", ["%", ["get", ["getColumnFromValue", 1], 0], 1000000], 1000]]
+                    ],
+                    ","
+                  ],
+                  ""
+                ],
+                ["case",
+                  ["and", [">=", ["get", ["getColumnFromValue", 1], 0], 1000], ["<", ["%", ["get", ["getColumnFromValue", 1], 0], 1000], 100]],
+                  ["+", "0",
+                    ["case",
+                      ["<", ["%", ["get", ["getColumnFromValue", 1], 0], 1000], 10],
+                      ["+", "0", ["%", ["get", ["getColumnFromValue", 1], 0], 1000]],
+                      ["%", ["get", ["getColumnFromValue", 1], 0], 1000]
+                    ]
+                  ],
+                  ["%", ["get", ["getColumnFromValue", 1], 0], 1000]
+                ]
+              ]
+            ]
+          ]
+        ]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:22px;font-weight:700;color:#666;'>Active Cap: {point.formatted}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "DeadMoney",
+      "data": [{
+        "x": 50,
+        "y": 75,
+        "formatted": ["+", "$",
+          ["+",
+            ["case",
+              [">=", ["get", ["getColumnFromValue", 2], 0], 1000000000],
+              ["+", ["floor", ["/", ["get", ["getColumnFromValue", 2], 0], 1000000000]], ","],
+              ""
+            ],
+            ["+",
+              ["case",
+                [">=", ["get", ["getColumnFromValue", 2], 0], 1000000],
+                ["+",
+                  ["case",
+                    ["and", [">=", ["get", ["getColumnFromValue", 2], 0], 1000000000], ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000000], 1000000]], 100]],
+                    ["+", "0",
+                      ["case",
+                        ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000000], 1000000]], 10],
+                        ["+", "0", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000000], 1000000]]],
+                        ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000000], 1000000]]
+                      ]
+                    ],
+                    ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000000], 1000000]]
+                  ],
+                  ","
+                ],
+                ""
+              ],
+              ["+",
+                ["case",
+                  [">=", ["get", ["getColumnFromValue", 2], 0], 1000],
+                  ["+",
+                    ["case",
+                      ["and", [">=", ["get", ["getColumnFromValue", 2], 0], 1000000], ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000], 1000]], 100]],
+                      ["+", "0",
+                        ["case",
+                          ["<", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000], 1000]], 10],
+                          ["+", "0", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000], 1000]]],
+                          ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000], 1000]]
+                        ]
+                      ],
+                      ["floor", ["/", ["%", ["get", ["getColumnFromValue", 2], 0], 1000000], 1000]]
+                    ],
+                    ","
+                  ],
+                  ""
+                ],
+                ["case",
+                  ["and", [">=", ["get", ["getColumnFromValue", 2], 0], 1000], ["<", ["%", ["get", ["getColumnFromValue", 2], 0], 1000], 100]],
+                  ["+", "0",
+                    ["case",
+                      ["<", ["%", ["get", ["getColumnFromValue", 2], 0], 1000], 10],
+                      ["+", "0", ["%", ["get", ["getColumnFromValue", 2], 0], 1000]],
+                      ["%", ["get", ["getColumnFromValue", 2], 0], 1000]
+                    ]
+                  ],
+                  ["%", ["get", ["getColumnFromValue", 2], 0], 1000]
+                ]
+              ]
+            ]
+          ]
+        ]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:22px;font-weight:700;color:#f59e0b;'>Dead Money: {point.formatted}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    }
+  ]
+}

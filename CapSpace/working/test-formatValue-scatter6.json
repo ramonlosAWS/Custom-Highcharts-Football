@@ -1,0 +1,88 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 400
+  },
+  "title": { "text": "Manual Comma Formatting Attempts" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "TestA",
+      "data": [{
+        "x": 50,
+        "y": ["get", ["getColumnFromValue", 0], 0],
+        "millions": ["/", ["get", ["getColumnFromValue", 0], 0], 1000000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:18px;font-weight:700;'>A (millions): ${point.millions:,.1f}M</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" },
+        "y": -60
+      }
+    },
+    {
+      "name": "TestB",
+      "data": [{
+        "x": 50,
+        "y": ["get", ["getColumnFromValue", 0], 0],
+        "millions": ["/", ["get", ["getColumnFromValue", 0], 0], 1000000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:18px;font-weight:700;color:#666;'>B (concat): ${point.millions:.1f}M</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" },
+        "y": -20
+      }
+    },
+    {
+      "name": "TestC",
+      "data": [{
+        "x": 50,
+        "y": ["get", ["getColumnFromValue", 0], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:18px;font-weight:700;color:#999;'>C (raw div 1M): {point.y:,.1f}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" },
+        "y": 20
+      }
+    },
+    {
+      "name": "TestD",
+      "data": [{
+        "x": 50,
+        "y": ["get", ["getColumnFromValue", 0], 0],
+        "displayVal": ["+", "$", ["+", ["getColumn", 1]]]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:18px;font-weight:700;color:#c00;'>D (string concat): {point.displayVal}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" },
+        "y": 60
+      }
+    }
+  ]
+}

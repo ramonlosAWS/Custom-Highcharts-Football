@@ -1,0 +1,54 @@
+{
+  "_comment": "FA Board Filter - FLEXBOX TEST. Single data point with all buttons in one flex container. Click will only trigger for row 0 (STREET FA). This is a layout test to see if flex:1 auto-sizes buttons correctly in QS.",
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 38,
+    "spacing": [5, 0, 5, 0],
+    "animation": false,
+    "style": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    }
+  },
+  "title": { "text": null },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": { "marker": { "enabled": false, "radius": 0 }, "animation": false, "states": { "hover": { "enabled": false }, "select": { "enabled": false }, "inactive": { "enabled": false } } },
+    "series": { "enableMouseTracking": true, "cursor": "pointer", "animation": false, "marker": { "enabled": false, "radius": 0, "states": { "hover": { "enabled": false, "radius": 0 }, "select": { "enabled": false, "radius": 0 } } } }
+  },
+  "series": [{
+    "name": "FABoardFilter",
+    "data": [{
+      "x": 50,
+      "y": 50,
+      "btn0": ["get", ["getColumn", 1], 0],
+      "btn1": ["get", ["getColumn", 1], 1],
+      "btn2": ["get", ["getColumn", 1], 2],
+      "btn3": ["get", ["getColumn", 1], 3],
+      "sel": ["get", ["getColumn", 2], 0],
+      "bg0": ["case", ["==", ["get", ["getColumn", 1], 0], ["get", ["getColumn", 2], 0]], "#1a2b4c", "transparent"],
+      "tc0": ["case", ["==", ["get", ["getColumn", 1], 0], ["get", ["getColumn", 2], 0]], "#ffffff", "#1a2b4c"],
+      "bg1": ["case", ["==", ["get", ["getColumn", 1], 1], ["get", ["getColumn", 2], 0]], "#1a2b4c", "transparent"],
+      "tc1": ["case", ["==", ["get", ["getColumn", 1], 1], ["get", ["getColumn", 2], 0]], "#ffffff", "#1a2b4c"],
+      "bg2": ["case", ["==", ["get", ["getColumn", 1], 2], ["get", ["getColumn", 2], 0]], "#1a2b4c", "transparent"],
+      "tc2": ["case", ["==", ["get", ["getColumn", 1], 2], ["get", ["getColumn", 2], 0]], "#ffffff", "#1a2b4c"],
+      "bg3": ["case", ["==", ["get", ["getColumn", 1], 3], ["get", ["getColumn", 2], 0]], "#1a2b4c", "transparent"],
+      "tc3": ["case", ["==", ["get", ["getColumn", 1], 3], ["get", ["getColumn", 2], 0]], "#ffffff", "#1a2b4c"]
+    }],
+    "dataLabels": {
+      "enabled": true,
+      "useHTML": true,
+      "format": "<div style='display:flex;width:660px;'><div style='flex:1;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:600;color:{point.tc0};background:{point.bg0};border-right:1px solid #c0c8d1;cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.btn0}</div><div style='flex:1;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:600;color:{point.tc1};background:{point.bg1};border-right:1px solid #c0c8d1;cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.btn1}</div><div style='flex:1;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:600;color:{point.tc2};background:{point.bg2};border-right:1px solid #c0c8d1;cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.btn2}</div><div style='flex:1;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:600;color:{point.tc3};background:{point.bg3};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.btn3}</div></div>",
+      "align": "center",
+      "verticalAlign": "middle",
+      "overflow": "allow",
+      "crop": false,
+      "style": { "textOutline": "none" }
+    },
+    "point": { "events": { "click": ["triggerClick", { "rowIndex": "point.index" }] } }
+  }]
+}

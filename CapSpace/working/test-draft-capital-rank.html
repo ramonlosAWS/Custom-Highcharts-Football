@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Draft Capital Rank - Test</title>
+    <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+    <script src="https://code.highcharts.com/11.4.6/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/11.4.6/modules/bullet.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { margin: 0 0 10px 0; font-size: 24px; color: #333; }
+        .subtitle { color: #666; margin-bottom: 30px; font-size: 14px; }
+        .chart-section { margin-bottom: 40px; padding: 20px; background: #fafafa; border-radius: 8px; }
+        .chart-section h2 { margin: 0 0 15px 0; font-size: 16px; color: #555; }
+        .controls { margin-bottom: 20px; padding: 15px; background: #f8f8f8; border-radius: 8px; }
+        select, input { padding: 8px 12px; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; margin-right: 10px; }
+        label { display: inline-block; margin-right: 10px; font-weight: 600; font-size: 13px; color: #555; }
+        button { padding: 8px 14px; font-size: 13px; border: 1px solid #ddd; border-radius: 4px; background: #fff; cursor: pointer; margin-right: 5px; }
+        button:hover { background: #f0f0f0; }
+        .error { color: red; padding: 10px; background: #fff0f0; border-radius: 4px; margin-bottom: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NFL Draft Capital Rank Widget</h1>
+        <div class="subtitle">Testing Highcharts 11.4.6 - QuickSight-compatible patterns</div>
+        <div id="load-error" class="error"></div>
+        <div class="controls">
+            <label>Rank (1-32):</label>
+            <input type="number" id="rank-input" min="1" max="32" value="8" onchange="updateCharts()">
+            <button onclick="setRank(1)">1st</button>
+            <button onclick="setRank(16)">16th</button>
+            <button onclick="setRank(32)">32nd</button>
+        </div>
+        <div class="chart-section">
+            <h2>Option 1: Horizontal Bar (Recommended)</h2>
+            <div id="chart-horizontal"></div>
+        </div>
+        <div class="chart-section">
+            <h2>Option 2: Thermometer</h2>
+            <div id="chart-thermometer"></div>
+        </div>
+        <div class="chart-section">
+            <h2>Option 3: Bullet Chart</h2>
+            <div id="chart-bullet"></div>
+        </div>
+    </div>
+<script>
+function setRank(r) {
+    document.getElementById('rank-input').value = r;
+    updateCharts();
+}
+
+function updateCharts() {
+    if (typeof Highcharts === 'undefined') {
+        document.getElementById('load-error').style.display = 'block';
+        document.getElementById('load-error').textContent = 'ERROR: Highcharts failed to load from CDN. Check your internet connection and try refreshing.';
+        return;
+    }
+
+    var rank = parseInt(document.getElementById('rank-input').value);
+    var c0 = rank <= 10 ? '#10b981' : (rank <= 22 ? '#f59e0b' : '#ef4444');
+    var c1 = rank <= 10 ? '#059669' : (rank <= 22 ? '#d97706' : '#dc2626');
+    var barWidth = ((33 - rank) * 3.125) + '%';
+    var thermHeight = (((33 - rank) * 100) / 32) + '%';
+    var barGrad = 'linear-gradient(90deg,' + c0 + ',' + c1 + ')';
+    var thermGrad = 'linear-gradient(180deg,' + c0 + ',' + c1 + ')';
+
+    Highcharts.chart('chart-horizontal', {
+        chart: { type: 'scatter', backgroundColor: '#ffffff', height: 120, spacing: [0,0,0,0] },
+        title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+        xAxis: { min: 0, max: 100, visible: false },
+        yAxis: { min: 0, max: 100, visible: false },
+        tooltip: { enabled: false },
+        plotOptions: { scatter: { marker: { enabled: false }, enableMouseTracking: false } },
+        series: [{
+            data: [{ x: 50, y: 50, rank: rank, barWidth: barWidth, barGrad: barGrad }],
+            dataLabels: {
+                enabled: true, useHTML: true, align: 'center', verticalAlign: 'middle',
+                style: { textOutline: 'none' },
+                format: "<div style='width:450px;padding:20px;background:#f8f8f8;border:1px solid #e0e0e0;border-radius:8px;'><div style='font-size:11px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:12px;letter-spacing:0.5px;'>Draft Capital Rank</div><div style='display:flex;align-items:center;gap:15px;'><div style='font-size:36px;font-weight:900;color:#333;line-height:1;min-width:65px;'>#{point.rank}</div><div style='flex:1;'><div style='position:relative;height:24px;background:#e8e8e8;border-radius:12px;overflow:hidden;'><div style='position:absolute;left:0;top:0;bottom:0;width:{point.barWidth};background:{point.barGrad};border-radius:12px;'></div><div style='position:absolute;left:{point.barWidth};top:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:white;border:2px solid #333;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,0.2);'></div></div><div style='display:flex;justify-content:space-between;margin-top:6px;font-size:9px;color:#999;font-weight:600;'><span>32nd</span><span>16th</span><span>1st</span></div></div></div></div>"
+            }
+        }]
+    });
+
+    Highcharts.chart('chart-thermometer', {
+        chart: { type: 'scatter', backgroundColor: '#ffffff', height: 260, spacing: [0,0,0,0] },
+        title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+        xAxis: { min: 0, max: 100, visible: false },
+        yAxis: { min: 0, max: 100, visible: false },
+        tooltip: { enabled: false },
+        plotOptions: { scatter: { marker: { enabled: false }, enableMouseTracking: false } },
+        series: [{
+            data: [{ x: 50, y: 50, rank: rank, thermHeight: thermHeight, thermGrad: thermGrad }],
+            dataLabels: {
+                enabled: true, useHTML: true, align: 'center', verticalAlign: 'middle',
+                style: { textOutline: 'none' },
+                format: "<div style='width:200px;padding:20px;background:#f8f8f8;border:1px solid #e0e0e0;border-radius:8px;text-align:center;'><div style='font-size:11px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:12px;letter-spacing:0.5px;'>Draft Capital</div><div style='display:inline-block;position:relative;'><div style='width:40px;height:140px;background:#e8e8e8;border-radius:20px;position:relative;overflow:hidden;'><div style='position:absolute;bottom:0;left:0;right:0;height:{point.thermHeight};background:{point.thermGrad};border-radius:20px;'></div></div><div style='position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:50px;height:50px;background:white;border:3px solid #333;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);'><span style='font-size:18px;font-weight:900;color:#333;'>{point.rank}</span></div></div><div style='font-size:10px;color:#888;margin-top:12px;'>Rank out of 32</div></div>"
+            }
+        }]
+    });
+
+    Highcharts.chart('chart-bullet', {
+        chart: { type: 'bullet', inverted: true, backgroundColor: '#ffffff', height: 100, spacing: [10,10,10,10] },
+        title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+        xAxis: {
+            min: 0, max: 32,
+            title: { text: 'Draft Capital Rank', style: { fontSize: '11px', fontWeight: '700', color: '#666' } },
+            labels: { format: '{value}' },
+            plotBands: [
+                { from: 0, to: 10, color: 'rgba(16, 185, 129, 0.15)' },
+                { from: 10, to: 22, color: 'rgba(245, 158, 11, 0.15)' },
+                { from: 22, to: 32, color: 'rgba(239, 68, 68, 0.15)' }
+            ]
+        },
+        yAxis: { visible: false },
+        tooltip: { enabled: false },
+        plotOptions: { bullet: { pointPadding: 0.25, borderWidth: 0, color: '#333', targetOptions: { width: '200%', color: '#666', borderWidth: 0 } } },
+        series: [{
+            data: [{ y: rank, target: 16 }],
+            dataLabels: { enabled: true, format: 'Rank: {point.y}', style: { fontSize: '14px', fontWeight: 'bold' } }
+        }]
+    });
+}
+
+window.onload = function() { updateCharts(); };
+</script>
+</body>
+</html>

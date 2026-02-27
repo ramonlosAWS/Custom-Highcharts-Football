@@ -1,0 +1,100 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 150,
+    "spacing": [0, 0, 0, 0],
+    "style": {"maxWidth": "1020px"}
+  },
+  "title": {"text": null},
+  "legend": {"enabled": false},
+  "credits": {"enabled": false},
+  "xAxis": {"min": 0, "max": 100, "visible": false},
+  "yAxis": {"min": 0, "max": 100, "visible": false},
+  "tooltip": {"enabled": false},
+  "plotOptions": {
+    "scatter": {
+      "marker": {"enabled": false},
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "TeamName",
+      "data": [{"x": 0, "y": 76.3, "teamName": ["get", ["getColumn", 0], 0], "teamColor": ["get", ["getColumn", 1], 0]}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<link href='https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,700;0,800;1,700;1,800;1,900&display=swap' rel='stylesheet'><div style='font-family:Barlow Condensed,sans-serif;font-size:34px;font-weight:900;color:{point.teamColor};text-transform:uppercase;letter-spacing:0.5px;'>{point.teamName}</div>", "align": "left", "verticalAlign": "middle", "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "RecordLabel",
+      "data": [{"x": 0, "y": 55}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:230px;font-family:Barlow Condensed,sans-serif;font-size:12px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1px;'>2025 RECORD</div>", "align": "left", "verticalAlign": "middle", "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "GMLabel",
+      "data": [{"x": 23, "y": 55, "gmSince": ["get", ["getColumn", 4], 0]}],
+
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:180px;font-family:Barlow Condensed,sans-serif;font-size:12px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1px;'>GENERAL MANAGER (SINCE {point.gmSince})</div>", "align": "left", "verticalAlign": "middle", "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "HCLabel",
+      "data": [{"x": 41, "y": 55, "hcSince": ["get", ["getColumn", 6], 0]}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:180px;font-family:Barlow Condensed,sans-serif;font-size:12px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1px;'>HEAD COACH (SINCE {point.hcSince})</div>", "align": "left", "verticalAlign": "middle", "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "OCLabel",
+      "data": [{"x": 59, "y": 55, "ocSince": ["get", ["getColumn", 8], 0]}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:180px;font-family:Barlow Condensed,sans-serif;font-size:12px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1px;'>OFF. COORDINATOR (SINCE {point.ocSince})</div>", "align": "left", "verticalAlign": "middle", "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "DCLabel",
+      "data": [{"x": 77, "y": 55, "dcSince": ["get", ["getColumn", 10], 0]}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:180px;font-family:Barlow Condensed,sans-serif;font-size:12px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1px;'>DEF. COORDINATOR (SINCE {point.dcSince})</div>", "align": "left", "verticalAlign": "middle", "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "Record",
+      "data": [{"x": 0, "y": 38, "record": ["get", ["getColumn", 2], 0]}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:230px;height:34px;font-family:Barlow Condensed,sans-serif;font-size:14px;color:#111;font-weight:700;line-height:1.2;white-space:normal;word-wrap:break-word;text-transform:uppercase;font-style:italic;'>{point.record}</div>", "align": "left", "verticalAlign": "middle", "overflow": "allow", "crop": false, "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "GM",
+      "data": [{"x": 23, "y": 38, "gm": ["get", ["getColumn", 3], 0]}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:180px;height:34px;font-family:Barlow Condensed,sans-serif;font-size:15px;color:#111;font-weight:700;line-height:1.15;white-space:normal;word-wrap:break-word;text-transform:uppercase;font-style:italic;'>{point.gm}</div>", "align": "left", "verticalAlign": "middle", "overflow": "allow", "crop": false, "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "HeadCoach",
+      "data": [{"x": 41, "y": 38, "hc": ["get", ["getColumn", 5], 0]}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:180px;height:34px;font-family:Barlow Condensed,sans-serif;font-size:15px;color:#111;font-weight:700;line-height:1.15;white-space:normal;word-wrap:break-word;text-transform:uppercase;font-style:italic;'>{point.hc}</div>", "align": "left", "verticalAlign": "middle", "overflow": "allow", "crop": false, "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "OffCoord",
+      "data": [{"x": 59, "y": 38, "oc": ["get", ["getColumn", 7], 0]}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:180px;height:34px;font-family:Barlow Condensed,sans-serif;font-size:15px;color:#111;font-weight:700;line-height:1.15;white-space:normal;word-wrap:break-word;text-transform:uppercase;font-style:italic;'>{point.oc}</div>", "align": "left", "verticalAlign": "middle", "overflow": "allow", "crop": false, "style": {"textOutline": "none"}}
+    },
+    {
+      "name": "DefCoord",
+      "data": [{"x": 77, "y": 38, "dc": ["get", ["getColumn", 9], 0]}],
+      "dataLabels": {"enabled": true, "useHTML": true, "format": "<div style='width:180px;height:34px;font-family:Barlow Condensed,sans-serif;font-size:15px;color:#111;font-weight:700;line-height:1.15;white-space:normal;word-wrap:break-word;text-transform:uppercase;font-style:italic;'>{point.dc}</div>", "align": "left", "verticalAlign": "middle", "overflow": "allow", "crop": false, "style": {"textOutline": "none"}}
+    }
+  ],
+  "responsive": {
+    "rules": [{
+      "condition": {"maxWidth": 768},
+      "chartOptions": {
+        "chart": {"height": 300},
+        "series": [
+          {"dataLabels": {"format": "<div style='font-size:20px;font-weight:900;color:{point.teamColor};text-transform:uppercase;letter-spacing:0.5px;font-style:italic;'>{point.teamName}</div>"}},
+          {"data": [{"x": 0, "y": 78}], "dataLabels": {"format": "<div style='width:100%;font-size:9px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:1px;'>2025 RECORD</div>"}},
+          {"data": [{"x": 0, "y": 63}], "dataLabels": {"format": "<div style='width:100%;font-size:9px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:1px;'>GENERAL MANAGER (SINCE {point.gmSince})</div>"}},
+          {"data": [{"x": 0, "y": 48}], "dataLabels": {"format": "<div style='width:100%;font-size:9px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:1px;'>HEAD COACH (SINCE {point.hcSince})</div>"}},
+          {"data": [{"x": 0, "y": 33}], "dataLabels": {"format": "<div style='width:100%;font-size:9px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:1px;'>OFF. COORDINATOR (SINCE {point.ocSince})</div>"}},
+          {"data": [{"x": 0, "y": 18}], "dataLabels": {"format": "<div style='width:100%;font-size:9px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:1px;'>DEF. COORDINATOR (SINCE {point.dcSince})</div>"}},
+          {"data": [{"x": 0, "y": 73}], "dataLabels": {"format": "<div style='width:100%;font-size:11px;color:#111;font-weight:800;text-transform:uppercase;font-style:italic;'>{point.record}</div>"}},
+          {"data": [{"x": 0, "y": 58}], "dataLabels": {"format": "<div style='width:100%;font-size:12px;color:#111;font-weight:800;text-transform:uppercase;font-style:italic;'>{point.gm}</div>"}},
+          {"data": [{"x": 0, "y": 43}], "dataLabels": {"format": "<div style='width:100%;font-size:12px;color:#111;font-weight:800;text-transform:uppercase;font-style:italic;'>{point.hc}</div>"}},
+          {"data": [{"x": 0, "y": 28}], "dataLabels": {"format": "<div style='width:100%;font-size:12px;color:#111;font-weight:800;text-transform:uppercase;font-style:italic;'>{point.oc}</div>"}},
+          {"data": [{"x": 0, "y": 13}], "dataLabels": {"format": "<div style='width:100%;font-size:12px;color:#111;font-weight:800;text-transform:uppercase;font-style:italic;'>{point.dc}</div>"}}
+        ]
+      }
+    }]
+  }
+}

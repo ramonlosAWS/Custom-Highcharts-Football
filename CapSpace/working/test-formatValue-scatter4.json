@@ -1,0 +1,69 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 400
+  },
+  "title": { "text": "Manual Currency Formatting Tests" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "Test1",
+      "data": [{
+        "x": 50,
+        "y": ["get", ["getColumnFromValue", 0], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:20px;font-weight:700;'>A: ${point.y:,.0f}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "Test2",
+      "data": [{
+        "x": 50,
+        "y": ["get", ["getColumnFromValue", 0], 0],
+        "manualVal": ["+", "$", ["+", ["getColumn", 1]]]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:20px;font-weight:700;color:#666;'>B: {point.y:,.0f}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" },
+        "y": 40
+      }
+    },
+    {
+      "name": "Test3",
+      "data": [{
+        "x": 50,
+        "y": ["get", ["getColumnFromValue", 0], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:20px;font-weight:700;color:#999;'>C: ${point.y:,.2f}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" },
+        "y": 80
+      }
+    }
+  ]
+}

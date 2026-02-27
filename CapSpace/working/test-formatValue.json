@@ -1,0 +1,36 @@
+{
+  "chart": {
+    "type": "column",
+    "backgroundColor": "#ffffff",
+    "height": 400
+  },
+  "title": { "text": "formatValue Test" },
+  "legend": { "enabled": true },
+  "credits": { "enabled": false },
+  "xAxis": {
+    "categories": ["getColumn", 0],
+    "labels": {
+      "formatter": ["formatValue", "value", 0]
+    }
+  },
+  "yAxis": {
+    "title": { "text": "Value" },
+    "labels": {
+      "formatter": ["formatValue", "value", 1]
+    }
+  },
+  "tooltip": {
+    "headerFormat": "<b>{point.key}</b><br>",
+    "pointFormat": "Raw: {point.y}<br>Formatted: {point.y:,.0f}"
+  },
+  "series": [
+    {
+      "name": ["getColumnName", 1],
+      "data": ["getColumn", 1],
+      "dataLabels": {
+        "enabled": true,
+        "formatter": ["formatValue", "y", 1]
+      }
+    }
+  ]
+}

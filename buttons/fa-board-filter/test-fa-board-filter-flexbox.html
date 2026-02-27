@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FA Board Filter - Flexbox Test</title>
+  <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #eef1f5;
+      padding: 40px;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 900px;
+      margin-bottom: 30px;
+    }
+    h2 { margin: 0 0 5px 0; color: #333; font-size: 16px; }
+    .subtitle { margin: 0 0 15px 0; color: #888; font-size: 13px; }
+    .info {
+      margin-top: 15px; padding: 10px 15px;
+      background: #f0f4f8; border-radius: 4px; font-size: 13px; color: #555;
+    }
+    .width-label { font-size: 12px; color: #999; margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+
+  <!-- APPROACH A: Current scatter-based (for comparison) -->
+  <div class="container">
+    <h2>A) Current: Scatter + Fixed Divs (680px widget)</h2>
+    <p class="subtitle">Each button is a separate data point, centered on X coordinate. Div width must match widget width / 4.</p>
+    <div class="width-label">680px widget → 170px divs</div>
+    <div id="chart-scatter-680" style="width:680px;"></div>
+    <div class="width-label" style="margin-top:15px;">650px widget → 163px divs (current config)</div>
+    <div id="chart-scatter-650" style="width:650px;"></div>
+    <div class="width-label" style="margin-top:15px;">750px widget → 163px divs (WRONG - gaps appear)</div>
+    <div id="chart-scatter-750" style="width:750px;"></div>
+    <div class="info">Problem: If you resize the visual, the gaps break. Each width needs a different div width.</div>
+  </div>
+
+  <!-- APPROACH B: Flexbox single-point -->
+  <div class="container">
+    <h2>B) Flexbox: Single Data Point (auto-adapts to any width)</h2>
+    <p class="subtitle">One data point with all buttons in a flex container. Buttons auto-fill available width.</p>
+    <div class="width-label">680px widget</div>
+    <div id="chart-flex-680" style="width:680px;"></div>
+    <div class="width-label" style="margin-top:15px;">650px widget (same config, no changes)</div>
+    <div id="chart-flex-650" style="width:650px;"></div>
+    <div class="width-label" style="margin-top:15px;">750px widget (same config, no changes)</div>
+    <div id="chart-flex-750" style="width:750px;"></div>
+    <div class="info">
+      <strong>Advantage:</strong> Same config works at any width. No div width tuning needed.<br>
+      <strong>Trade-off:</strong> triggerClick fires for the whole point, not individual buttons. Need to test if QuickSight can distinguish which button was clicked.
+    </div>
+  </div>
+
+  <!-- APPROACH C: Flexbox with individual series per button -->
+  <div class="container">
+    <h2>C) Flexbox Hybrid: Individual Series + Flex Styling</h2>
+    <p class="subtitle">Separate series per button (for click actions), but using flex:1 instead of fixed width.</p>
+    <div class="width-label">680px widget</div>
+    <div id="chart-hybrid-680" style="width:680px;"></div>
+    <div class="width-label" style="margin-top:15px;">650px widget</div>
+    <div id="chart-hybrid-650" style="width:650px;"></div>
+    <div class="width-label" style="margin-top:15px;">750px widget</div>
+    <div id="chart-hybrid-750" style="width:750px;"></div>
+    <div class="info">Still has the X-coordinate alignment issue since each button is a separate point. Flex styling on the div doesn't help because the div position is determined by the X coordinate.</div>
+  </div>
+
+  <div class="container" style="background:#fff3cd;">
+    <h2>Conclusion</h2>
+    <p style="margin:0;font-size:14px;color:#555;">
+      <strong>Flexbox (B)</strong> is visually perfect at any width, but the click target is one data point — all 4 buttons trigger the same action. In QuickSight, you'd need the map approach with triggerClick passing rowIndex, which should still work since each button is a separate row in the mapped data.<br><br>
+      <strong>Scatter (A)</strong> works perfectly when div width = widget width / numButtons. The formula is simple, just needs to be set once per widget width.<br><br>
+      <strong>Recommendation:</strong> If the FA filter widget width is fixed (won't change), stick with scatter and set divWidth correctly. If it might change, flexbox is more resilient.
+    </p>
+  </div>
+
+  <script>
+    const labels = ['STREET FA','STAFF CONNECTIONS','OUTGOING','CTR LIST'];
+    let selectedA = 'STREET FA', selectedB = 'STREET FA';
+
+    // ===== APPROACH A: Scatter (current approach) =====
+    function scatterData(divWidth, sel) {
+      return labels.map((lbl, i) => ({
+        x: 12.5 + i * 25,
+        y: 50,
+        label: lbl,
+        bg: lbl === sel ? '#1a2b4c' : 'transparent',
+        tc: lbl === sel ? '#ffffff' : '#1a2b4c',
+        div: i < 3 ? '1px solid #c0c8d1' : 'none'
+      }));
+    }
+
+    function scatterConfig(containerId, width, divWidth) {
+      return {
+        chart: { type:'scatter', backgroundColor:'transparent', height:30, spacing:[5,0,5,0], animation:false },
+        title:{text:null}, legend:{enabled:false}, credits:{enabled:false},
+        xAxis:{min:0,max:100,visible:false}, yAxis:{min:0,max:100,visible:false},
+        tooltip:{enabled:false},
+        plotOptions:{scatter:{marker:{enabled:false,radius:0},animation:false,states:{hover:{enabled:false}}},series:{enableMouseTracking:true,cursor:'pointer',animation:false,marker:{enabled:false,radius:0}}},
+        series:[{
+          data: scatterData(divWidth, selectedA),
+          dataLabels:{
+            enabled:true, useHTML:true,
+            format: `<div style='width:${divWidth}px;height:25px;line-height:25px;text-align:center;font-size:12px;font-weight:600;color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>`,
+            align:'center', verticalAlign:'middle', overflow:'allow', crop:false, style:{textOutline:'none'}
+          },
+          point:{events:{click:function(){ selectedA=this.label; renderScatter(); }}}
+        }]
+      };
+    }
+
+    let s680, s650, s750;
+    function renderScatter() {
+      if(s680) s680.destroy(); if(s650) s650.destroy(); if(s750) s750.destroy();
+      s680 = Highcharts.chart('chart-scatter-680', scatterConfig('chart-scatter-680', 680, 170));
+      s650 = Highcharts.chart('chart-scatter-650', scatterConfig('chart-scatter-650', 650, 163));
+      s750 = Highcharts.chart('chart-scatter-750', scatterConfig('chart-scatter-750', 750, 163));
+    }
+    renderScatter();
+
+    // ===== APPROACH B: Flexbox single point =====
+    function flexData(sel) {
+      // Build the HTML string with all buttons in one flex container
+      let html = "<div style='display:flex;width:100%;'>";
+      labels.forEach((lbl, i) => {
+        const bg = lbl === sel ? '#1a2b4c' : 'transparent';
+        const tc = lbl === sel ? '#ffffff' : '#1a2b4c';
+        const border = i < 3 ? 'border-right:1px solid #c0c8d1;' : '';
+        html += `<div style='flex:1;height:25px;line-height:25px;text-align:center;font-size:12px;font-weight:600;color:${tc};background:${bg};${border}cursor:pointer;box-sizing:border-box;white-space:nowrap;'>${lbl}</div>`;
+      });
+      html += "</div>";
+      return html;
+    }
+
+    function flexConfig(width, sel) {
+      return {
+        chart: { type:'scatter', backgroundColor:'transparent', height:30, spacing:[5,0,5,0], animation:false },
+        title:{text:null}, legend:{enabled:false}, credits:{enabled:false},
+        xAxis:{min:0,max:100,visible:false}, yAxis:{min:0,max:100,visible:false},
+        tooltip:{enabled:false},
+        plotOptions:{scatter:{marker:{enabled:false,radius:0},animation:false},series:{enableMouseTracking:true,cursor:'pointer',animation:false,marker:{enabled:false,radius:0}}},
+        series:[{
+          data: [{x:50, y:50, btnHtml: flexData(sel)}],
+          dataLabels:{
+            enabled:true, useHTML:true,
+            format: "<div style='width:"+Math.round(width*0.97)+"px;'>{point.btnHtml}</div>",
+            align:'center', verticalAlign:'middle', overflow:'allow', crop:false, style:{textOutline:'none'}
+          },
+          point:{events:{click:function(){ /* single click for whole row */ }}}
+        }]
+      };
+    }
+
+    Highcharts.chart('chart-flex-680', flexConfig(680, selectedB));
+    Highcharts.chart('chart-flex-650', flexConfig(650, selectedB));
+    Highcharts.chart('chart-flex-750', flexConfig(750, selectedB));
+
+    // ===== APPROACH C: Hybrid (separate series, flex-ish styling) =====
+    function hybridConfig(width) {
+      const series = labels.map((lbl, i) => ({
+        name: lbl,
+        data: [{x: 12.5 + i*25, y:50, label:lbl}],
+        dataLabels:{
+          enabled:true, useHTML:true,
+          format: `<div style='min-width:80px;padding:0 10px;height:25px;line-height:25px;text-align:center;font-size:12px;font-weight:600;color:#1a2b4c;background:transparent;${i<3?'border-right:1px solid #c0c8d1;':''}cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>`,
+          align:'center', verticalAlign:'middle', overflow:'allow', crop:false, style:{textOutline:'none'}
+        }
+      }));
+      return {
+        chart:{type:'scatter',backgroundColor:'transparent',height:30,spacing:[5,0,5,0],animation:false},
+        title:{text:null},legend:{enabled:false},credits:{enabled:false},
+        xAxis:{min:0,max:100,visible:false},yAxis:{min:0,max:100,visible:false},
+        tooltip:{enabled:false},
+        plotOptions:{scatter:{marker:{enabled:false,radius:0},animation:false},series:{enableMouseTracking:true,cursor:'pointer',animation:false,marker:{enabled:false,radius:0}}},
+        series: series
+      };
+    }
+
+    Highcharts.chart('chart-hybrid-680', hybridConfig(680));
+    Highcharts.chart('chart-hybrid-650', hybridConfig(650));
+    Highcharts.chart('chart-hybrid-750', hybridConfig(750));
+  </script>
+</body>
+</html>

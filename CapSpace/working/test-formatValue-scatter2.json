@@ -1,0 +1,35 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 300
+  },
+  "title": { "text": "formatValue — formatter key on scatter dataLabels" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "FormatterTest",
+      "data": [{
+        "x": 50,
+        "y": 50,
+        "rawVal": ["get", ["getColumnFromValue", 0], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "formatter": ["formatValue", "point.rawVal", 0],
+        "style": { "textOutline": "none", "fontSize": "24px" }
+      }
+    }
+  ]
+}

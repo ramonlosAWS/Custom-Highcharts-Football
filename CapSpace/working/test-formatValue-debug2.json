@@ -1,0 +1,69 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 300
+  },
+  "title": { "text": "Debug division + format" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false, "reversed": true },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "CapSpace",
+      "data": [{
+        "x": 50,
+        "y": 15,
+        "millions": ["/", ["get", ["getColumnFromValue", 0], 0], 1000000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:18px;'>Cap Space millions: {point.millions} | formatted: ${point.millions:.1f}M</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "ActiveCap",
+      "data": [{
+        "x": 50,
+        "y": 40,
+        "millions": ["/", ["get", ["getColumnFromValue", 1], 0], 1000000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:18px;'>Active Cap millions: {point.millions} | formatted: ${point.millions:.1f}M</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "DeadMoney",
+      "data": [{
+        "x": 50,
+        "y": 65,
+        "millions": ["/", ["get", ["getColumnFromValue", 2], 0], 1000000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:18px;'>Dead Money millions: {point.millions} | formatted: ${point.millions:.1f}M</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    }
+  ]
+}

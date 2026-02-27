@@ -1,0 +1,527 @@
+{
+    "Status": 200,
+    "AnalysisId": "4bed62ce-9343-4662-9e4f-74cf29501a64",
+    "Name": "new buttons analysis",
+    "ResourceStatus": "CREATION_SUCCESSFUL",
+    "Definition": {
+        "DataSetIdentifierDeclarations": [
+            {
+                "Identifier": "team-draft-view-selector-data",
+                "DataSetArn": "arn:aws:quicksight:us-east-1:079495165177:dataset/team-draft-view-selector-data"
+            },
+            {
+                "Identifier": "fa-board-filter-data",
+                "DataSetArn": "arn:aws:quicksight:us-east-1:079495165177:dataset/fa-board-filter-data"
+            },
+            {
+                "Identifier": "Sheet1",
+                "DataSetArn": "arn:aws:quicksight:us-east-1:079495165177:dataset/02ff8bfa-e2a3-449d-aa9d-8ac46ce546d7"
+            },
+            {
+                "Identifier": "team-strip-selector-data",
+                "DataSetArn": "arn:aws:quicksight:us-east-1:079495165177:dataset/team-strip-selector-data"
+            }
+        ],
+        "Sheets": [
+            {
+                "SheetId": "e83a2f45-b99c-442b-a48b-008a8f7e38f7",
+                "Name": "Sheet 1",
+                "Visuals": [
+                    {
+                        "PluginVisual": {
+                            "VisualId": "2dd35a45-b804-494f-ae07-9ebe4f577f58",
+                            "PluginArn": "arn:aws:quicksight::aws:visualplugin/highcharts/alias/V1",
+                            "Title": {
+                                "Visibility": "HIDDEN"
+                            },
+                            "Subtitle": {
+                                "Visibility": "HIDDEN"
+                            },
+                            "ChartConfiguration": {
+                                "FieldWells": [
+                                    {
+                                        "AxisName": "GROUP_BY",
+                                        "Dimensions": [
+                                            {
+                                                "NumericalDimensionField": {
+                                                    "FieldId": "sheet1-team_stri-aca92d.1.1772157875990",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "Team Strip Selector ID"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "sheet1-team_stri-3b22ad.1.1772157880744",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "Team Strip Selector"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "d8032361-17bd-47cc-840a-963dcadad435.2.1772157896840",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "team strip selector selected"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "VisualOptions": {
+                                    "VisualProperties": [
+                                        {
+                                            "Name": "codeEditor",
+                                            "Value": "{\"chart\": {\"type\": \"scatter\", \"backgroundColor\": \"transparent\", \"height\": 38, \"spacing\": [5, 0, 5, 0], \"animation\": false, \"style\": {\"fontFamily\": \"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif\"}}, \"title\": {\"text\": null}, \"legend\": {\"enabled\": false}, \"credits\": {\"enabled\": false}, \"xAxis\": {\"min\": 0, \"max\": 100, \"visible\": false}, \"yAxis\": {\"min\": 0, \"max\": 100, \"visible\": false}, \"tooltip\": {\"enabled\": false}, \"plotOptions\": {\"scatter\": {\"marker\": {\"enabled\": false, \"radius\": 0}, \"animation\": false, \"states\": {\"hover\": {\"enabled\": false}, \"select\": {\"enabled\": false}, \"inactive\": {\"enabled\": false}}}, \"series\": {\"enableMouseTracking\": true, \"cursor\": \"pointer\", \"animation\": false, \"marker\": {\"enabled\": false, \"radius\": 0, \"states\": {\"hover\": {\"enabled\": false, \"radius\": 0}, \"select\": {\"enabled\": false, \"radius\": 0}}}}}, \"series\": [{\"name\": \"TeamStripSelector\", \"data\": [\"map\", [\"getColumn\", 1, 2], {\"x\": [\"+\", 25, [\"*\", [\"itemIndex\"], 25]], \"y\": 50, \"label\": [\"get\", [\"item\"], 0], \"bg\": [\"case\", [\"==\", [\"get\", [\"item\"], 0], [\"get\", [\"item\"], 1]], \"#1a2b4c\", \"transparent\"], \"tc\": [\"case\", [\"==\", [\"get\", [\"item\"], 0], [\"get\", [\"item\"], 1]], \"#ffffff\", \"#1a2b4c\"], \"fw\": \"600\", \"div\": [\"case\", [\"==\", [\"itemIndex\"], 1], \"none\", \"1px solid #c0c8d1\"]}], \"dataLabels\": {\"enabled\": true, \"useHTML\": true, \"format\": \"<div style='width:180px;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>\", \"align\": \"center\", \"verticalAlign\": \"middle\", \"overflow\": \"allow\", \"crop\": false, \"style\": {\"textOutline\": \"none\"}}, \"point\": {\"events\": {\"click\": [\"triggerClick\", {\"rowIndex\": \"point.index\"}]}}}]}"
+                                        }
+                                    ]
+                                }
+                            },
+                            "Actions": []
+                        }
+                    },
+                    {
+                        "PluginVisual": {
+                            "VisualId": "f6abe998-796e-42b6-90ce-d5620a6e99a7",
+                            "PluginArn": "arn:aws:quicksight::aws:visualplugin/highcharts/alias/V1",
+                            "Title": {
+                                "Visibility": "HIDDEN"
+                            },
+                            "Subtitle": {
+                                "Visibility": "HIDDEN"
+                            },
+                            "ChartConfiguration": {
+                                "FieldWells": [
+                                    {
+                                        "AxisName": "GROUP_BY",
+                                        "Dimensions": [
+                                            {
+                                                "NumericalDimensionField": {
+                                                    "FieldId": "sheet1-fa_board-368226.0.1772157606510",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "FA Board Filter ID"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "sheet1-fa_board-3e7a26.1.1772157616064",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "FA Board Filter"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "cb3d8031-d968-4ef4-b2c5-562364fe1418.2.1772157855593",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "selected fa filter"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "VisualOptions": {
+                                    "VisualProperties": [
+                                        {
+                                            "Name": "codeEditor",
+                                            "Value": "{\"chart\": {\"type\": \"scatter\", \"backgroundColor\": \"transparent\", \"height\": 38, \"spacing\": [5, 0, 5, 0], \"animation\": false, \"style\": {\"fontFamily\": \"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif\"}}, \"title\": {\"text\": null}, \"legend\": {\"enabled\": false}, \"credits\": {\"enabled\": false}, \"xAxis\": {\"min\": 0, \"max\": 100, \"visible\": false}, \"yAxis\": {\"min\": 0, \"max\": 100, \"visible\": false}, \"tooltip\": {\"enabled\": false}, \"plotOptions\": {\"scatter\": {\"marker\": {\"enabled\": false, \"radius\": 0}, \"animation\": false, \"states\": {\"hover\": {\"enabled\": false}, \"select\": {\"enabled\": false}, \"inactive\": {\"enabled\": false}}}, \"series\": {\"enableMouseTracking\": true, \"cursor\": \"pointer\", \"animation\": false, \"marker\": {\"enabled\": false, \"radius\": 0, \"states\": {\"hover\": {\"enabled\": false, \"radius\": 0}, \"select\": {\"enabled\": false, \"radius\": 0}}}}}, \"series\": [{\"name\": \"FABoardFilter\", \"data\": [\"map\", [\"getColumn\", 1, 2], {\"x\": [\"+\", 14, [\"*\", [\"itemIndex\"], 19]], \"y\": 50, \"label\": [\"get\", [\"item\"], 0], \"bg\": [\"case\", [\"==\", [\"get\", [\"item\"], 0], [\"get\", [\"item\"], 1]], \"#1a2b4c\", \"transparent\"], \"tc\": [\"case\", [\"==\", [\"get\", [\"item\"], 0], [\"get\", [\"item\"], 1]], \"#ffffff\", \"#1a2b4c\"], \"fw\": \"600\", \"div\": [\"case\", [\"==\", [\"itemIndex\"], 3], \"none\", \"1px solid #c0c8d1\"]}], \"dataLabels\": {\"enabled\": true, \"useHTML\": true, \"format\": \"<div style='width:163px;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>\", \"align\": \"center\", \"verticalAlign\": \"middle\", \"overflow\": \"allow\", \"crop\": false, \"style\": {\"textOutline\": \"none\"}}, \"point\": {\"events\": {\"click\": [\"triggerClick\", {\"rowIndex\": \"point.index\"}]}}}]}"
+                                        }
+                                    ]
+                                }
+                            },
+                            "Actions": []
+                        }
+                    },
+                    {
+                        "PluginVisual": {
+                            "VisualId": "a800ed6d-ea59-421c-9e54-56d202e2ed94",
+                            "PluginArn": "arn:aws:quicksight::aws:visualplugin/highcharts/alias/V1",
+                            "Title": {
+                                "Visibility": "HIDDEN"
+                            },
+                            "Subtitle": {
+                                "Visibility": "HIDDEN"
+                            },
+                            "ChartConfiguration": {
+                                "FieldWells": [
+                                    {
+                                        "AxisName": "GROUP_BY",
+                                        "Dimensions": [
+                                            {
+                                                "NumericalDimensionField": {
+                                                    "FieldId": "sheet1-team_draf-d6d7ec.0.1772157732796",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "Team Draft View Selector ID"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "sheet1-team_draf-55848a.1.1772157734359",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "Team Draft View Selector"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "c8472487-d2d3-4a51-8d14-402e3f0e8447.2.1772157850251",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "team draft view selector selected"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "VisualOptions": {
+                                    "VisualProperties": [
+                                        {
+                                            "Name": "codeEditor",
+                                            "Value": "{\"chart\": {\"type\": \"scatter\", \"backgroundColor\": \"transparent\", \"height\": 38, \"spacing\": [5, 0, 5, 0], \"animation\": false, \"style\": {\"fontFamily\": \"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif\"}}, \"title\": {\"text\": null}, \"legend\": {\"enabled\": false}, \"credits\": {\"enabled\": false}, \"xAxis\": {\"min\": 0, \"max\": 100, \"visible\": false}, \"yAxis\": {\"min\": 0, \"max\": 100, \"visible\": false}, \"tooltip\": {\"enabled\": false}, \"plotOptions\": {\"scatter\": {\"marker\": {\"enabled\": false, \"radius\": 0}, \"animation\": false, \"states\": {\"hover\": {\"enabled\": false}, \"select\": {\"enabled\": false}, \"inactive\": {\"enabled\": false}}}, \"series\": {\"enableMouseTracking\": true, \"cursor\": \"pointer\", \"animation\": false, \"marker\": {\"enabled\": false, \"radius\": 0, \"states\": {\"hover\": {\"enabled\": false, \"radius\": 0}, \"select\": {\"enabled\": false, \"radius\": 0}}}}}, \"series\": [{\"name\": \"TeamDraftView\", \"data\": [\"map\", [\"getColumn\", 1, 2], {\"x\": [\"+\", 25, [\"*\", [\"itemIndex\"], 25]], \"y\": 50, \"label\": [\"get\", [\"item\"], 0], \"bg\": [\"case\", [\"==\", [\"get\", [\"item\"], 0], [\"get\", [\"item\"], 1]], \"#1a2b4c\", \"transparent\"], \"tc\": [\"case\", [\"==\", [\"get\", [\"item\"], 0], [\"get\", [\"item\"], 1]], \"#ffffff\", \"#1a2b4c\"], \"fw\": \"600\", \"div\": [\"case\", [\"==\", [\"itemIndex\"], 1], \"none\", \"1px solid #c0c8d1\"]}], \"dataLabels\": {\"enabled\": true, \"useHTML\": true, \"format\": \"<div style='width:180px;height:31px;line-height:31px;text-align:center;font-size:14px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>\", \"align\": \"center\", \"verticalAlign\": \"middle\", \"overflow\": \"allow\", \"crop\": false, \"style\": {\"textOutline\": \"none\"}}, \"point\": {\"events\": {\"click\": [\"triggerClick\", {\"rowIndex\": \"point.index\"}]}}}]}"
+                                        }
+                                    ]
+                                }
+                            },
+                            "Actions": []
+                        }
+                    },
+                    {
+                        "TableVisual": {
+                            "VisualId": "a0d15f61-9b17-48d8-879f-99a8c1a28b6e",
+                            "Title": {
+                                "Visibility": "VISIBLE"
+                            },
+                            "Subtitle": {
+                                "Visibility": "VISIBLE"
+                            },
+                            "ChartConfiguration": {
+                                "FieldWells": {
+                                    "TableAggregatedFieldWells": {
+                                        "GroupBy": [
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "cb3d8031-d968-4ef4-b2c5-562364fe1418.0.1772158169892",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "selected fa filter"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "c8472487-d2d3-4a51-8d14-402e3f0e8447.1.1772158170285",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "team draft view selector selected"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "d8032361-17bd-47cc-840a-963dcadad435.2.1772158170711",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "Sheet1",
+                                                        "ColumnName": "team strip selector selected"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "Values": []
+                                    }
+                                },
+                                "SortConfiguration": {}
+                            },
+                            "Actions": []
+                        }
+                    }
+                ],
+                "Layouts": [
+                    {
+                        "Configuration": {
+                            "FreeFormLayout": {
+                                "Elements": [
+                                    {
+                                        "ElementId": "f6abe998-796e-42b6-90ce-d5620a6e99a7",
+                                        "ElementType": "VISUAL",
+                                        "XAxisLocation": "64px",
+                                        "YAxisLocation": "176px",
+                                        "Width": "928px",
+                                        "Height": "80px",
+                                        "Visibility": "VISIBLE"
+                                    },
+                                    {
+                                        "ElementId": "a800ed6d-ea59-421c-9e54-56d202e2ed94",
+                                        "ElementType": "VISUAL",
+                                        "XAxisLocation": "16px",
+                                        "YAxisLocation": "432px",
+                                        "Width": "800px",
+                                        "Height": "64px",
+                                        "Visibility": "VISIBLE"
+                                    },
+                                    {
+                                        "ElementId": "2dd35a45-b804-494f-ae07-9ebe4f577f58",
+                                        "ElementType": "VISUAL",
+                                        "XAxisLocation": "32px",
+                                        "YAxisLocation": "528px",
+                                        "Width": "800px",
+                                        "Height": "64px",
+                                        "Visibility": "VISIBLE"
+                                    },
+                                    {
+                                        "ElementId": "a0d15f61-9b17-48d8-879f-99a8c1a28b6e",
+                                        "ElementType": "VISUAL",
+                                        "XAxisLocation": "0px",
+                                        "YAxisLocation": "592px",
+                                        "Width": "798px",
+                                        "Height": "532px",
+                                        "Visibility": "VISIBLE"
+                                    }
+                                ],
+                                "CanvasSizeOptions": {
+                                    "ScreenCanvasSizeOptions": {
+                                        "OptimizedViewPortWidth": "1600px"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "ContentType": "INTERACTIVE"
+            }
+        ],
+        "CalculatedFields": [
+            {
+                "DataSetIdentifier": "Sheet1",
+                "Name": "selected fa filter",
+                "Expression": "${FABoardFilter}"
+            },
+            {
+                "DataSetIdentifier": "Sheet1",
+                "Name": "team draft view selector selected",
+                "Expression": "${TeamDraftView}"
+            },
+            {
+                "DataSetIdentifier": "Sheet1",
+                "Name": "team strip selector selected",
+                "Expression": "${TeamStripSelector}"
+            },
+            {
+                "DataSetIdentifier": "fa-board-filter-data",
+                "Name": "SelectedFABoard",
+                "Expression": "${FABoardFilter}"
+            },
+            {
+                "DataSetIdentifier": "team-draft-view-selector-data",
+                "Name": "SelectedDraftView",
+                "Expression": "${TeamDraftView}"
+            },
+            {
+                "DataSetIdentifier": "team-strip-selector-data",
+                "Name": "SelectedStrip",
+                "Expression": "${TeamStripSelector}"
+            }
+        ],
+        "ParameterDeclarations": [
+            {
+                "StringParameterDeclaration": {
+                    "ParameterValueType": "SINGLE_VALUED",
+                    "Name": "FABoardFilter",
+                    "DefaultValues": {
+                        "StaticValues": [
+                            "STREET FA"
+                        ]
+                    },
+                    "ValueWhenUnset": {
+                        "ValueWhenUnsetOption": "NULL"
+                    }
+                }
+            },
+            {
+                "StringParameterDeclaration": {
+                    "ParameterValueType": "SINGLE_VALUED",
+                    "Name": "TeamDraftView",
+                    "DefaultValues": {
+                        "StaticValues": [
+                            "MOCK DRAFT TRACKER"
+                        ]
+                    },
+                    "ValueWhenUnset": {
+                        "ValueWhenUnsetOption": "NULL"
+                    }
+                }
+            },
+            {
+                "StringParameterDeclaration": {
+                    "ParameterValueType": "SINGLE_VALUED",
+                    "Name": "TeamStripSelector",
+                    "DefaultValues": {
+                        "StaticValues": [
+                            "OFFSEASON PREVIEW"
+                        ]
+                    },
+                    "ValueWhenUnset": {
+                        "ValueWhenUnsetOption": "NULL"
+                    }
+                }
+            }
+        ],
+        "FilterGroups": [
+            {
+                "FilterGroupId": "3f459da7-f623-4934-ba66-30603026be46",
+                "Filters": [
+                    {
+                        "CategoryFilter": {
+                            "FilterId": "884ae615-ddf8-4015-b08f-dad38e7ff08c",
+                            "Column": {
+                                "DataSetIdentifier": "Sheet1",
+                                "ColumnName": "Data Type"
+                            },
+                            "Configuration": {
+                                "FilterListConfiguration": {
+                                    "MatchOperator": "CONTAINS",
+                                    "CategoryValues": [
+                                        "Free Agent Board Filter"
+                                    ],
+                                    "NullOption": "NON_NULLS_ONLY"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "ScopeConfiguration": {
+                    "SelectedSheets": {
+                        "SheetVisualScopingConfigurations": [
+                            {
+                                "SheetId": "e83a2f45-b99c-442b-a48b-008a8f7e38f7",
+                                "Scope": "SELECTED_VISUALS",
+                                "VisualIds": [
+                                    "f6abe998-796e-42b6-90ce-d5620a6e99a7"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "Status": "ENABLED",
+                "CrossDataset": "SINGLE_DATASET"
+            },
+            {
+                "FilterGroupId": "7aa351db-a827-43da-a3f3-7dedbd238381",
+                "Filters": [
+                    {
+                        "CategoryFilter": {
+                            "FilterId": "d44bff90-b15a-45bb-920b-b75578f1191a",
+                            "Column": {
+                                "DataSetIdentifier": "Sheet1",
+                                "ColumnName": "Data Type"
+                            },
+                            "Configuration": {
+                                "FilterListConfiguration": {
+                                    "MatchOperator": "CONTAINS",
+                                    "CategoryValues": [
+                                        "Team Draft View Selector"
+                                    ],
+                                    "NullOption": "NON_NULLS_ONLY"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "ScopeConfiguration": {
+                    "SelectedSheets": {
+                        "SheetVisualScopingConfigurations": [
+                            {
+                                "SheetId": "e83a2f45-b99c-442b-a48b-008a8f7e38f7",
+                                "Scope": "SELECTED_VISUALS",
+                                "VisualIds": [
+                                    "a800ed6d-ea59-421c-9e54-56d202e2ed94"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "Status": "ENABLED",
+                "CrossDataset": "SINGLE_DATASET"
+            },
+            {
+                "FilterGroupId": "84055157-7218-4a1a-bdca-7302da3f5209",
+                "Filters": [
+                    {
+                        "CategoryFilter": {
+                            "FilterId": "92576a1d-6981-47c6-9630-d84c7380973d",
+                            "Column": {
+                                "DataSetIdentifier": "Sheet1",
+                                "ColumnName": "Data Type"
+                            },
+                            "Configuration": {
+                                "FilterListConfiguration": {
+                                    "MatchOperator": "CONTAINS",
+                                    "CategoryValues": [
+                                        "Team Strip Selector"
+                                    ],
+                                    "NullOption": "NON_NULLS_ONLY"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "ScopeConfiguration": {
+                    "SelectedSheets": {
+                        "SheetVisualScopingConfigurations": [
+                            {
+                                "SheetId": "e83a2f45-b99c-442b-a48b-008a8f7e38f7",
+                                "Scope": "SELECTED_VISUALS",
+                                "VisualIds": [
+                                    "2dd35a45-b804-494f-ae07-9ebe4f577f58"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "Status": "ENABLED",
+                "CrossDataset": "SINGLE_DATASET"
+            }
+        ],
+        "AnalysisDefaults": {
+            "DefaultNewSheetConfiguration": {
+                "InteractiveLayoutConfiguration": {
+                    "Grid": {
+                        "CanvasSizeOptions": {
+                            "ScreenCanvasSizeOptions": {
+                                "ResizeOption": "FIXED",
+                                "OptimizedViewPortWidth": "1600px"
+                            }
+                        }
+                    }
+                },
+                "SheetContentType": "INTERACTIVE"
+            }
+        },
+        "Options": {
+            "WeekStart": "SUNDAY",
+            "QBusinessInsightsStatus": "DISABLED",
+            "ExcludedDataSetArns": [],
+            "CustomActionDefaults": {
+                "highlightOperation": {
+                    "Trigger": "DATA_POINT_CLICK"
+                }
+            }
+        },
+        "QueryExecutionOptions": {
+            "QueryExecutionMode": "AUTO"
+        }
+    },
+    "RequestId": "796f34e7-72a4-4c30-ba2c-60d5602293f7"
+}

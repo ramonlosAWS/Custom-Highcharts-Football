@@ -1,0 +1,81 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 400
+  },
+  "title": { "text": "Manual Currency String Build" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false, "reversed": true },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "Test",
+      "data": [{
+        "x": 50,
+        "y": 20,
+        "rawVal": ["get", ["getColumnFromValue", 0], 0],
+        "billions": ["floor", ["/", ["get", ["getColumnFromValue", 0], 0], 1000000000]],
+        "millionsPart": ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000000], 1000000]],
+        "thousandsPart": ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000], 1000]],
+        "onesPart": ["%", ["get", ["getColumnFromValue", 0], 0], 1000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:16px;line-height:2;'>Raw: {point.rawVal}<br>Billions: {point.billions}<br>Millions: {point.millionsPart}<br>Thousands: {point.thousandsPart}<br>Ones: {point.onesPart}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "Concat",
+      "data": [{
+        "x": 50,
+        "y": 75,
+        "formatted": ["+",
+          "$",
+          ["+",
+            ["case",
+              [">=", ["get", ["getColumnFromValue", 0], 0], 1000000000],
+              ["+", ["floor", ["/", ["get", ["getColumnFromValue", 0], 0], 1000000000]], ","],
+              ""
+            ],
+            ["+",
+              ["case",
+                [">=", ["get", ["getColumnFromValue", 0], 0], 1000000],
+                ["+", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000000], 1000000]], ","],
+                ""
+              ],
+              ["+",
+                ["case",
+                  [">=", ["get", ["getColumnFromValue", 0], 0], 1000],
+                  ["+", ["floor", ["/", ["%", ["get", ["getColumnFromValue", 0], 0], 1000000], 1000]], ","],
+                  ""
+                ],
+                ["%", ["get", ["getColumnFromValue", 0], 0], 1000]
+              ]
+            ]
+          ]
+        ]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:22px;font-weight:700;'>Attempt: {point.formatted}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    }
+  ]
+}

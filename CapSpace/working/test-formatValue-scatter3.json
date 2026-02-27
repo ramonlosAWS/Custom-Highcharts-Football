@@ -1,0 +1,33 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 300
+  },
+  "title": { "text": "formatValue — scatter with y as actual value" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "FormatterYTest",
+      "data": [{
+        "x": 50,
+        "y": ["get", ["getColumnFromValue", 0], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "formatter": ["formatValue", "y", 0],
+        "style": { "textOutline": "none", "fontSize": "24px" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 300
+  },
+  "title": { "text": "Thousands Separator Test" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "lang": {
+    "thousandsSep": ",",
+    "decimalPoint": "."
+  },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "LangTest",
+      "data": [{
+        "x": 50,
+        "y": ["get", ["getColumnFromValue", 0], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:24px;font-weight:700;'>$ {point.y:,.0f}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    }
+  ]
+}

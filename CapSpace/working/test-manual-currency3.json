@@ -1,0 +1,125 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 300
+  },
+  "title": { "text": "Manual Currency with Decimals" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false, "reversed": true },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "WithDecimals",
+      "data": [{
+        "x": 50,
+        "y": 25,
+        "intPart": ["floor", ["get", ["getColumnFromValue", 0], 0]],
+        "decPart": ["floor", ["%", ["*", ["get", ["getColumnFromValue", 0], 0], 100], 100]],
+        "formatted": ["+", "$",
+          ["+",
+            ["case",
+              [">=", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000000],
+              ["+", ["floor", ["/", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000000]], ","],
+              ""
+            ],
+            ["+",
+              ["case",
+                [">=", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000],
+                ["+",
+                  ["case",
+                    ["and", [">=", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000000], ["<", ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000000], 1000000]], 100]],
+                    ["+", "0",
+                      ["case",
+                        ["<", ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000000], 1000000]], 10],
+                        ["+", "0", ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000000], 1000000]]],
+                        ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000000], 1000000]]
+                      ]
+                    ],
+                    ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000000], 1000000]]
+                  ],
+                  ","
+                ],
+                ""
+              ],
+              ["+",
+                ["case",
+                  [">=", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000],
+                  ["+",
+                    ["case",
+                      ["and", [">=", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000], ["<", ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000], 1000]], 100]],
+                      ["+", "0",
+                        ["case",
+                          ["<", ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000], 1000]], 10],
+                          ["+", "0", ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000], 1000]]],
+                          ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000], 1000]]
+                        ]
+                      ],
+                      ["floor", ["/", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000000], 1000]]
+                    ],
+                    ","
+                  ],
+                  ""
+                ],
+                ["+",
+                  ["case",
+                    ["and", [">=", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000], ["<", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000], 100]],
+                    ["+", "0",
+                      ["case",
+                        ["<", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000], 10],
+                        ["+", "0", ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000]],
+                        ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000]
+                      ]
+                    ],
+                    ["%", ["floor", ["get", ["getColumnFromValue", 0], 0]], 1000]
+                  ],
+                  ["+", ".",
+                    ["case",
+                      ["<", ["floor", ["%", ["*", ["get", ["getColumnFromValue", 0], 0], 100], 100]], 10],
+                      ["+", "0", ["floor", ["%", ["*", ["get", ["getColumnFromValue", 0], 0], 100], 100]]],
+                      ["floor", ["%", ["*", ["get", ["getColumnFromValue", 0], 0], 100], 100]]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:22px;font-weight:700;'>With decimals: {point.formatted}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "Debug",
+      "data": [{
+        "x": 50,
+        "y": 60,
+        "raw": ["get", ["getColumnFromValue", 0], 0],
+        "intPart": ["floor", ["get", ["getColumnFromValue", 0], 0]],
+        "decPart": ["floor", ["%", ["*", ["get", ["getColumnFromValue", 0], 0], 100], 100]]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:14px;color:#999;'>Raw: {point.raw} | Int: {point.intPart} | Dec: {point.decPart}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    }
+  ]
+}

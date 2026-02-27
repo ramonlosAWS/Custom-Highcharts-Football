@@ -1,0 +1,85 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 400
+  },
+  "title": { "text": "$X.XM Currency Format — Final Test" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "CapSpace",
+      "data": [{
+        "x": 50,
+        "y": 20,
+        "millions": ["/", ["get", ["getColumnFromValue", 0], 0], 1000000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:22px;font-weight:800;color:#10b981;'>CAP SPACE: ${point.millions:.1f}M</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "ActiveCap",
+      "data": [{
+        "x": 50,
+        "y": 40,
+        "millions": ["/", ["get", ["getColumnFromValue", 1], 0], 1000000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:22px;font-weight:800;color:#333;'>ACTIVE CAP: ${point.millions:.1f}M</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "DeadMoney",
+      "data": [{
+        "x": 50,
+        "y": 60,
+        "millions": ["/", ["get", ["getColumnFromValue", 2], 0], 1000000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:22px;font-weight:800;color:#f59e0b;'>DEAD MONEY: ${point.millions:.1f}M</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "DeadMoneyK",
+      "data": [{
+        "x": 50,
+        "y": 80,
+        "thousands": ["/", ["get", ["getColumnFromValue", 2], 0], 1000]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:22px;font-weight:800;color:#999;'>DEAD (K): ${point.thousands:.0f}K</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    }
+  ]
+}

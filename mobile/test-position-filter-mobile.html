@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Position Filter — Mobile Layout</title>
+  <title>Position Filter — Mobile (1024px design, scales down)</title>
   <script src="https://code.highcharts.com/11.4.6/highcharts.js"></script>
   <style>
     * { box-sizing: border-box; }
@@ -11,98 +11,155 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #eef1f5; padding: 20px; margin: 0;
     }
-    .container {
-      background: white; padding: 20px; border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 380px;
-    }
     h2 { margin: 0 0 6px 0; color: #333; font-size: 16px; }
     .subtitle { margin: 0 0 16px 0; color: #888; font-size: 12px; }
+    .container {
+      background: white; padding: 20px; border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px;
+    }
     .info {
       margin-top: 10px; padding: 8px 12px;
       background: #f0f4f8; border-radius: 4px; font-size: 12px; color: #555;
     }
+    .note {
+      background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 6px;
+      padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #0369a1;
+    }
+    .phone-frame {
+      width: 375px; border: 2px solid #333; border-radius: 20px;
+      padding: 10px; background: #fff; margin-top: 20px;
+      overflow: hidden;
+    }
+    .phone-label {
+      text-align: center; font-size: 11px; color: #999; margin-bottom: 6px;
+    }
+    .phone-inner {
+      width: 1024px;
+      transform-origin: top left;
+      transform: scale(0.347);  /* 375 / 1024 ≈ 0.366, minus padding */
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Position Filter — Mobile</h2>
-    <p class="subtitle">13 buttons · 3 rows (5+4+4) · 340px fixed width</p>
-    <div id="chart"></div>
-    <div class="info">Selected: <span id="sel">ALL</span></div>
+
+<h2>Position Filter — Mobile (1024px → phone)</h2>
+<div class="note">
+  QuickSight mobile renders at 1024px then scales down to phone width (~375px ≈ 37% scale).<br>
+  Buttons are designed large at 1024px so they remain readable and tappable when shrunk.
+</div>
+
+<!-- Full size at 1024px -->
+<div class="container" style="max-width:1064px;">
+  <div style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">
+    Full size (1024px) — what QuickSight renders
   </div>
+  <div id="chart-full"></div>
+  <div class="info">Selected: <span id="sel-full">ALL</span></div>
+</div>
 
-  <script>
-    const positions = ['ALL','QB','RB','WR','TE','OT','OG','OC','DT','ED','LB','CB','DS'];
-    let selected = 'ALL';
+<!-- Phone preview -->
+<div class="subtitle">Phone preview (~375px, scaled down from 1024px):</div>
+<div class="phone-frame">
+  <div class="phone-label">iPhone 14 (375px)</div>
+  <div class="phone-inner">
+    <div id="chart-phone"></div>
+  </div>
+</div>
 
-    const chartW = 340, divPx = 56, maxPerRow = 5;
-    const pxPerUnit = chartW / 100;
-    const btnU = divPx / pxPerUnit;
+<script>
+const positions = ['ALL','QB','RB','WR','TE','OT','OG','OC','DT','ED','LB','CB','DS'];
 
-    // Split: 5+4+4
-    const rows = [];
-    for (let i = 0; i < positions.length; i += maxPerRow) {
-      rows.push(positions.slice(i, i + maxPerRow));
-    }
+// ── Design parameters for 1024px canvas ──
+// At 37% scale: 140px div → ~51px on phone (good tap target)
+//               30px font → ~11px on phone (readable)
+//               70px height → ~26px on phone (compact)
+const CHART_W = 1024;
+const DIV_PX = 140;       // button width at 1024
+const DIV_H = 70;         // button height at 1024
+const FONT_SIZE = 30;     // font size at 1024
+const MAX_PER_ROW = 5;    // 5+4+4 layout
+const BORDER_W = 3;       // divider width at 1024
 
-    function rowY(ri) {
-      const top = 85, bottom = 15;
-      return top - ri * ((top - bottom) / (rows.length - 1));
-    }
+const pxPerUnit = CHART_W / 100;
+const btnU = DIV_PX / pxPerUnit;
 
-    function getData() {
-      const pts = [];
-      rows.forEach((row, ri) => {
-        const span = (row.length - 1) * btnU;
-        const startX = (100 - span) / 2;
-        row.forEach((lbl, ci) => {
-          pts.push({
-            x: startX + ci * btnU,
-            y: rowY(ri),
-            label: lbl,
-            bg: lbl === selected ? '#1a2b4c' : 'transparent',
-            tc: lbl === selected ? '#ffffff' : '#1a2b4c',
-            fw: '600',
-            div: ci < row.length - 1 ? '1px solid #c0c8d1' : 'none'
-          });
+// Split into rows: 5+4+4
+const rows = [];
+for (let i = 0; i < positions.length; i += MAX_PER_ROW) {
+  rows.push(positions.slice(i, i + MAX_PER_ROW));
+}
+const numRows = rows.length; // 3
+
+// Row Y positions
+function rowY(ri) {
+  const top = 82, bottom = 18;
+  return top - ri * ((top - bottom) / (numRows - 1));
+}
+
+// Chart height: 3 rows × 70px buttons + spacing
+const CHART_H = numRows * (DIV_H + 20) + 40; // ~310px
+
+function makeChart(containerId, selId) {
+  let selected = 'ALL';
+
+  function getData() {
+    const pts = [];
+    rows.forEach((row, ri) => {
+      const span = (row.length - 1) * btnU;
+      const startX = (100 - span) / 2;
+      row.forEach((lbl, ci) => {
+        pts.push({
+          x: startX + ci * btnU,
+          y: rowY(ri),
+          label: lbl,
+          bg: lbl === selected ? '#1a2b4c' : 'transparent',
+          tc: lbl === selected ? '#ffffff' : '#1a2b4c',
+          fw: '700',
+          div: ci < row.length - 1 ? BORDER_W + 'px solid #c0c8d1' : 'none'
         });
       });
-      return pts;
-    }
-
-    Highcharts.chart('chart', {
-      chart: {
-        type: 'scatter', backgroundColor: 'transparent',
-        height: 110, width: chartW,
-        spacing: [5, 0, 5, 0], animation: false,
-        style: { fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
-      },
-      title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
-      xAxis: { min: 0, max: 100, visible: false },
-      yAxis: { min: 0, max: 100, visible: false },
-      tooltip: { enabled: false },
-      plotOptions: {
-        scatter: { marker: { enabled: false, radius: 0 }, animation: false,
-          states: { hover: { enabled: false }, select: { enabled: false }, inactive: { enabled: false } } },
-        series: { enableMouseTracking: true, cursor: 'pointer', animation: false,
-          marker: { enabled: false, radius: 0,
-            states: { hover: { enabled: false, radius: 0 }, select: { enabled: false, radius: 0 } } } }
-      },
-      series: [{
-        name: 'Pos', data: getData(),
-        dataLabels: {
-          enabled: true, useHTML: true,
-          format: "<div style='width:56px;height:26px;line-height:26px;text-align:center;font-size:11px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;'>{point.label}</div>",
-          align: 'center', verticalAlign: 'middle', overflow: 'allow', crop: false,
-          style: { textOutline: 'none' }
-        },
-        point: { events: { click: function() {
-          selected = this.label;
-          document.getElementById('sel').textContent = selected;
-          this.series.setData(getData(), true, false, false);
-        }}}
-      }]
     });
-  </script>
+    return pts;
+  }
+
+  const fmt = "<div style='width:" + DIV_PX + "px;height:" + DIV_H + "px;line-height:" + DIV_H + "px;text-align:center;font-size:" + FONT_SIZE + "px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;'>{point.label}</div>";
+
+  Highcharts.chart(containerId, {
+    chart: {
+      type: 'scatter', backgroundColor: 'transparent',
+      height: CHART_H, width: CHART_W,
+      spacing: [10, 0, 10, 0], animation: false,
+      style: { fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+    },
+    title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+    xAxis: { min: 0, max: 100, visible: false },
+    yAxis: { min: 0, max: 100, visible: false },
+    tooltip: { enabled: false },
+    plotOptions: {
+      scatter: { marker: { enabled: false, radius: 0 }, animation: false,
+        states: { hover: { enabled: false }, select: { enabled: false }, inactive: { enabled: false } } },
+      series: { enableMouseTracking: true, cursor: 'pointer', animation: false,
+        marker: { enabled: false, radius: 0,
+          states: { hover: { enabled: false, radius: 0 }, select: { enabled: false, radius: 0 } } } }
+    },
+    series: [{
+      name: 'Pos', data: getData(),
+      dataLabels: {
+        enabled: true, useHTML: true, format: fmt,
+        align: 'center', verticalAlign: 'middle', overflow: 'allow', crop: false,
+        style: { textOutline: 'none' }
+      },
+      point: { events: { click: function() {
+        selected = this.label;
+        document.getElementById(selId).textContent = selected;
+        this.series.setData(getData(), true, false, false);
+      }}}
+    }]
+  });
+}
+
+makeChart('chart-full', 'sel-full');
+makeChart('chart-phone', 'sel-full'); // shares selection display
+</script>
 </body>
 </html>

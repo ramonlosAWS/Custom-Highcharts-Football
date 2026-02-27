@@ -1,0 +1,87 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#ffffff",
+    "height": 300
+  },
+  "title": { "text": "Debug getColumnFromValue indices" },
+  "legend": { "enabled": false },
+  "credits": { "enabled": false },
+  "xAxis": { "min": 0, "max": 100, "visible": false },
+  "yAxis": { "min": 0, "max": 100, "visible": false, "reversed": true },
+  "tooltip": { "enabled": false },
+  "plotOptions": {
+    "scatter": {
+      "marker": { "enabled": false },
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "Val0",
+      "data": [{
+        "x": 50,
+        "y": 15,
+        "raw": ["get", ["getColumnFromValue", 0], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:16px;'>VALUE 0 (Cap Space): {point.raw}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "Val1",
+      "data": [{
+        "x": 50,
+        "y": 40,
+        "raw": ["get", ["getColumnFromValue", 1], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:16px;'>VALUE 1 (Active Cap): {point.raw}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "Val2",
+      "data": [{
+        "x": 50,
+        "y": 65,
+        "raw": ["get", ["getColumnFromValue", 2], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:16px;'>VALUE 2 (Dead Money): {point.raw}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    },
+    {
+      "name": "GB0",
+      "data": [{
+        "x": 50,
+        "y": 85,
+        "r0": ["get", ["getColumnFromGroupBy", 0], 0],
+        "r1": ["get", ["getColumnFromGroupBy", 1], 0],
+        "r2": ["get", ["getColumnFromGroupBy", 2], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='font-size:14px;color:#999;'>RANKS — GB0: {point.r0} | GB1: {point.r1} | GB2: {point.r2}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "style": { "textOutline": "none" }
+      }
+    }
+  ]
+}
