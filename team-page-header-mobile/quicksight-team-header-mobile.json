@@ -1,0 +1,50 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 1100,
+    "spacing": [0, 0, 0, 0]
+  },
+  "title": {"text": null},
+  "legend": {"enabled": false},
+  "credits": {"enabled": false},
+  "xAxis": {"min": 0, "max": 100, "visible": false},
+  "yAxis": {"min": 0, "max": 100, "visible": false},
+  "tooltip": {"enabled": false},
+  "plotOptions": {
+    "scatter": {
+      "marker": {"enabled": false},
+      "enableMouseTracking": false
+    }
+  },
+  "series": [
+    {
+      "name": "Header",
+      "data": [{
+        "x": 0,
+        "y": 95,
+        "teamName": ["get", ["getColumn", 0], 0],
+        "teamColor": ["get", ["getColumn", 1], 0],
+        "record": ["get", ["getColumn", 2], 0],
+        "gm": ["get", ["getColumn", 3], 0],
+        "gmSince": ["get", ["getColumn", 4], 0],
+        "hc": ["get", ["getColumn", 5], 0],
+        "hcSince": ["get", ["getColumn", 6], 0],
+        "oc": ["get", ["getColumn", 7], 0],
+        "ocSince": ["get", ["getColumn", 8], 0],
+        "dc": ["get", ["getColumn", 9], 0],
+        "dcSince": ["get", ["getColumn", 10], 0]
+      }],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<link href='https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,700;0,800;1,700;1,800;1,900&display=swap' rel='stylesheet'><div style='font-family:Barlow Condensed,sans-serif;width:960px;'><div style='font-size:120px;font-weight:900;color:{point.teamColor};text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;line-height:1;'>{point.teamName}</div><div style='margin-bottom:14px;'><div style='font-size:32px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;'>2025 RECORD</div><div style='font-size:42px;color:#111;font-weight:700;text-transform:uppercase;font-style:italic;'>{point.record}</div></div><div style='margin-bottom:14px;'><div style='font-size:32px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;'>GENERAL MANAGER (SINCE {point.gmSince})</div><div style='font-size:42px;color:#111;font-weight:700;text-transform:uppercase;font-style:italic;'>{point.gm}</div></div><div style='margin-bottom:14px;'><div style='font-size:32px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;'>HEAD COACH (SINCE {point.hcSince})</div><div style='font-size:42px;color:#111;font-weight:700;text-transform:uppercase;font-style:italic;'>{point.hc}</div></div><div style='margin-bottom:14px;'><div style='font-size:32px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;'>OFF. COORDINATOR (SINCE {point.ocSince})</div><div style='font-size:42px;color:#111;font-weight:700;text-transform:uppercase;font-style:italic;'>{point.oc}</div></div><div><div style='font-size:32px;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;'>DEF. COORDINATOR (SINCE {point.dcSince})</div><div style='font-size:42px;color:#111;font-weight:700;text-transform:uppercase;font-style:italic;'>{point.dc}</div></div></div>",
+        "align": "left",
+        "verticalAlign": "top",
+        "overflow": "allow",
+        "crop": false,
+        "style": {"textOutline": "none"}
+      }
+    }
+  ]
+}
