@@ -8,10 +8,12 @@ Mobile version of the Team Content Body button set for 1024px tablet/mobile dash
 |----------|-------|
 | Buttons | 3 (DRAFT CLASS, FRONT OFFICE TENDENCIES, MOCK DRAFT TRACKER) |
 | Default | DRAFT CLASS |
-| Rows | 1 (3) |
+| Rows | 1 |
 | Chart height | 80px |
-| Button size | 186px x 62px |
+| Button size | 320px x 62px |
 | Font | 28px Barlow Condensed, weight 700 |
+| X units | 31.25 (320px / 10.24px per unit) |
+| startX | 18.75 |
 
 ## QuickSight Setup
 
