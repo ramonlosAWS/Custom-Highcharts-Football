@@ -1,0 +1,196 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 80,
+    "spacing": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "animation": false,
+    "style": {
+      "fontFamily": "Barlow Condensed, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    }
+  },
+  "title": {
+    "text": null
+  },
+  "legend": {
+    "enabled": false
+  },
+  "credits": {
+    "enabled": false
+  },
+  "xAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "yAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "tooltip": {
+    "enabled": false
+  },
+  "plotOptions": {
+    "scatter": {
+      "marker": {
+        "enabled": false,
+        "radius": 0
+      },
+      "animation": false,
+      "states": {
+        "hover": {
+          "enabled": false
+        },
+        "select": {
+          "enabled": false
+        },
+        "inactive": {
+          "enabled": false
+        }
+      }
+    },
+    "series": {
+      "enableMouseTracking": true,
+      "cursor": "pointer",
+      "animation": false,
+      "marker": {
+        "enabled": false,
+        "radius": 0,
+        "states": {
+          "hover": {
+            "enabled": false,
+            "radius": 0
+          },
+          "select": {
+            "enabled": false,
+            "radius": 0
+          }
+        }
+      }
+    }
+  },
+  "_comment": "TeamDraftTargets Mobile 1024px - 3 buttons: ROUND 1, DAY 2, DAY 3. Single row. Parameter: TeamDraftTargets. Dataset: team-draft-targets-data.csv + calc SelectedDraftTarget = ${TeamDraftTargets}. Field Wells GROUP BY: SortOrder (col 0), ButtonLabel (col 1), SelectedDraftTarget (col 2).",
+  "series": [
+    {
+      "name": "TeamDraftTargets",
+      "data": [
+        "map",
+        [
+          "getColumn",
+          1,
+          2
+        ],
+        {
+          "x": [
+            "+",
+            31.84,
+            [
+              "*",
+              [
+                "itemIndex"
+              ],
+              18.16
+            ]
+          ],
+          "y": 50,
+          "label": [
+            "get",
+            [
+              "item"
+            ],
+            0
+          ],
+          "bg": [
+            "case",
+            [
+              "==",
+              [
+                "get",
+                [
+                  "item"
+                ],
+                0
+              ],
+              [
+                "get",
+                [
+                  "item"
+                ],
+                1
+              ]
+            ],
+            "#1a2b4c",
+            "transparent"
+          ],
+          "tc": [
+            "case",
+            [
+              "==",
+              [
+                "get",
+                [
+                  "item"
+                ],
+                0
+              ],
+              [
+                "get",
+                [
+                  "item"
+                ],
+                1
+              ]
+            ],
+            "#ffffff",
+            "#1a2b4c"
+          ],
+          "fw": "700",
+          "borderRight": [
+            "case",
+            [
+              "==",
+              [
+                "%",
+                [
+                  "itemIndex"
+                ],
+                3
+              ],
+              2
+            ],
+            "none",
+            "1px solid #c0c8d1"
+          ]
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='width:186px;height:62px;line-height:62px;text-align:center;font-size:28px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.borderRight};cursor:pointer;box-sizing:border-box;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{point.label}</div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "overflow": "allow",
+        "crop": false,
+        "style": {
+          "textOutline": "none"
+        }
+      },
+      "point": {
+        "events": {
+          "click": [
+            "triggerClick",
+            {
+              "rowIndex": "point.index"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

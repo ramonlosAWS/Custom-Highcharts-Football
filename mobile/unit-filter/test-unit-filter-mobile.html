@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit Filter — Mobile (1024px)</title>
+  <script src="../../highcharts.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #f0f0f0; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding: 20px 0; }
+    #container { width: 1024px; background: #fff; }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script>
+    var buttons = ["ALL", "OFFENSE", "DEFENSE"];
+    var selected = "ALL";
+    var maxPerRow = 3;
+    var numRows = Math.ceil(buttons.length / maxPerRow);
+    var chartH = numRows === 1 ? 80 : (numRows <= 3 ? 220 : 220 + (numRows - 3) * 70);
+    var btnU = 18.16;
+
+    function getData() {
+      var pts = [];
+      for (var i = 0; i < buttons.length; i++) {
+        var row = Math.floor(i / maxPerRow);
+        var col = i % maxPerRow;
+        var rowLen = Math.min(maxPerRow, buttons.length - row * maxPerRow);
+        var span = (rowLen - 1) * btnU;
+        var startX = (100 - (maxPerRow - 1) * btnU) / 2;
+        var isSelected = (buttons[i] === selected);
+        pts.push({
+          x: startX + col * btnU,
+          y: numRows === 1 ? 50 : 78 - row * 28,
+          label: buttons[i],
+          bg: isSelected ? '#1a2b4c' : 'transparent',
+          tc: isSelected ? '#ffffff' : '#1a2b4c',
+          fw: '700',
+          borderRight: col === maxPerRow - 1 ? 'none' : '1px solid #c0c8d1'
+        });
+      }
+      return pts;
+    }
+
+    Highcharts.chart('container', {
+      chart: {
+        type: 'scatter', backgroundColor: 'transparent', height: chartH,
+        spacing: [0, 0, 0, 0], animation: false,
+        style: { fontFamily: "Barlow Condensed, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+      },
+      title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+      xAxis: { min: 0, max: 100, visible: false },
+      yAxis: { min: 0, max: 100, visible: false },
+      tooltip: { enabled: false },
+      plotOptions: {
+        scatter: { marker: { enabled: false, radius: 0 }, animation: false, states: { hover: { enabled: false }, select: { enabled: false }, inactive: { enabled: false } } },
+        series: { enableMouseTracking: true, cursor: 'pointer', animation: false, marker: { enabled: false, radius: 0, states: { hover: { enabled: false, radius: 0 }, select: { enabled: false, radius: 0 } } } }
+      },
+      series: [{
+        name: 'UnitFilter',
+        data: getData(),
+        dataLabels: {
+          enabled: true, useHTML: true,
+          format: "<div style='width:186px;height:62px;line-height:62px;text-align:center;font-size:28px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.borderRight};cursor:pointer;box-sizing:border-box;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{point.label}</div>",
+          align: 'center', verticalAlign: 'middle', overflow: 'allow', crop: false,
+          style: { textOutline: 'none' }
+        },
+        point: { events: { click: function() {
+          selected = this.label;
+          this.series.setData(getData(), true, false, false);
+        } } }
+      }]
+    });
+  </script>
+</body>
+</html>

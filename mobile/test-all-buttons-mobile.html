@@ -3,23 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NFL Buttons — Mobile Layouts (Fixed Width)</title>
+  <title>NFL Buttons — Mobile Layouts (1024px)</title>
   <script src="../highcharts.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: Barlow Condensed, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #eef1f5; padding: 20px; margin: 0;
+      display: flex; flex-direction: column; align-items: center;
     }
     h2 { margin: 0 0 6px 0; color: #333; font-size: 16px; }
     h3 {
       margin: 24px 0 10px 0; color: #666; font-size: 12px;
-      text-transform: uppercase; letter-spacing: 1px;
+      text-transform: uppercase; letter-spacing: 1px; width: 1024px;
     }
     .section {
       background: white; padding: 16px 20px; border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 14px;
-      max-width: 380px;
+      width: 1024px;
     }
     .section-title {
       margin: 0 0 2px 0; color: #333; font-size: 13px; font-weight: 600;
@@ -38,19 +40,19 @@
     .note {
       background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 6px;
       padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #0369a1;
-      max-width: 380px;
+      width: 1024px;
     }
   </style>
 </head>
 <body>
 
-<h2>NFL Buttons — Mobile Layouts</h2>
+<h2>NFL Buttons — Mobile Layouts (1024px)</h2>
 <div class="note">
-  Fixed 340px width. No responsive switching — these are dedicated mobile visuals.
-  In QuickSight, use conditional visibility to show mobile vs desktop.
+  Fixed 1024px width for mobile/tablet dashboard. Buttons use 186px divs, 62px height, 28px font.
+  Rows use y-spacing of 28 units in a 220px chart. No bottom borders, no gaps between rows.
 </div>
 
-<h3>Tier 1 — Single Row (2-4 buttons, shrunk)</h3>
+<h3>Tier 1 — Single Row (2-4 buttons)</h3>
 
 <div class="section">
   <div class="section-title">Logo Sort <span class="tier t1">2 btns</span></div>
@@ -141,33 +143,27 @@
 <h3>Tier 3 — Three+ Rows (8-13 buttons)</h3>
 
 <div class="section">
-  <div class="section-title">Position Filter <span class="tier t3">13 btns → 5+4+4</span></div>
+  <div class="section-title">Position Filter <span class="tier t3">15 btns → 5+5+5</span></div>
   <div class="section-sub" id="meta-position"></div>
   <div id="chart-position"></div>
-  <div class="info">Selected: <span id="sel-position">ALL</span></div>
+  <div class="info">Selected: <span id="sel-position">All</span></div>
 </div>
 
 <div class="section">
-  <div class="section-title">Position Groups (alt) <span class="tier t3">13 btns → 5+4+4</span></div>
-  <div class="section-sub" id="meta-posgroups"></div>
-  <div id="chart-posgroups"></div>
-  <div class="info">Selected: <span id="sel-posgroups">All</span></div>
-</div>
-
-<div class="section">
-  <div class="section-title">Rank By <span class="tier t3">13 wide → 3+3+3+2+2</span></div>
+  <div class="section-title">Rank By <span class="tier t3">13 wide → 5+5+3</span></div>
   <div class="section-sub" id="meta-rankby"></div>
   <div id="chart-rankby"></div>
   <div class="info">Selected: <span id="sel-rankby">Overall Score</span></div>
 </div>
 
 <script>
+
 // ── Shared base config ──
 const base = {
   chart: {
     type: 'scatter', backgroundColor: 'transparent',
-    spacing: [5, 0, 5, 0], animation: false,
-    style: { fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
+    spacing: [0, 0, 0, 0], animation: false,
+    style: { fontFamily: "Barlow Condensed, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }
   },
   title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
   xAxis: { min: 0, max: 100, visible: false },
@@ -182,23 +178,21 @@ const base = {
   }
 };
 
+// Mobile sizing constants (1024px widget)
+const CHART_W = 1024;
+const DIV_W = 186;   // button width px
+const DIV_H = 62;    // button height px
+const FONT_SZ = 28;  // font size px
+const ROW_UNITS = 28; // y-axis units between rows
+
 /**
- * Build a fixed-width mobile chart.
- *
- * @param {string}   containerId
- * @param {string}   metaId
- * @param {string}   selId
- * @param {string[]} labels       - button labels
- * @param {string}   defaultVal   - initially selected
- * @param {number}   divPx        - CSS width of each button div
- * @param {number}   chartW       - fixed chart pixel width
- * @param {number}   maxPerRow    - max buttons per row
+ * Build a 1024px mobile chart with consistent sizing.
+ * Buttons are 186×62px, 28px font, no bottom borders, no gaps.
+ * Rows are spaced 28 y-units apart in a chart sized to fit.
  */
-function makeMobileChart(containerId, metaId, selId, labels, defaultVal, divPx, chartW, maxPerRow) {
+function makeMobileChart(containerId, metaId, selId, labels, defaultVal, maxPerRow) {
   let selected = defaultVal;
   const n = labels.length;
-  const pxPerUnit = chartW / 100;
-  const btnU = divPx / pxPerUnit;
 
   // Split into rows
   const rows = [];
@@ -206,19 +200,27 @@ function makeMobileChart(containerId, metaId, selId, labels, defaultVal, divPx, 
     rows.push(labels.slice(i, i + maxPerRow));
   }
   const numRows = rows.length;
-  const chartH = numRows === 1 ? 38 : (numRows * 30 + 20);
 
-  // Y positions: evenly spaced top-to-bottom
+  // Chart height: single row = 80px, multi-row = 220px base (fits 3 rows)
+  // For 4+ rows, add 70px per extra row
+  let chartH;
+  if (numRows === 1) chartH = 80;
+  else if (numRows <= 3) chartH = 220;
+  else chartH = 220 + (numRows - 3) * 70;
+
+  // Y positions: top row at 78, each subsequent row -28 units
   function rowY(ri) {
     if (numRows === 1) return 50;
-    const top = 85, bottom = 15;
-    return top - ri * ((top - bottom) / (numRows - 1));
+    return 78 - ri * ROW_UNITS;
   }
+
+  // X positions: center each row, buttons spaced by btnUnits
+  const pxPerUnit = CHART_W / 100;
+  const btnU = DIV_W / pxPerUnit;
 
   function getData() {
     const pts = [];
     rows.forEach((row, ri) => {
-      // Center this row: total span = (count-1) * btnU, startX = (100 - span) / 2
       const span = (row.length - 1) * btnU;
       const startX = (100 - span) / 2;
       row.forEach((lbl, ci) => {
@@ -228,23 +230,23 @@ function makeMobileChart(containerId, metaId, selId, labels, defaultVal, divPx, 
           label: lbl,
           bg: lbl === selected ? '#1a2b4c' : 'transparent',
           tc: lbl === selected ? '#ffffff' : '#1a2b4c',
-          fw: '600',
-          div: ci < row.length - 1 ? '1px solid #c0c8d1' : 'none'
+          fw: '700',
+          borderRight: ci < row.length - 1 ? '1px solid #c0c8d1' : 'none'
         });
       });
     });
     return pts;
   }
 
-  const fmt = "<div style='width:" + divPx + "px;height:26px;line-height:26px;text-align:center;font-size:11px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.div};cursor:pointer;box-sizing:border-box;white-space:nowrap;'>{point.label}</div>";
+  const fmt = "<div style='width:" + DIV_W + "px;height:" + DIV_H + "px;line-height:" + DIV_H + "px;text-align:center;font-size:" + FONT_SZ + "px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.borderRight};cursor:pointer;box-sizing:border-box;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{point.label}</div>";
 
   document.getElementById(metaId).textContent =
-    n + ' btns · ' + divPx + 'px div · ' + chartW + 'px chart · ' +
+    n + ' btns · ' + DIV_W + 'px × ' + DIV_H + 'px · ' +
     rows.map(r => r.length).join('+') + ' rows · ' + chartH + 'px tall';
 
   Highcharts.chart(containerId, {
     ...base,
-    chart: { ...base.chart, height: chartH, width: chartW },
+    chart: { ...base.chart, height: chartH, width: CHART_W },
     series: [{
       name: 'Btns', data: getData(),
       dataLabels: {
@@ -262,74 +264,61 @@ function makeMobileChart(containerId, metaId, selId, labels, defaultVal, divPx, 
 }
 
 // ═══════════════════════════════════════════
-// TIER 1 — Single row, shrunk to fit 340px
+// TIER 1 — Single Row
 // ═══════════════════════════════════════════
 
-//                          labels                                    default              divPx  chartW  maxPerRow
 makeMobileChart('chart-logosort',     'meta-logosort',     'sel-logosort',
-  ['Alpha','Draft Order'],                                            'Alpha',             140,   340,    2);
+  ['Alpha','Draft Order'],                                            'Alpha',             2);
 
 makeMobileChart('chart-source',       'meta-source',       'sel-source',
-  ['GRINDING THE MOCKS',"DJ'S TOP 50"],                               'GRINDING THE MOCKS',145,   340,    2);
+  ['GRINDING THE MOCKS',"DJ'S TOP 50"],                               'GRINDING THE MOCKS',2);
 
 makeMobileChart('chart-page',         'meta-page',         'sel-page',
-  ['1','2','3'],                                                      '1',                 40,    340,    3);
+  ['1','2','3'],                                                      '1',                 3);
 
 makeMobileChart('chart-unit',         'meta-unit',         'sel-unit',
-  ['ALL','OFFENSE','DEFENSE'],                                        'ALL',               90,    340,    3);
+  ['ALL','OFFENSE','DEFENSE'],                                        'ALL',               3);
 
 makeMobileChart('chart-drafttargets', 'meta-drafttargets', 'sel-drafttargets',
-  ['ROUND 1','DAY 2','DAY 3'],                                       'ROUND 1',           80,    340,    3);
+  ['ROUND 1','DAY 2','DAY 3'],                                       'ROUND 1',           3);
 
 makeMobileChart('chart-roster',       'meta-roster',       'sel-roster',
-  ['STARTERS','TOP 51','90-MAN'],                                     'STARTERS',          85,    340,    3);
+  ['STARTERS','TOP 51','90-MAN'],                                     'STARTERS',          3);
 
 makeMobileChart('chart-draftclass',   'meta-draftclass',   'sel-draftclass',
-  ['All','2023','2024','2025'],                                       'All',               70,    340,    4);
+  ['All','2023','2024','2025'],                                       'All',               4);
 
 // ═══════════════════════════════════════════
-// TIER 2 — Two rows
+// TIER 2 — Two Rows
 // ═══════════════════════════════════════════
 
-// Team View (3 wide labels) → 2+1
 makeMobileChart('chart-teamview',     'meta-teamview',     'sel-teamview',
-  ['TEAM SNAPSHOT','TEAM NEEDS','DIVISION RANKS'],                    'TEAM SNAPSHOT',     110,   340,    2);
+  ['TEAM SNAPSHOT','TEAM NEEDS','DIVISION RANKS'],                    'TEAM SNAPSHOT',     2);
 
-// Team Fit (4) → 2+2
 makeMobileChart('chart-teamfit',      'meta-teamfit',      'sel-teamfit',
-  ['TEAM FIT','TOP 101','OUTGOING','CUT CANDIDATES'],                 'TEAM FIT',          100,   340,    2);
+  ['TEAM FIT','TOP 101','OUTGOING','CUT CANDIDATES'],                 'TEAM FIT',          2);
 
-// Combine Days (5) → 3+2
 makeMobileChart('chart-combine',      'meta-combine',      'sel-combine',
-  ['All','Day 1','Day 2','Day 3','Day 4'],                            'All',               80,    340,    3);
+  ['All','Day 1','Day 2','Day 3','Day 4'],                            'All',               3);
 
-// Draft Round (7) → 4+3
 makeMobileChart('chart-draftround',   'meta-draftround',   'sel-draftround',
   ['ROUND 1','ROUND 2','ROUND 3','ROUND 4','ROUND 5','ROUND 6','ROUND 7'],
-                                                                      'ROUND 1',           72,    340,    4);
+                                                                      'ROUND 1',           4);
 
-// Team Content Body (3 very wide) → stacked 1+1+1
 makeMobileChart('chart-contentbody',  'meta-contentbody',  'sel-contentbody',
-  ['DRAFT CLASS','FRONT OFFICE TENDENCIES','MOCK DRAFT TRACKER'],     'DRAFT CLASS',       280,   340,    1);
+  ['DRAFT CLASS','FRONT OFFICE TENDENCIES','MOCK DRAFT TRACKER'],     'DRAFT CLASS',       1);
 
 // ═══════════════════════════════════════════
-// TIER 3 — Three+ rows
+// TIER 3 — Three+ Rows
 // ═══════════════════════════════════════════
 
-// Position Filter (13) → 5+4+4
 makeMobileChart('chart-position',     'meta-position',     'sel-position',
-  ['ALL','QB','RB','WR','TE','OT','OG','OC','DT','ED','LB','CB','DS'],
-                                                                      'ALL',               56,    340,    5);
+  ['All','OFF','DEF','QB','RB','WR','TE','T','G','C','DT','ED','LB','CB','S'],
+                                                                      'All',               5);
 
-// Position Groups alt (13) → 5+4+4
-makeMobileChart('chart-posgroups',    'meta-posgroups',    'sel-posgroups',
-  ['All','QB','RB','WR','TE','T','G','C','DT','ED','LB','CB','S'],
-                                                                      'All',               56,    340,    5);
-
-// Rank By (13 wide) → 3+3+3+2+2
 makeMobileChart('chart-rankby',       'meta-rankby',       'sel-rankby',
   ['Overall Score','Production Score','Athleticism Score','10-yd Split','40 Time','40 Top Speed','Vertical Jump','Broad Jump','Short Shuttle','Three Cone','Height','Weight','Arm Length'],
-                                                                      'Overall Score',     100,   340,    3);
+                                                                      'Overall Score',     5);
 
 </script>
 </body>

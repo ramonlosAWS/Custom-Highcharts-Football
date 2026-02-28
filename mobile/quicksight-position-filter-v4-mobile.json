@@ -1,9 +1,9 @@
 {
-  "_comment": "Position Filter v4 Mobile - 15 buttons in 3 rows of 5 for 1024px mobile widget. ALL, OFF, DEF, QB, RB | WR, TE, T, G, C | DT, ED, LB, CB, S. Button div 186px wide, 62px tall, font 28px. Rows at y=83,50,17 (33-unit spacing). No bottom borders, no gaps. Chart height 198px, spacing [0,0,0,0]. Parameter: PositionFilter (String, default All). Dataset: position-filter-data-v3.csv + calc field SelectedPosition = ${PositionFilter}. Field Wells GROUP BY: SortOrder (col 0, sort asc), ButtonLabel (col 1), SelectedPosition (col 2). Nav Action: on select, set PositionFilter = ButtonLabel.",
+  "_comment": "Position Filter v4 Mobile - 15 buttons in 3 rows of 5 for 1024px mobile widget. ALL, OFF, DEF, QB, RB | WR, TE, T, G, C | DT, ED, LB, CB, S. Button div 186px wide, 62px tall, font 28px. Rows at y=81,50,19 (31-unit spacing). No bottom borders, no gaps. Chart height 198px, spacing [0,0,0,0]. Parameter: PositionFilter (String, default All). Dataset: position-filter-data-v3.csv + calc field SelectedPosition = ${PositionFilter}. Field Wells GROUP BY: SortOrder (col 0, sort asc), ButtonLabel (col 1), SelectedPosition (col 2). Nav Action: on select, set PositionFilter = ButtonLabel.",
   "chart": {
     "type": "scatter",
     "backgroundColor": "transparent",
-    "height": 198,
+    "height": 220,
     "spacing": [0, 0, 0, 0],
     "animation": false,
     "style": {
@@ -27,7 +27,7 @@
       ["getColumn", 1, 2],
       {
         "x": ["+", 10, ["*", ["%", ["itemIndex"], 5], 20]],
-        "y": ["-", 83, ["*", ["floor", ["/", ["itemIndex"], 5]], 33]],
+        "y": ["-", 78, ["*", ["floor", ["/", ["itemIndex"], 5]], 28]],
         "label": ["get", ["item"], 0],
         "bg": [
           "case",

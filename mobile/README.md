@@ -1,48 +1,65 @@
-# Mobile Button Layouts
+# Mobile Button Layouts (1024px)
 
-Fixed-width (340px) mobile versions of all 14 button sets. No responsive switching — each is a dedicated mobile visual. In QuickSight, use conditional visibility to show desktop vs mobile.
+1024px mobile/tablet versions of all 17 button sets. Each in its own subfolder with a `quicksight-*-mobile.json` config. Use conditional visibility in QuickSight to show desktop vs mobile.
 
-## Layout Strategy
+## Sizing Constants
 
-| Tier | Buttons | Mobile Approach | Examples |
-|------|---------|-----------------|----------|
-| T1 | 2-4 | Single row, shrunk | Logo Sort, Page Selector, Unit Filter |
-| T2 | 5-7 or wide labels | Two rows | Combine Days (3+2), Draft Round (4+3) |
-| T3 | 8-13 | Three+ rows | Position Filter (5+4+4), Rank By (3×3+2×2) |
+| Property | Value |
+|----------|-------|
+| Widget width | 1024px |
+| Button div | 186px × 62px |
+| Font size | 28px Barlow Condensed, weight 700 |
+| Row Y-spacing | 28 units (rows at y=78, 50, 22) |
+| Chart height (1 row) | 80px |
+| Chart height (2-3 rows) | 220px |
+| Chart spacing | [0, 0, 0, 0] |
+| Bottom borders | None |
+| Right borders | 1px solid #c0c8d1 (except last col per row) |
+| X btn units | 18.16 (186px / 10.24px per unit) |
 
-## All 14 Sets
+## Y-Position Formula
 
-| Name | Count | Div Width | Rows | Chart Height |
-|------|-------|-----------|------|-------------|
-| Logo Sort | 2 | 140px | 2 | 38px |
-| Source Filter | 2 | 145px | 2 | 38px |
-| Page Selector | 3 | 40px | 3 | 38px |
-| Unit Filter | 3 | 90px | 3 | 38px |
-| Team Draft Targets | 3 | 80px | 3 | 38px |
-| Roster Filter | 3 | 85px | 3 | 38px |
-| Draft Class | 4 | 70px | 4 | 38px |
-| Team View Filter | 3 wide | 110px | 2+1 | 80px |
-| Team Fit Filter | 4 | 100px | 2+2 | 80px |
-| Combine Days | 5 | 80px | 3+2 | 80px |
-| Draft Round | 7 | 72px | 4+3 | 80px |
-| Team Content Body | 3 very wide | 280px | 1+1+1 | 110px |
-| Position Filter | 13 | 56px | 5+4+4 | 110px |
-| Rank By | 13 wide | 100px | 3+3+3+2+2 | 170px |
+```
+rowY = 78 - (rowIndex × 28)
+```
+
+Single-row: y=50. Multi-row: Row 0=78, Row 1=50, Row 2=22.
+
+## X-Position Formula (Centered per row)
+
+```
+btnUnits = 186 / (1024 / 100) = 18.16
+span = (maxPerRow - 1) × 18.16
+startX = (100 - span) / 2
+x = startX + (itemIndex % maxPerRow) × 18.16
+```
+
+## All 17 Button Sets
+
+| Subfolder | Buttons | Max/Row | Rows | Height |
+|-----------|---------|---------|------|--------|
+| logo-sort | 2 | 2 | 1 | 80px |
+| source-filter | 2 | 2 | 1 | 80px |
+| page-selector | 3 | 3 | 1 | 80px |
+| unit-filter | 3 | 3 | 1 | 80px |
+| team-draft-targets | 3 | 3 | 1 | 80px |
+| roster-filter | 3 | 3 | 1 | 80px |
+| draft-class | 4 | 4 | 1 | 80px |
+| team-strip-selector | 2 | 2 | 1 | 80px |
+| team-draft-view-selector | 2 | 2 | 1 | 80px |
+| team-view-filter | 3 | 3 | 1 | 80px |
+| team-fit-filter | 4 | 4 | 1 | 80px |
+| combine-days | 5 | 5 | 1 | 80px |
+| fa-board-filter | 4 | 4 | 1 | 80px |
+| team-content-body | 3 | 3 | 1 | 80px |
+| draft-round | 7 | 4 | 2 | 220px |
+| position-filter | 15 | 5 | 3 | 220px |
+| rank-by | 13 | 5 | 3 | 220px |
 
 ## Files
 
-- `test-all-buttons-mobile.html` — All 14 sets at 340px fixed width
-- `test-position-filter-mobile.html` — Position filter standalone
-- `quicksight-position-filter-mobile.json` — QuickSight config (position filter)
-- `position-filter-mobile-data.csv` — Data with RowNum/RowIndex columns
-
-## Centering Math
-
-Each row is independently centered:
-```
-span = (buttonsInRow - 1) × btnUnits
-startX = (100 - span) / 2
-```
-Where `btnUnits = divPx / (chartWidth / 100)`.
-
-Rows with fewer buttons naturally center narrower, creating a clean pyramid effect.
+- `{subfolder}/quicksight-{name}-mobile.json` — QuickSight config for each button set
+- `test-all-buttons-mobile.html` — All button sets rendered at 1024px
+- `test-position-filter-v4-mobile.html` — Position filter v4 standalone test
+- `quicksight-position-filter-mobile.json` — Legacy position filter config (root level)
+- `quicksight-position-filter-v4-mobile.json` — Legacy position filter v4 config (root level)
