@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JJ Draft Capital — Mobile (1024px)</title>
+  <script src="../../highcharts.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #f0f0f0; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding: 20px 0; }
+    #container { width: 1024px; background: #fff; }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script>
+    Highcharts.chart('container', {
+      chart: { type: 'scatter', backgroundColor: 'transparent', height: 90, spacing: [0,0,0,0],
+        style: { fontFamily: "Barlow Condensed, sans-serif" } },
+      title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+      xAxis: { min: 0, max: 100, visible: false },
+      yAxis: { min: 0, max: 100, visible: false },
+      tooltip: { enabled: false },
+      plotOptions: { scatter: { marker: { enabled: false }, enableMouseTracking: false } },
+      series: [{
+        type: 'scatter', name: 'JJCapitalRank',
+        data: [{ x: 50, y: 50, rank: 12 }],
+        dataLabels: {
+          enabled: true, useHTML: true,
+          format: "<div style='display:flex;flex-direction:column;align-items:center;gap:4px;font-family:Barlow Condensed,sans-serif;'><div style='font-size:14px;color:#888;font-weight:600;letter-spacing:0.5px;'>JJ DRAFT CAPITAL</div><div style='background:#e8e8e8;color:#555;border-radius:8px;padding:6px 0;width:68px;text-align:center;font-size:24px;font-weight:700;'>#{point.rank}</div></div>",
+          align: 'center', verticalAlign: 'middle', style: { textOutline: 'none' }, overflow: 'allow', crop: false
+        }
+      }]
+    });
+  </script>
+</body>
+</html>

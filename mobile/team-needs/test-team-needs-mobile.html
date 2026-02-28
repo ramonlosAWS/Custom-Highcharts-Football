@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Needs — Mobile (1024px)</title>
+  <script src="../../highcharts.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #f0f0f0; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding: 20px 0; }
+    #container { width: 1024px; background: #fff; }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script>
+    Highcharts.chart('container', {
+      chart: { type: 'scatter', backgroundColor: 'transparent', height: 340, spacing: [5,5,5,5],
+        style: { fontFamily: "Barlow Condensed, sans-serif" } },
+      title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+      xAxis: { min: 0, max: 100, visible: false },
+      yAxis: { min: 0, max: 100, visible: false },
+      tooltip: { enabled: false },
+      plotOptions: { scatter: { marker: { enabled: false }, enableMouseTracking: false } },
+      series: [{
+        name: 'TeamNeeds',
+        data: [{ x: 50, y: 50, teamColor: '#A71930', teamNeeds: 'DL, OL, EDGE, S, WR' }],
+        dataLabels: {
+          enabled: true, useHTML: true,
+          format: "<div style='width:920px;padding:20px 15px 20px 20px;border-left:6px solid {point.teamColor};background:transparent;font-family:Barlow Condensed,sans-serif;'><div style='font-size:22px;font-weight:700;color:#333;margin-bottom:6px;letter-spacing:0.5px;'>TOP 5 TEAM NEEDS</div><div style='font-size:16px;color:#999;text-transform:uppercase;margin-bottom:22px;letter-spacing:0.5px;'>ENTERING FREE AGENCY</div><div style='font-size:44px;font-weight:700;color:#333;line-height:1.3;'>{point.teamNeeds}</div></div>",
+          align: 'center', verticalAlign: 'middle', overflow: 'allow', crop: false,
+          style: { textOutline: 'none' }
+        }
+      }]
+    });
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
-# Mobile Button Layouts (1024px)
+# Mobile Layouts (1024px)
 
-1024px mobile/tablet versions of all 17 button sets. Each in its own subfolder with a `quicksight-*-mobile.json` config. Use conditional visibility in QuickSight to show desktop vs mobile.
+1024px mobile/tablet versions of all button sets and data visuals. Each in its own subfolder with a `quicksight-*-mobile.json` config. Use conditional visibility in QuickSight to show desktop vs mobile.
 
 ## Sizing Constants
 
@@ -63,3 +63,15 @@ x = startX + (itemIndex % maxPerRow) × 18.16
 - `test-position-filter-v4-mobile.html` — Position filter v4 standalone test
 - `quicksight-position-filter-mobile.json` — Legacy position filter config (root level)
 - `quicksight-position-filter-v4-mobile.json` — Legacy position filter v4 config (root level)
+
+## Data Visuals (1024px)
+
+Scaled-up mobile versions of data visuals. Fonts use Barlow Condensed, sizes increased ~1.5-1.7x from desktop.
+
+| Subfolder | Desktop Source | Height | Key Font Sizes |
+|-----------|---------------|--------|----------------|
+| team-needs | team-needs/ | 340px | 44px needs, 22px header |
+| draft-picks | draft-picks/ | 200px | 22px picks, 14px label |
+| cap-space | CapSpace/ (v2) | 280px | 22px value, 18px badge, 14px label |
+| jj-draft-capital | jj-draft-capital/ | 90px | 24px rank, 14px label |
+| combine-athleticism | combine-athleticism/ | 680px | 36px title, 22px name, 28px rank |

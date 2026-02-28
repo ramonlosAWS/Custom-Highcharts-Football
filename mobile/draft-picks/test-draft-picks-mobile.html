@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draft Picks — Mobile (1024px)</title>
+  <script src="../../highcharts.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #f0f0f0; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding: 20px 0; }
+    #container { width: 1024px; background: #fff; }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script>
+    Highcharts.chart('container', {
+      chart: { type: 'scatter', backgroundColor: 'transparent', height: 200, spacing: [5,0,5,0],
+        style: { fontFamily: "Barlow Condensed, sans-serif" } },
+      title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+      xAxis: { min: 0, max: 100, visible: false },
+      yAxis: { min: 0, max: 100, visible: false, reversed: true },
+      tooltip: { enabled: false },
+      plotOptions: { scatter: { marker: { enabled: false }, enableMouseTracking: false } },
+      series: [
+        {
+          type: 'scatter', name: '2026Picks',
+          data: [{ x: 3, y: 15, picks: '1.8, 2.40, 3.72, 4.104, 5.136, 6.168, 7.200' }],
+          dataLabels: {
+            enabled: true, useHTML: true,
+            format: "<div style='display:flex;align-items:center;gap:10px;padding:2px 0;font-family:Barlow Condensed,sans-serif;'><div style='width:6px;height:48px;background:#3b82f6;border-radius:3px;flex-shrink:0;'></div><div><div style='font-size:14px;color:#888;font-weight:600;letter-spacing:0.5px;'>2026 DRAFT PICKS</div><div style='font-size:22px;font-weight:700;color:#333;line-height:1.5;white-space:nowrap;'>{point.picks}</div></div></div>",
+            align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' }, overflow: 'allow', crop: false
+          }
+        },
+        {
+          type: 'scatter', name: '2027Picks',
+          data: [{ x: 3, y: 65, picks: 'Rd 1, Rd 2, Rd 3, Rd 4, Rd 5, Rd 6, Rd 7' }],
+          dataLabels: {
+            enabled: true, useHTML: true,
+            format: "<div style='display:flex;align-items:center;gap:10px;padding:2px 0;font-family:Barlow Condensed,sans-serif;'><div style='width:6px;height:48px;background:#8b5cf6;border-radius:3px;flex-shrink:0;'></div><div><div style='font-size:14px;color:#888;font-weight:600;letter-spacing:0.5px;'>2027 DRAFT PICKS</div><div style='font-size:22px;font-weight:700;color:#333;line-height:1.5;white-space:nowrap;'>{point.picks}</div></div></div>",
+            align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' }, overflow: 'allow', crop: false
+          }
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

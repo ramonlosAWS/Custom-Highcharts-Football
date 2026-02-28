@@ -1,0 +1,86 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 340,
+    "spacing": [
+      5,
+      5,
+      5,
+      5
+    ],
+    "style": {
+      "fontFamily": "Barlow Condensed, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    }
+  },
+  "title": {
+    "text": null
+  },
+  "legend": {
+    "enabled": false
+  },
+  "credits": {
+    "enabled": false
+  },
+  "xAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "yAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "tooltip": {
+    "enabled": false
+  },
+  "plotOptions": {
+    "scatter": {
+      "marker": {
+        "enabled": false
+      },
+      "enableMouseTracking": false
+    }
+  },
+  "_comment": "TeamNeeds Mobile 1024px. Field Wells GROUP BY: UniqueID (col 0), TeamAbbr (col 1), TeamColor (col 2), TeamNeeds (col 3). Filter on TeamAbbr.",
+  "series": [
+    {
+      "name": "TeamNeeds",
+      "data": [
+        {
+          "x": 50,
+          "y": 50,
+          "teamColor": [
+            "get",
+            [
+              "getColumn",
+              2
+            ],
+            0
+          ],
+          "teamNeeds": [
+            "get",
+            [
+              "getColumn",
+              3
+            ],
+            0
+          ]
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<link href='https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap' rel='stylesheet'><div style='width:920px;padding:20px 15px 20px 20px;border-left:6px solid {point.teamColor};background:transparent;font-family:Barlow Condensed,sans-serif;'><div style='font-size:22px;font-weight:700;color:#333;margin-bottom:6px;letter-spacing:0.5px;'>TOP 5 TEAM NEEDS</div><div style='font-size:16px;color:#999;text-transform:uppercase;margin-bottom:22px;letter-spacing:0.5px;'>ENTERING FREE AGENCY</div><div style='font-size:44px;font-weight:700;color:#333;line-height:1.3;'>{point.teamNeeds}</div></div>",
+        "align": "center",
+        "verticalAlign": "middle",
+        "overflow": "allow",
+        "crop": false,
+        "style": {
+          "textOutline": "none"
+        }
+      }
+    }
+  ]
+}

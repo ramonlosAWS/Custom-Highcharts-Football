@@ -1,0 +1,469 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "transparent",
+    "height": 280,
+    "spacing": [
+      5,
+      0,
+      5,
+      0
+    ],
+    "style": {
+      "fontFamily": "Barlow Condensed, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    }
+  },
+  "title": {
+    "text": null
+  },
+  "legend": {
+    "enabled": false
+  },
+  "credits": {
+    "enabled": false
+  },
+  "xAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "yAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false,
+    "reversed": true
+  },
+  "tooltip": {
+    "enabled": false
+  },
+  "plotOptions": {
+    "scatter": {
+      "marker": {
+        "enabled": false
+      },
+      "enableMouseTracking": false
+    }
+  },
+  "_comment": "CapSpace Mobile 1024px. Same field wells as desktop cap-metrics-v2. GROUP BY: CapSpaceRank(0), ActiveCapRank(1), DeadMoneyRank(2). VALUE: CapSpace(0), ActiveCap(1), DeadMoney(2). Filter on Team Abbr.",
+  "series": [
+    {
+      "type": "scatter",
+      "name": "CapSpace",
+      "data": [
+        {
+          "x": 3,
+          "y": 10,
+          "metricLabel": "CAP SPACE",
+          "millions": [
+            "/",
+            [
+              "get",
+              [
+                "getColumnFromValue",
+                0
+              ],
+              0
+            ],
+            1000000
+          ],
+          "rank": [
+            "get",
+            [
+              "getColumnFromGroupBy",
+              0
+            ],
+            0
+          ],
+          "barPct": [
+            "+",
+            [
+              "/",
+              [
+                "*",
+                [
+                  "-",
+                  33,
+                  [
+                    "get",
+                    [
+                      "getColumnFromGroupBy",
+                      0
+                    ],
+                    0
+                  ]
+                ],
+                100
+              ],
+              32
+            ],
+            "%"
+          ],
+          "barColor": [
+            "case",
+            [
+              ">=",
+              [
+                "get",
+                [
+                  "getColumnFromValue",
+                  0
+                ],
+                0
+              ],
+              0
+            ],
+            "#10b981",
+            "#dc3545"
+          ],
+          "textColor": [
+            "case",
+            [
+              ">=",
+              [
+                "get",
+                [
+                  "getColumnFromValue",
+                  0
+                ],
+                0
+              ],
+              0
+            ],
+            "#333",
+            "#dc3545"
+          ],
+          "badgeColor": [
+            "case",
+            [
+              ">=",
+              [
+                "get",
+                [
+                  "getColumnFromValue",
+                  0
+                ],
+                0
+              ],
+              0
+            ],
+            "#10b981",
+            "#dc3545"
+          ]
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<link href='https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap' rel='stylesheet'><div style='display:flex;align-items:center;gap:10px;padding:2px 0;font-family:Barlow Condensed,sans-serif;'><div style='width:6px;height:48px;background:{point.barColor};border-radius:3px;flex-shrink:0;'></div><div><div style='font-size:14px;color:#888;font-weight:600;letter-spacing:0.5px;'>{point.metricLabel}</div><div style='display:flex;align-items:center;gap:10px;'><div style='font-size:22px;font-weight:700;color:{point.textColor};white-space:nowrap;width:200px;flex-shrink:0;'>${point.millions:.1f}M</div><div style='background:#e8e8e8;color:#555;border-radius:8px;padding:4px 0;width:56px;text-align:center;font-size:18px;font-weight:700;flex-shrink:0;'>#{point.rank}</div><div style='width:180px;background:#e5e7eb;border-radius:4px;height:16px;flex-shrink:0;'><div style='width:{point.barPct};max-width:100%;background:{point.barColor};height:16px;border-radius:4px;'></div></div></div></div></div>",
+        "align": "left",
+        "verticalAlign": "middle",
+        "style": {
+          "textOutline": "none"
+        },
+        "overflow": "allow",
+        "crop": false
+      }
+    },
+    {
+      "type": "scatter",
+      "name": "ActiveCap",
+      "data": [
+        {
+          "x": 3,
+          "y": 40,
+          "metricLabel": "ACTIVE CAP SPENDING",
+          "millions": [
+            "/",
+            [
+              "get",
+              [
+                "getColumnFromValue",
+                1
+              ],
+              0
+            ],
+            1000000
+          ],
+          "rank": [
+            "get",
+            [
+              "getColumnFromGroupBy",
+              1
+            ],
+            0
+          ],
+          "barPct": [
+            "+",
+            [
+              "/",
+              [
+                "*",
+                [
+                  "-",
+                  33,
+                  [
+                    "get",
+                    [
+                      "getColumnFromGroupBy",
+                      1
+                    ],
+                    0
+                  ]
+                ],
+                100
+              ],
+              32
+            ],
+            "%"
+          ],
+          "barColor": "#10b981",
+          "textColor": "#333"
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='display:flex;align-items:center;gap:10px;padding:2px 0;font-family:Barlow Condensed,sans-serif;'><div style='width:6px;height:48px;background:#10b981;border-radius:3px;flex-shrink:0;'></div><div><div style='font-size:14px;color:#888;font-weight:600;letter-spacing:0.5px;'>{point.metricLabel}</div><div style='display:flex;align-items:center;gap:10px;'><div style='font-size:22px;font-weight:700;color:{point.textColor};white-space:nowrap;width:200px;flex-shrink:0;'>${point.millions:.1f}M</div><div style='background:#e8e8e8;color:#555;border-radius:8px;padding:4px 0;width:56px;text-align:center;font-size:18px;font-weight:700;flex-shrink:0;'>#{point.rank}</div><div style='width:180px;background:#e5e7eb;border-radius:4px;height:16px;flex-shrink:0;'><div style='width:{point.barPct};max-width:100%;background:#10b981;height:16px;border-radius:4px;'></div></div></div></div></div>",
+        "align": "left",
+        "verticalAlign": "middle",
+        "style": {
+          "textOutline": "none"
+        },
+        "overflow": "allow",
+        "crop": false
+      }
+    },
+    {
+      "type": "scatter",
+      "name": "DeadMoney",
+      "data": [
+        {
+          "x": 3,
+          "y": 70,
+          "metricLabel": "DEAD MONEY",
+          "millions": [
+            "/",
+            [
+              "get",
+              [
+                "getColumnFromValue",
+                2
+              ],
+              0
+            ],
+            1000000
+          ],
+          "rank": [
+            "get",
+            [
+              "getColumnFromGroupBy",
+              2
+            ],
+            0
+          ],
+          "tierText": [
+            "case",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              8
+            ],
+            "MINIMAL",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              16
+            ],
+            "LOW",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              24
+            ],
+            "MODERATE",
+            "BURDENED"
+          ],
+          "tierBg": [
+            "case",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              8
+            ],
+            "#dcfce7",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              16
+            ],
+            "#ecfdf5",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              24
+            ],
+            "#fef9c3",
+            "#fef2f2"
+          ],
+          "tierColor": [
+            "case",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              8
+            ],
+            "#16a34a",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              16
+            ],
+            "#059669",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              24
+            ],
+            "#a16207",
+            "#dc2626"
+          ],
+          "badgeBg": [
+            "case",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              16
+            ],
+            "#dcfce7",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              24
+            ],
+            "#fef9c3",
+            "#fef2f2"
+          ],
+          "badgeColor": [
+            "case",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              16
+            ],
+            "#16a34a",
+            [
+              "<=",
+              [
+                "get",
+                [
+                  "getColumnFromGroupBy",
+                  2
+                ],
+                0
+              ],
+              24
+            ],
+            "#a16207",
+            "#dc2626"
+          ]
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='display:flex;align-items:center;gap:10px;padding:2px 0;font-family:Barlow Condensed,sans-serif;'><div style='width:6px;height:48px;background:#9ca3af;border-radius:3px;flex-shrink:0;'></div><div><div style='font-size:14px;color:#888;font-weight:600;letter-spacing:0.5px;'>{point.metricLabel}</div><div style='display:flex;align-items:center;gap:10px;'><div style='font-size:22px;font-weight:700;color:#6b7280;white-space:nowrap;width:200px;flex-shrink:0;'>${point.millions:.1f}M</div><div style='background:{point.badgeBg};color:{point.badgeColor};border-radius:8px;padding:4px 0;width:56px;text-align:center;font-size:18px;font-weight:700;flex-shrink:0;'>#{point.rank}</div><div style='background:{point.tierBg};color:{point.tierColor};font-size:14px;font-weight:700;padding:4px 14px;border-radius:12px;letter-spacing:0.3px;'>{point.tierText}</div></div></div></div>",
+        "align": "left",
+        "verticalAlign": "middle",
+        "style": {
+          "textOutline": "none"
+        },
+        "overflow": "allow",
+        "crop": false
+      }
+    }
+  ]
+}

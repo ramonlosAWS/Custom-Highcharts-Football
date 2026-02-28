@@ -1,0 +1,269 @@
+{
+  "chart": {
+    "type": "scatter",
+    "backgroundColor": "#1a1a2e",
+    "height": 680,
+    "spacing": [
+      15,
+      15,
+      15,
+      15
+    ],
+    "style": {
+      "fontFamily": "'Barlow Condensed', 'Arial Narrow', sans-serif"
+    },
+    "animation": false
+  },
+  "title": {
+    "text": null
+  },
+  "legend": {
+    "enabled": false
+  },
+  "credits": {
+    "enabled": false
+  },
+  "xAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false
+  },
+  "yAxis": {
+    "min": 0,
+    "max": 100,
+    "visible": false,
+    "reversed": true
+  },
+  "tooltip": {
+    "enabled": false
+  },
+  "plotOptions": {
+    "scatter": {
+      "marker": {
+        "enabled": false
+      },
+      "enableMouseTracking": false
+    },
+    "bubble": {
+      "minSize": 54,
+      "maxSize": 54,
+      "enableMouseTracking": false
+    }
+  },
+  "_comment": "CombineAthleticism Mobile 1024px. Field Wells GROUP BY: Rank(0), PlayerName(1), College(2), CollegeLogoBase64(3), Score(4), BarColor(5). Filter on position.",
+  "series": [
+    {
+      "name": "Title",
+      "type": "scatter",
+      "data": [
+        {
+          "x": 0,
+          "y": 2
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<link href='https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&display=swap' rel='stylesheet'><div style='font-family:Barlow Condensed,sans-serif;'><div style='font-size:36px;font-weight:900;color:#ffffff;letter-spacing:1px;text-transform:uppercase;'>Top Edge Athleticism Scores</div><div style='font-size:20px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-top:3px;'>2026 NFL Combine</div></div>",
+        "align": "left",
+        "verticalAlign": "top",
+        "style": {
+          "textOutline": "none"
+        }
+      }
+    },
+    {
+      "name": "CollegeLogos",
+      "type": "bubble",
+      "data": [
+        "map",
+        [
+          "getColumn",
+          0,
+          3
+        ],
+        {
+          "x": 7.5,
+          "y": [
+            "+",
+            20,
+            [
+              "*",
+              [
+                "itemIndex"
+              ],
+              15
+            ]
+          ],
+          "z": 10,
+          "name": [
+            "get",
+            [
+              "item"
+            ],
+            0
+          ],
+          "marker": {
+            "symbol": [
+              "get",
+              [
+                "item"
+              ],
+              1
+            ]
+          }
+        }
+      ],
+      "dataLabels": {
+        "enabled": false
+      }
+    },
+    {
+      "name": "Rows",
+      "type": "scatter",
+      "data": [
+        "map",
+        [
+          "getColumn",
+          0,
+          1,
+          2,
+          4,
+          5
+        ],
+        {
+          "x": 0,
+          "y": [
+            "+",
+            20,
+            [
+              "*",
+              [
+                "itemIndex"
+              ],
+              15
+            ]
+          ],
+          "rank": [
+            "get",
+            [
+              "item"
+            ],
+            0
+          ],
+          "playerName": [
+            "get",
+            [
+              "item"
+            ],
+            1
+          ],
+          "college": [
+            "get",
+            [
+              "item"
+            ],
+            2
+          ],
+          "score": [
+            "get",
+            [
+              "item"
+            ],
+            3
+          ],
+          "barColor": [
+            "get",
+            [
+              "item"
+            ],
+            4
+          ],
+          "barWidth": [
+            "*",
+            [
+              "/",
+              [
+                "-",
+                [
+                  "get",
+                  [
+                    "item"
+                  ],
+                  3
+                ],
+                50
+              ],
+              49
+            ],
+            100
+          ]
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='display:flex;align-items:center;width:920px;height:64px;font-family:Barlow Condensed,sans-serif;'><div style='width:45px;font-size:28px;font-weight:700;color:#888;text-align:center;'>{point.rank}</div><div style='width:65px;'></div><div style='width:200px;'><span style='font-size:22px;font-weight:800;color:#ffffff;'>{point.playerName}</span></div><div style='flex:1;position:relative;height:32px;overflow:visible;z-index:1;'><div style='position:absolute;left:0;top:0;height:100%;width:{point.barWidth}%;background:{point.barColor};border-radius:4px;'></div><div style='position:absolute;top:50%;transform:translateY(-50%);left:{point.barWidth}%;margin-left:-24px;width:48px;height:48px;border-radius:50%;background:{point.barColor};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.4);z-index:2;'>{point.score:.0f}</div></div></div>",
+        "align": "left",
+        "verticalAlign": "middle",
+        "overflow": "allow",
+        "crop": false,
+        "style": {
+          "textOutline": "none"
+        }
+      }
+    },
+    {
+      "name": "Dividers",
+      "type": "scatter",
+      "data": [
+        {
+          "x": 0,
+          "y": 28
+        },
+        {
+          "x": 0,
+          "y": 43
+        },
+        {
+          "x": 0,
+          "y": 58
+        },
+        {
+          "x": 0,
+          "y": 73
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='width:920px;height:1px;background:rgba(255,255,255,0.08);margin-left:45px;'></div>",
+        "align": "left",
+        "verticalAlign": "middle",
+        "style": {
+          "textOutline": "none"
+        }
+      }
+    },
+    {
+      "name": "LegendBar",
+      "type": "scatter",
+      "data": [
+        {
+          "x": 58,
+          "y": 94
+        }
+      ],
+      "dataLabels": {
+        "enabled": true,
+        "useHTML": true,
+        "format": "<div style='text-align:center;font-family:Barlow Condensed,sans-serif;'><div style='width:340px;height:10px;border-radius:5px;background:linear-gradient(90deg,#c00000 0%,#ffc000 25%,#00b050 55%,#0077c8 100%);'></div><div style='display:flex;justify-content:space-between;width:340px;margin-top:4px;'><span style='font-size:13px;color:#666;'>50</span><span style='font-size:13px;color:#666;'>60</span><span style='font-size:13px;color:#666;'>75</span><span style='font-size:13px;color:#666;'>90</span><span style='font-size:13px;color:#666;'>99</span></div><div style='display:flex;justify-content:space-between;width:340px;margin-top:2px;'><span style='font-size:11px;color:#555;text-transform:uppercase;letter-spacing:0.5px;'>< AVG</span><span style='font-size:11px;color:#555;text-transform:uppercase;letter-spacing:0.5px;'>AVERAGE</span><span style='font-size:11px;color:#555;text-transform:uppercase;letter-spacing:0.5px;'>GOOD</span><span style='font-size:11px;color:#555;text-transform:uppercase;letter-spacing:0.5px;'>ELITE</span></div></div>",
+        "align": "center",
+        "verticalAlign": "bottom",
+        "style": {
+          "textOutline": "none"
+        }
+      }
+    }
+  ]
+}
