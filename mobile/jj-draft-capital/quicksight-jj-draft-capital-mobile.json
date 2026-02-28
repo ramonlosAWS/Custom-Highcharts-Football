@@ -2,7 +2,7 @@
   "chart": {
     "type": "scatter",
     "backgroundColor": "transparent",
-    "height": 90,
+    "height": 120,
     "spacing": [
       0,
       0,

@@ -19,7 +19,7 @@
     var maxPerRow = 2;
     var numRows = Math.ceil(buttons.length / maxPerRow);
     var chartH = numRows === 1 ? 80 : (numRows <= 3 ? 220 : 220 + (numRows - 3) * 70);
-    var btnU = 18.16;
+    var btnU = 46.88;
 
     function getData() {
       var pts = [];
@@ -62,7 +62,7 @@
         data: getData(),
         dataLabels: {
           enabled: true, useHTML: true,
-          format: "<div style='width:186px;height:62px;line-height:62px;text-align:center;font-size:28px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.borderRight};cursor:pointer;box-sizing:border-box;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{point.label}</div>",
+          format: "<div style='width:480px;height:62px;line-height:62px;text-align:center;font-size:28px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.borderRight};cursor:pointer;box-sizing:border-box;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{point.label}</div>",
           align: 'center', verticalAlign: 'middle', overflow: 'allow', crop: false,
           style: { textOutline: 'none' }
         },

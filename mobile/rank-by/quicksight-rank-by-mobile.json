@@ -89,7 +89,7 @@
         {
           "x": [
             "+",
-            13.68,
+            12.5,
             [
               "*",
               [
@@ -99,7 +99,7 @@
                 ],
                 5
               ],
-              18.16
+              18.75
             ]
           ],
           "y": [
@@ -193,7 +193,7 @@
       "dataLabels": {
         "enabled": true,
         "useHTML": true,
-        "format": "<div style='width:186px;height:62px;line-height:62px;text-align:center;font-size:28px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.borderRight};cursor:pointer;box-sizing:border-box;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{point.label}</div>",
+        "format": "<div style='width:192px;height:62px;line-height:62px;text-align:center;font-size:22px;font-weight:{point.fw};color:{point.tc};background:{point.bg};border-right:{point.borderRight};cursor:pointer;box-sizing:border-box;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{point.label}</div>",
         "align": "center",
         "verticalAlign": "middle",
         "overflow": "allow",
