@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFL Draft Picks Widget - Test</title>
+    <title>NFL Draft Picks Widget - Desktop</title>
     <script src="../highcharts.js"></script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; background: #f5f5f5; }
@@ -17,23 +17,23 @@
 </head>
 <body>
     <div class="container">
-        <h1>NFL Draft Picks Widget</h1>
-        <div class="subtitle">Cap-space bar style — Highcharts 11.4.6</div>
+        <h1>NFL Draft Picks Widget — Desktop</h1>
+        <div class="subtitle">Narrow width (340px) with text wrapping</div>
         <div class="controls">
-            <label>Select Team:</label>
+            <label>Pick count:</label>
             <select id="team-select" onchange="updateChart()">
-                <option value="0">Atlanta Falcons</option>
-                <option value="1">Buffalo Bills</option>
-                <option value="2">Chicago Bears</option>
+                <option value="0">Few picks (4)</option>
+                <option value="1">Normal picks (7)</option>
+                <option value="2" selected>Many picks (10)</option>
             </select>
         </div>
         <div id="chart-container"></div>
     </div>
     <script>
         const sampleData = [
-            { team: "Atlanta Falcons",  picks2026: "1.8, 2.40, 3.72, 4.104, 5.136, 6.168, 7.200", picks2027: "Rd 1, Rd 2, Rd 3, Rd 4, Rd 5, Rd 6, Rd 7" },
-            { team: "Buffalo Bills",    picks2026: "1.28, 2.60, 4.124, 5.156, 6.188, 7.220",       picks2027: "Rd 1, Rd 2, Rd 4, Rd 5, Rd 6, Rd 7" },
-            { team: "Chicago Bears",    picks2026: "1.1, 2.33, 3.65, 4.97, 5.129, 6.161, 7.193",   picks2027: "Rd 1, Rd 2, Rd 3, Rd 4, Rd 5, Rd 6, Rd 7" }
+            { picks2026: "1-1, 2-36, 3-67, 5-140",                                              picks2027: "1st, 2nd, 4th, 6th" },
+            { picks2026: "1-8, 2-40, 3-72, 4-104, 5-136, 6-168, 7-200",                         picks2027: "1st, 2nd, 3rd, 4th, 5th, 6th, 7th" },
+            { picks2026: "1-1, 1-14, 2-36, 3-67, 4-102, 4-117, 4-134, 5-148, 6-182, 6-195",    picks2027: "1st, 1st, 2nd, 3rd, 4th, 5th, 6th" }
         ];
 
         function updateChart() {
@@ -57,7 +57,7 @@
                         data: [{ x: 3, y: 15, picks: d.picks2026 }],
                         dataLabels: {
                             enabled: true, useHTML: true,
-                            format: "<div style='display:flex;align-items:center;gap:6px;padding:2px 0;'><div style='width:4px;height:34px;background:#3b82f6;border-radius:2px;flex-shrink:0;'></div><div><div style='font-size:9px;color:#888;font-weight:600;letter-spacing:0.5px;'>2026 DRAFT PICKS</div><div style='font-size:13px;font-weight:700;color:#333;line-height:1.5;white-space:nowrap;'>{point.picks}</div></div></div>",
+                            format: "<div style='display:flex;align-items:flex-start;gap:6px;padding:2px 0;width:340px;'><div style='width:4px;min-height:34px;align-self:stretch;background:#3b82f6;border-radius:2px;flex-shrink:0;'></div><div style='flex:1;min-width:0;'><div style='font-size:9px;color:#888;font-weight:600;letter-spacing:0.5px;'>2026 DRAFT PICKS</div><div style='font-size:13px;font-weight:700;color:#333;line-height:1.5;white-space:normal;word-wrap:break-word;'>{point.picks}</div></div></div>",
                             align: 'left', verticalAlign: 'middle',
                             style: { textOutline: 'none' }, overflow: 'allow', crop: false
                         }
@@ -67,7 +67,7 @@
                         data: [{ x: 3, y: 65, picks: d.picks2027 }],
                         dataLabels: {
                             enabled: true, useHTML: true,
-                            format: "<div style='display:flex;align-items:center;gap:6px;padding:2px 0;'><div style='width:4px;height:34px;background:#8b5cf6;border-radius:2px;flex-shrink:0;'></div><div><div style='font-size:9px;color:#888;font-weight:600;letter-spacing:0.5px;'>2027 DRAFT PICKS</div><div style='font-size:13px;font-weight:700;color:#333;line-height:1.5;white-space:nowrap;'>{point.picks}</div></div></div>",
+                            format: "<div style='display:flex;align-items:flex-start;gap:6px;padding:2px 0;width:340px;'><div style='width:4px;min-height:34px;align-self:stretch;background:#8b5cf6;border-radius:2px;flex-shrink:0;'></div><div style='flex:1;min-width:0;'><div style='font-size:9px;color:#888;font-weight:600;letter-spacing:0.5px;'>2027 DRAFT PICKS</div><div style='font-size:13px;font-weight:700;color:#333;line-height:1.5;white-space:normal;word-wrap:break-word;'>{point.picks}</div></div></div>",
                             align: 'left', verticalAlign: 'middle',
                             style: { textOutline: 'none' }, overflow: 'allow', crop: false
                         }

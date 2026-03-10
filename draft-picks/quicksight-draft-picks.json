@@ -1,4 +1,5 @@
 {
+  "_comment": "DraftPicks Desktop. Field Wells GROUP BY: Current Year Draft Picks (col 0), Next Year Draft Picks (col 1). Filter on Team Abbr. Width 340px so picks wrap, leaving room for draft logo/capital rank on right.",
   "chart": {
     "type": "scatter",
     "backgroundColor": "transparent",
@@ -32,7 +33,7 @@
       "dataLabels": {
         "enabled": true,
         "useHTML": true,
-        "format": "<div style='display:flex;align-items:center;gap:6px;padding:2px 0;'><div style='width:4px;height:34px;background:#3b82f6;border-radius:2px;flex-shrink:0;'></div><div><div style='font-size:9px;color:#888;font-weight:600;letter-spacing:0.5px;'>2026 DRAFT PICKS</div><div style='font-size:13px;font-weight:700;color:#333;line-height:1.5;white-space:nowrap;'>{point.picks}</div></div></div>",
+        "format": "<div style='display:flex;align-items:flex-start;gap:6px;padding:2px 0;width:340px;'><div style='width:4px;min-height:34px;align-self:stretch;background:#3b82f6;border-radius:2px;flex-shrink:0;'></div><div style='flex:1;min-width:0;'><div style='font-size:9px;color:#888;font-weight:600;letter-spacing:0.5px;'>2026 DRAFT PICKS</div><div style='font-size:13px;font-weight:700;color:#333;line-height:1.5;white-space:normal;word-wrap:break-word;'>{point.picks}</div></div></div>",
         "align": "left",
         "verticalAlign": "middle",
         "style": { "textOutline": "none" },
@@ -51,7 +52,7 @@
       "dataLabels": {
         "enabled": true,
         "useHTML": true,
-        "format": "<div style='display:flex;align-items:center;gap:6px;padding:2px 0;'><div style='width:4px;height:34px;background:#8b5cf6;border-radius:2px;flex-shrink:0;'></div><div><div style='font-size:9px;color:#888;font-weight:600;letter-spacing:0.5px;'>2027 DRAFT PICKS</div><div style='font-size:13px;font-weight:700;color:#333;line-height:1.5;white-space:nowrap;'>{point.picks}</div></div></div>",
+        "format": "<div style='display:flex;align-items:flex-start;gap:6px;padding:2px 0;width:340px;'><div style='width:4px;min-height:34px;align-self:stretch;background:#8b5cf6;border-radius:2px;flex-shrink:0;'></div><div style='flex:1;min-width:0;'><div style='font-size:9px;color:#888;font-weight:600;letter-spacing:0.5px;'>2027 DRAFT PICKS</div><div style='font-size:13px;font-weight:700;color:#333;line-height:1.5;white-space:normal;word-wrap:break-word;'>{point.picks}</div></div></div>",
         "align": "left",
         "verticalAlign": "middle",
         "style": { "textOutline": "none" },

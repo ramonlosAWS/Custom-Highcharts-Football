@@ -8,41 +8,64 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
     body { background: #f0f0f0; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding: 20px 0; }
+    .wrapper { width: 1024px; }
     #container { width: 1024px; background: #fff; }
+    .controls { margin-bottom: 12px; }
+    select { padding: 8px 12px; font-size: 14px; border-radius: 4px; border: 1px solid #ddd; font-family: sans-serif; }
   </style>
 </head>
 <body>
-  <div id="container"></div>
+  <div class="wrapper">
+    <div class="controls">
+      <select id="teamSelect" onchange="updateChart()">
+        <option value="few">Few picks (4)</option>
+        <option value="normal">Normal picks (7)</option>
+        <option value="many" selected>Many picks (10)</option>
+      </select>
+    </div>
+    <div id="container"></div>
+  </div>
   <script>
-    Highcharts.chart('container', {
-      chart: { type: 'scatter', backgroundColor: 'transparent', height: 200, spacing: [5,0,5,0],
-        style: { fontFamily: "Barlow Condensed, sans-serif" } },
-      title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
-      xAxis: { min: 0, max: 100, visible: false },
-      yAxis: { min: 0, max: 100, visible: false, reversed: true },
-      tooltip: { enabled: false },
-      plotOptions: { scatter: { marker: { enabled: false }, enableMouseTracking: false } },
-      series: [
-        {
-          type: 'scatter', name: '2026Picks',
-          data: [{ x: 3, y: 15, picks: '1.8, 2.40, 3.72, 4.104, 5.136, 6.168, 7.200' }],
-          dataLabels: {
-            enabled: true, useHTML: true,
-            format: "<div style='display:flex;align-items:center;gap:14px;padding:2px 0;font-family:Barlow Condensed,sans-serif;width:920px;'><div style='width:7px;height:58px;background:#3b82f6;border-radius:3px;flex-shrink:0;'></div><div style='flex:1;'><div style='font-size:18px;color:#888;font-weight:600;letter-spacing:0.5px;'>2026 DRAFT PICKS</div><div style='font-size:30px;font-weight:700;color:#333;line-height:1.4;white-space:nowrap;'>{point.picks}</div></div></div>",
-            align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' }, overflow: 'allow', crop: false
+    var scenarios = {
+      few:    { y2026: '1-1, 2-36, 3-67, 5-140', y2027: '1st, 2nd, 4th, 6th' },
+      normal: { y2026: '1-8, 2-40, 3-72, 4-104, 5-136, 6-168, 7-200', y2027: '1st, 2nd, 3rd, 4th, 5th, 6th, 7th' },
+      many:   { y2026: '1-1, 1-14, 2-36, 3-67, 4-102, 4-117, 4-134, 5-148, 6-182, 6-195', y2027: '1st, 1st, 2nd, 3rd, 4th, 5th, 6th' }
+    };
+
+    function updateChart() {
+      var s = scenarios[document.getElementById('teamSelect').value];
+      Highcharts.chart('container', {
+        chart: { type: 'scatter', backgroundColor: 'transparent', height: 200, spacing: [5,0,5,0],
+          style: { fontFamily: "Barlow Condensed, sans-serif" } },
+        title: { text: null }, legend: { enabled: false }, credits: { enabled: false },
+        xAxis: { min: 0, max: 100, visible: false },
+        yAxis: { min: 0, max: 100, visible: false, reversed: true },
+        tooltip: { enabled: false },
+        plotOptions: { scatter: { marker: { enabled: false }, enableMouseTracking: false } },
+        series: [
+          {
+            type: 'scatter', name: '2026Picks',
+            data: [{ x: 3, y: 15, picks: s.y2026 }],
+            dataLabels: {
+              enabled: true, useHTML: true,
+              format: "<div style='display:flex;align-items:flex-start;gap:14px;padding:2px 0;font-family:Barlow Condensed,sans-serif;width:600px;'><div style='width:7px;min-height:58px;align-self:stretch;background:#3b82f6;border-radius:3px;flex-shrink:0;'></div><div style='flex:1;min-width:0;'><div style='font-size:18px;color:#888;font-weight:600;letter-spacing:0.5px;'>2026 DRAFT PICKS</div><div style='font-size:30px;font-weight:700;color:#333;line-height:1.4;white-space:normal;word-wrap:break-word;'>{point.picks}</div></div></div>",
+              align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' }, overflow: 'allow', crop: false
+            }
+          },
+          {
+            type: 'scatter', name: '2027Picks',
+            data: [{ x: 3, y: 65, picks: s.y2027 }],
+            dataLabels: {
+              enabled: true, useHTML: true,
+              format: "<div style='display:flex;align-items:flex-start;gap:14px;padding:2px 0;font-family:Barlow Condensed,sans-serif;width:600px;'><div style='width:7px;min-height:58px;align-self:stretch;background:#8b5cf6;border-radius:3px;flex-shrink:0;'></div><div style='flex:1;min-width:0;'><div style='font-size:18px;color:#888;font-weight:600;letter-spacing:0.5px;'>2027 DRAFT PICKS</div><div style='font-size:30px;font-weight:700;color:#333;line-height:1.4;white-space:normal;word-wrap:break-word;'>{point.picks}</div></div></div>",
+              align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' }, overflow: 'allow', crop: false
+            }
           }
-        },
-        {
-          type: 'scatter', name: '2027Picks',
-          data: [{ x: 3, y: 65, picks: 'Rd 1, Rd 2, Rd 3, Rd 4, Rd 5, Rd 6, Rd 7' }],
-          dataLabels: {
-            enabled: true, useHTML: true,
-            format: "<div style='display:flex;align-items:center;gap:14px;padding:2px 0;font-family:Barlow Condensed,sans-serif;width:920px;'><div style='width:7px;height:58px;background:#8b5cf6;border-radius:3px;flex-shrink:0;'></div><div style='flex:1;'><div style='font-size:18px;color:#888;font-weight:600;letter-spacing:0.5px;'>2027 DRAFT PICKS</div><div style='font-size:30px;font-weight:700;color:#333;line-height:1.4;white-space:nowrap;'>{point.picks}</div></div></div>",
-            align: 'left', verticalAlign: 'middle', style: { textOutline: 'none' }, overflow: 'allow', crop: false
-          }
-        }
-      ]
-    });
+        ]
+      });
+    }
+
+    updateChart();
   </script>
 </body>
 </html>

@@ -44,7 +44,7 @@
       "enableMouseTracking": false
     }
   },
-  "_comment": "DraftPicks Mobile 1024px. Field Wells GROUP BY: Current Year Draft Picks (col 0), Next Year Draft Picks (col 1). Filter on Team Abbr.",
+  "_comment": "DraftPicks Mobile 1024px. Field Wells GROUP BY: Current Year Draft Picks (col 0), Next Year Draft Picks (col 1). Filter on Team Abbr. Narrower width (600px) so picks wrap to second row, leaving room for draft logo/capital rank on right.",
   "series": [
     {
       "type": "scatter",
@@ -66,7 +66,7 @@
       "dataLabels": {
         "enabled": true,
         "useHTML": true,
-        "format": "<link href='https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap' rel='stylesheet'><div style='display:flex;align-items:center;gap:14px;padding:2px 0;font-family:Barlow Condensed,sans-serif;width:920px;'><div style='width:7px;height:58px;background:#3b82f6;border-radius:3px;flex-shrink:0;'></div><div style='flex:1;'><div style='font-size:18px;color:#888;font-weight:600;letter-spacing:0.5px;'>2026 DRAFT PICKS</div><div style='font-size:30px;font-weight:700;color:#333;line-height:1.4;white-space:nowrap;'>{point.picks}</div></div></div>",
+        "format": "<link href='https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&display=swap' rel='stylesheet'><div style='display:flex;align-items:flex-start;gap:14px;padding:2px 0;font-family:Barlow Condensed,sans-serif;width:600px;'><div style='width:7px;min-height:58px;align-self:stretch;background:#3b82f6;border-radius:3px;flex-shrink:0;'></div><div style='flex:1;min-width:0;'><div style='font-size:18px;color:#888;font-weight:600;letter-spacing:0.5px;'>2026 DRAFT PICKS</div><div style='font-size:30px;font-weight:700;color:#333;line-height:1.4;white-space:normal;word-wrap:break-word;'>{point.picks}</div></div></div>",
         "align": "left",
         "verticalAlign": "middle",
         "style": {
@@ -96,7 +96,7 @@
       "dataLabels": {
         "enabled": true,
         "useHTML": true,
-        "format": "<div style='display:flex;align-items:center;gap:14px;padding:2px 0;font-family:Barlow Condensed,sans-serif;width:920px;'><div style='width:7px;height:58px;background:#8b5cf6;border-radius:3px;flex-shrink:0;'></div><div style='flex:1;'><div style='font-size:18px;color:#888;font-weight:600;letter-spacing:0.5px;'>2027 DRAFT PICKS</div><div style='font-size:30px;font-weight:700;color:#333;line-height:1.4;white-space:nowrap;'>{point.picks}</div></div></div>",
+        "format": "<div style='display:flex;align-items:flex-start;gap:14px;padding:2px 0;font-family:Barlow Condensed,sans-serif;width:600px;'><div style='width:7px;min-height:58px;align-self:stretch;background:#8b5cf6;border-radius:3px;flex-shrink:0;'></div><div style='flex:1;min-width:0;'><div style='font-size:18px;color:#888;font-weight:600;letter-spacing:0.5px;'>2027 DRAFT PICKS</div><div style='font-size:30px;font-weight:700;color:#333;line-height:1.4;white-space:normal;word-wrap:break-word;'>{point.picks}</div></div></div>",
         "align": "left",
         "verticalAlign": "middle",
         "style": {
